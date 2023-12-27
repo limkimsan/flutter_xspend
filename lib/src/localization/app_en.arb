@@ -1,0 +1,6 @@
+{
+  "appTitle": "flutter_xspend",
+  "@appTitle": {
+    "description": "The title of the application"
+  }
+}

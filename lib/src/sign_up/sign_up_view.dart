@@ -7,6 +7,45 @@ class SignUpView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text('Sign up screen');
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(64),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                'Sign Up',
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {},
+                child: const Text('Sign Up'),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+
+
+    // return Scaffold(
+    //   appBar: AppBar(title: const Text('ttlajsdlkjfaldjf')),
+    //   body: Center(
+    //     child: Column(
+    //       children: [
+    //         Text(
+    //           'Sign Up',
+    //           style: Theme.of(context).textTheme.headlineLarge,
+    //         ),
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 }

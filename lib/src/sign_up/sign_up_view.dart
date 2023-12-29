@@ -32,25 +32,24 @@ class SignUpView extends StatelessWidget {
                 onPressed: () {},
                 child: const Text('Sign Up'),
               ),
+            ),
+            const SizedBox(height: 40),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Already has an account?',
+                  style: TextStyle(color: Colors.white),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text('Login'),
+                )
+              ],
             )
           ],
         ),
       ),
     );
-
-
-    // return Scaffold(
-    //   appBar: AppBar(title: const Text('ttlajsdlkjfaldjf')),
-    //   body: Center(
-    //     child: Column(
-    //       children: [
-    //         Text(
-    //           'Sign Up',
-    //           style: Theme.of(context).textTheme.headlineLarge,
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }

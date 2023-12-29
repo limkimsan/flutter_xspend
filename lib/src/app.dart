@@ -10,7 +10,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var kColorScheme = ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 105, 191, 100));
+    var kColorScheme = ColorScheme.fromSeed(
+      seedColor: const Color.fromARGB(255, 105, 191, 100),
+      primary: const Color.fromARGB(255, 105, 191, 100),
+    );
 
     return MaterialApp(
       // Providing a restorationScopeId allows the Navigator built by the
@@ -67,8 +70,12 @@ class MyApp extends StatelessWidget {
           floatingLabelStyle: const TextStyle(color: Colors.white),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           filled: true,
-        )
-        // primaryColor: const Color.fromARGB(255, 105, 191, 100),
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            textStyle: const TextStyle(fontWeight: FontWeight.bold)
+          )
+        ),
       ),
       darkTheme: ThemeData.dark(),
       onGenerateRoute: (RouteSettings routeSettings) {

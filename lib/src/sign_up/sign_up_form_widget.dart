@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 
+import 'package:flutter_xspend/src/widgets/input_label_widget.dart';
+
 class SignUpFormWidget extends StatefulWidget {
   const SignUpFormWidget({super.key});
 
@@ -17,23 +19,12 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Widget inputLabel(String label) {
-      return Container(
-        margin: const EdgeInsets.fromLTRB(0, 0, 0, 6),
-        child: Text(
-          label,
-          style: const TextStyle(
-            color: Colors.white,
-          ),
-        )
-      );
-    }
-
     return Form(
+      key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          inputLabel('Your name'),
+          const InputLabelWidget('Your name'),
           TextFormField(
             decoration: const InputDecoration(
               hintText: 'Enter your name',
@@ -49,7 +40,7 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
             }
           ),
           const SizedBox(height: 24),
-          inputLabel('Your email'),
+          const InputLabelWidget('Your email'),
           TextFormField(
             decoration: const InputDecoration(
               hintText: 'Enter your email',
@@ -65,7 +56,7 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
             },
           ),
           const SizedBox(height: 24),
-          inputLabel('Your password'),
+          const InputLabelWidget('Your password'),
           TextFormField(
             obscureText: true,
             decoration: const InputDecoration(
@@ -82,7 +73,7 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
             },
           ),
           const SizedBox(height: 24),
-          inputLabel('Confirm password'),
+          const InputLabelWidget('Confirm password'),
           TextFormField(
             decoration: const InputDecoration(
               hintText: 'Enter confirm password',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'sign_up_form_widget.dart';
+import 'package:flutter_xspend/src/login/login_view.dart';
 
 class SignUpView extends StatelessWidget {
   const SignUpView({super.key});
@@ -42,7 +43,9 @@ class SignUpView extends StatelessWidget {
                   style: TextStyle(color: Colors.white),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(context, LoginView.routeName, (route) => false);
+                  },
                   child: const Text('Login'),
                 )
               ],

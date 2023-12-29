@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'sign_up_form_widget.dart';
+
 class SignUpView extends StatelessWidget {
   const SignUpView({super.key});
 
@@ -21,6 +23,9 @@ class SignUpView extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
             ),
+            const SizedBox(height: 40),
+            const SignUpFormWidget(),
+            const SizedBox(height: 48),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(

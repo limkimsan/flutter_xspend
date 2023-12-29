@@ -54,10 +54,20 @@ class MyApp extends StatelessWidget {
         ),
         textTheme: ThemeData().textTheme.copyWith(
           headlineLarge: const TextStyle(
-            fontSize: 40,
+            fontSize: 36,
             color: Color.fromARGB(255, 105, 191, 100),
+            fontWeight: FontWeight.bold
           )
         ),
+        inputDecorationTheme: const InputDecorationTheme().copyWith(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          contentPadding: const EdgeInsets.all(16),
+          floatingLabelStyle: const TextStyle(color: Colors.white),
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          filled: true,
+        )
         // primaryColor: const Color.fromARGB(255, 105, 191, 100),
       ),
       darkTheme: ThemeData.dark(),

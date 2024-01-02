@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter_xspend/src/sign_up/sign_up_controller.dart';
 
 import 'package:flutter_xspend/src/widgets/input_label_widget.dart';
 
@@ -15,10 +16,20 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
   var _name = '';
   var _email = '';
   var _password = '';
-  var _confirmPassword = '';
 
   @override
   Widget build(BuildContext context) {
+    void signUp() {
+      if (_formKey.currentState!.validate()) {
+        _formKey.currentState!.save();
+        SignUpController.signUp(_name, _email, _password, (response) {
+          print('Sign up successs ======');
+        }, (errorMsg) {
+          print('Sign up error ====');
+        });
+      }
+    }
+
     return Form(
       key: _formKey,
       child: Column(
@@ -37,7 +48,10 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
             },
             onSaved: (value) {
               _name = value!;
-            }
+            },
+            onTapOutside: (event) {
+              FocusScope.of(context).unfocus();
+            },
           ),
           const SizedBox(height: 24),
           const InputLabelWidget('Your email'),
@@ -46,7 +60,7 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
               hintText: 'Enter your email',
             ),
             validator: (value) {
-              if (value == null || value.isEmpty || EmailValidator.validate(value)) {
+              if (value == null || value.isEmpty || !EmailValidator.validate(value)) {
                 return 'Please enter a valid email address.';
               }
               return null;
@@ -68,14 +82,16 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
               }
               return null;
             },
-            onSaved: (value) {
-              _password = value!;
+            onChanged: (value) {
+              _password = value;
             },
           ),
           const SizedBox(height: 24),
           const InputLabelWidget('Confirm password'),
           TextFormField(
+            obscureText: true,
             decoration: const InputDecoration(
+              errorMaxLines: 2,
               hintText: 'Enter confirm password',
             ),
             validator: (value) {
@@ -87,9 +103,14 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
               }
               return null;
             },
-            onSaved: (value) {
-              _confirmPassword = value!;
-            }
+          ),
+          const SizedBox(height: 48),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: signUp,
+              child: const Text('Sign Up'),
+            ),
           ),
         ],
       ),

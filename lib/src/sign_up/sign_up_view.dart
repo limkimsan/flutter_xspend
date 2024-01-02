@@ -26,14 +26,6 @@ class SignUpView extends StatelessWidget {
             ),
             const SizedBox(height: 40),
             const SignUpFormWidget(),
-            const SizedBox(height: 48),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {},
-                child: const Text('Sign Up'),
-              ),
-            ),
             const SizedBox(height: 40),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

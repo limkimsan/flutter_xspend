@@ -28,7 +28,7 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
 
-        if (await InternetConnectionChecker().hasConnection) {
+        // if (await InternetConnectionChecker().hasConnection) {
           setState(() {
             errorMsg = '';
           });
@@ -39,15 +39,15 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
           }, (errorMsg) {
             EasyLoading.dismiss();
             setState(() {
-              errorMsg = 'Failed to sign up. Please try again.';
+              errorMsg = errorMsg;
             });
           });
-        }
-        else {
-          setState(() {
-            errorMsg = 'No internet connection. Please try again.';
-          });
-        }
+        // }
+        // else {
+        //   setState(() {
+        //     errorMsg = 'No internet connection. Please try again.';
+        //   });
+        // }
       }
     }
 

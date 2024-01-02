@@ -32,10 +32,10 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
         LoginController.login(_email, _password, () {
           EasyLoading.dismiss();
           Navigator.pushNamedAndRemoveUntil(context, HomeView.routeName, (route) => false);
-        }, (errorMsg) {
+        }, (errorMessage) {
           EasyLoading.dismiss();
           setState(() {
-            errorMsg = errorMsg;
+            errorMsg = errorMessage;
           });
         });
       }

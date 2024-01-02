@@ -24,7 +24,7 @@ class LoginController {
       }
     }
     else {
-      if (User.isAuthenticationMatched(email, password)) {
+      if (await User.isAuthenticationMatched(email, password)) {
         successCallback?.call();
       }
       else {

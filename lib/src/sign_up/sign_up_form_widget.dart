@@ -35,8 +35,7 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
           EasyLoading.show(status: 'Loading...');
           SignUpController.signUp(_name, _email, _password, () {
             EasyLoading.dismiss();
-            Navigator.pushNamedAndRemoveUntil(
-                context, HomeView.routeName, (route) => false);
+            Navigator.pushNamedAndRemoveUntil(context, HomeView.routeName, (route) => false);
           }, (errorMsg) {
             EasyLoading.dismiss();
             setState(() {

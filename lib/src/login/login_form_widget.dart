@@ -1,7 +1,11 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
+import 'package:flutter_xspend/src/home/home_view.dart';
+import 'package:flutter_xspend/src/login/login_controller.dart';
 import 'package:flutter_xspend/src/widgets/input_label_widget.dart';
+import 'package:flutter_xspend/src/constants/colors.dart';
 
 class LoginFormWidget extends StatefulWidget {
   const LoginFormWidget({super.key});
@@ -14,12 +18,26 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
   final _formKey = GlobalKey<FormState>();
   var _email = '';
   var _password = '';
+  String errorMsg = '';
 
   @override
   Widget build(BuildContext context) {
     void login() {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
+        setState(() {
+          errorMsg = '';
+        });
+        EasyLoading.show(status: 'Loading...');
+        LoginController.login(_email, _password, () {
+          EasyLoading.dismiss();
+          Navigator.pushNamedAndRemoveUntil(context, HomeView.routeName, (route) => false);
+        }, (errorMsg) {
+          EasyLoading.dismiss();
+          setState(() {
+            errorMsg = errorMsg;
+          });
+        });
       }
     }
 
@@ -64,6 +82,13 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
             },
           ),
           const SizedBox(height: 48),
+          if (errorMsg.isNotEmpty)
+            Center(
+              child: Text(
+                errorMsg,
+                style: const TextStyle(color: red),
+              ),
+            ),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(

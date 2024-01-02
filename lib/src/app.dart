@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -81,6 +82,7 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: (RouteSettings routeSettings) {
         return AppRoute.onGenerateRoute(routeSettings);
       },
+      builder: EasyLoading.init()
     );
   }
 }

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_xspend/src/sign_up/sign_up_controller.dart';
 
 import 'package:flutter_xspend/src/widgets/input_label_widget.dart';
+import 'package:flutter_xspend/src/constants/colors.dart';
+import 'package:flutter_xspend/src/home/home_view.dart';
 
 class SignUpFormWidget extends StatefulWidget {
   const SignUpFormWidget({super.key});
@@ -16,16 +19,25 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
   var _name = '';
   var _email = '';
   var _password = '';
+  bool isError = false;
 
   @override
   Widget build(BuildContext context) {
     void signUp() {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
-        SignUpController.signUp(_name, _email, _password, (response) {
-          print('Sign up successs ======');
+        setState(() {
+          isError = false;
+        });
+        EasyLoading.show(status: 'Loading...');
+        SignUpController.signUp(_name, _email, _password, () {
+          EasyLoading.dismiss();
+          Navigator.pushNamedAndRemoveUntil(context, HomeView.routeName, (route) => false);
         }, (errorMsg) {
-          print('Sign up error ====');
+          EasyLoading.dismiss();
+          setState(() {
+            isError = true;
+          });
         });
       }
     }
@@ -105,6 +117,13 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
             },
           ),
           const SizedBox(height: 48),
+          if (isError)
+            const Center(
+              child: Text(
+                'Failed to sign up. Please try again.',
+                style: TextStyle(color: red,),
+              ),
+            ),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(

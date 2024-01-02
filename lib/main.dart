@@ -5,16 +5,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'src/app.dart';
 import 'src/constants/colors.dart';
+import 'src/login/login_view.dart';
 
 void main() async {
   String env = 'development';
   await dotenv.load(fileName: '.env.$env');
 
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  final initialRoute = prefs.getString('TOKEN');
-  print ('tokekn ====== $initialRoute');
+  final initialRoute = prefs.getString('TOKEN') == null ? LoginView.routeName : '/';
 
-  runApp(const MyApp());
+  runApp(MyApp(initialRoute: initialRoute));
   configLoading();
 }
 

@@ -15,11 +15,11 @@ class AppRoute {
         switch (routeSettings.name) {
           case LoginView.routeName:
             return const LoginView();
-          case HomeView.routeName:
-            return const HomeView();
           case SignUpView.routeName:
-          default:
             return const SignUpView();
+          case HomeView.routeName:
+          default:
+            return const HomeView();
         }
       },
     );

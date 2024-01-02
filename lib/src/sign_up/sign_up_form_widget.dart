@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_xspend/src/sign_up/sign_up_controller.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 import 'package:flutter_xspend/src/widgets/input_label_widget.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
@@ -19,26 +20,35 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
   var _name = '';
   var _email = '';
   var _password = '';
-  bool isError = false;
+  String errorMsg = '';
 
   @override
   Widget build(BuildContext context) {
-    void signUp() {
+    void signUp() async {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
-        setState(() {
-          isError = false;
-        });
-        EasyLoading.show(status: 'Loading...');
-        SignUpController.signUp(_name, _email, _password, () {
-          EasyLoading.dismiss();
-          Navigator.pushNamedAndRemoveUntil(context, HomeView.routeName, (route) => false);
-        }, (errorMsg) {
-          EasyLoading.dismiss();
+
+        if (await InternetConnectionChecker().hasConnection) {
           setState(() {
-            isError = true;
+            errorMsg = '';
           });
-        });
+          EasyLoading.show(status: 'Loading...');
+          SignUpController.signUp(_name, _email, _password, () {
+            EasyLoading.dismiss();
+            Navigator.pushNamedAndRemoveUntil(
+                context, HomeView.routeName, (route) => false);
+          }, (errorMsg) {
+            EasyLoading.dismiss();
+            setState(() {
+              errorMsg = 'Failed to sign up. Please try again.';
+            });
+          });
+        }
+        else {
+          setState(() {
+            errorMsg = 'No internet connection. Please try again.';
+          });
+        }
       }
     }
 
@@ -117,11 +127,11 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
             },
           ),
           const SizedBox(height: 48),
-          if (isError)
-            const Center(
+          if (errorMsg.isNotEmpty)
+            Center(
               child: Text(
-                'Failed to sign up. Please try again.',
-                style: TextStyle(color: red,),
+                errorMsg,
+                style: const TextStyle(color: red,),
               ),
             ),
           SizedBox(

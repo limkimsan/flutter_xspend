@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'src/app.dart';
 import 'src/constants/colors.dart';
-import 'src/login/login_view.dart';
+import 'src/routes/app_route.dart';
 
 void main() async {
   String env = 'development';
   await dotenv.load(fileName: '.env.$env');
-
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  final initialRoute = prefs.getString('TOKEN') == null ? LoginView.routeName : '/';
+  final initialRoute = await AppRoute.getInitialRoute();
 
   runApp(MyApp(initialRoute: initialRoute));
   configLoading();

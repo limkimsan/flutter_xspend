@@ -70,7 +70,16 @@ class User {
 
   static isAuthenticationMatched(email, password) async {
     final isar = await IsarService().getDB();
-    User? user = await isar.users.filter().emailEndsWith(email).and().passwordEqualTo(password).findFirst();
+    User? user = await isar.users.filter().emailEqualTo(email).and().passwordEqualTo(password).findFirst();
     return user != null ? true : false;
+  }
+
+  static findByEmail(email) async {
+    final isar = await IsarService().getDB();
+    return await isar.users.filter().emailEqualTo(email).findFirst();
+  }
+
+  static isExisted(email) async {
+    return await findByEmail(email) != null ? true : false;
   }
 }

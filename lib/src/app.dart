@@ -64,6 +64,11 @@ class MyApp extends StatelessWidget {
             fontSize: 36,
             color: Color.fromARGB(255, 105, 191, 100),
             fontWeight: FontWeight.bold
+          ),
+          headlineMedium: const TextStyle(
+            fontSize: 24,
+            color: yellow,
+            fontWeight: FontWeight.bold,
           )
         ),
         inputDecorationTheme: const InputDecorationTheme().copyWith(

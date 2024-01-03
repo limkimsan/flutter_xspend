@@ -5,7 +5,7 @@ import 'package:flutter_xspend/src/sign_up/sign_up_controller.dart';
 
 import 'package:flutter_xspend/src/widgets/input_label_widget.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
-import 'package:flutter_xspend/src/home/home_view.dart';
+import 'package:flutter_xspend/src/bottom_tab/bottom_tab_view.dart';
 
 class SignUpFormWidget extends StatefulWidget {
   const SignUpFormWidget({super.key});
@@ -32,7 +32,7 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
         EasyLoading.show(status: 'Loading...');
         SignUpController.signUp(_name, _email, _password, () {
           EasyLoading.dismiss();
-          Navigator.pushNamedAndRemoveUntil(context, HomeView.routeName, (route) => false);
+          Navigator.pushNamedAndRemoveUntil(context, BottomTabView.routeName, (route) => false);
         }, (errorMsg) {
           EasyLoading.dismiss();
           setState(() {

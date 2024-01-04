@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'routes/app_route.dart';
+import 'constants/colors.dart';
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
     var kColorScheme = ColorScheme.fromSeed(
       seedColor: const Color.fromARGB(255, 105, 191, 100),
       primary: const Color.fromARGB(255, 105, 191, 100),
+      // brightness: Brightness.dark,
     );
 
     return MaterialApp(
@@ -62,6 +64,11 @@ class MyApp extends StatelessWidget {
             fontSize: 36,
             color: Color.fromARGB(255, 105, 191, 100),
             fontWeight: FontWeight.bold
+          ),
+          headlineMedium: const TextStyle(
+            fontSize: 24,
+            color: yellow,
+            fontWeight: FontWeight.bold,
           )
         ),
         inputDecorationTheme: const InputDecorationTheme().copyWith(
@@ -77,6 +84,11 @@ class MyApp extends StatelessWidget {
           style: TextButton.styleFrom(
             textStyle: const TextStyle(fontWeight: FontWeight.bold)
           )
+        ),
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor: lightBlack,
+          selectedItemColor: primary,
+          unselectedItemColor: grey,
         ),
       ),
       darkTheme: ThemeData.dark(),

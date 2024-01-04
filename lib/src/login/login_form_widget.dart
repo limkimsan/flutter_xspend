@@ -2,7 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-import 'package:flutter_xspend/src/home/home_view.dart';
+import 'package:flutter_xspend/src/bottom_tab/bottom_tab_view.dart';
 import 'package:flutter_xspend/src/login/login_controller.dart';
 import 'package:flutter_xspend/src/widgets/input_label_widget.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
@@ -31,7 +31,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
         EasyLoading.show(status: 'Loading...');
         LoginController.login(_email, _password, () {
           EasyLoading.dismiss();
-          Navigator.pushNamedAndRemoveUntil(context, HomeView.routeName, (route) => false);
+          Navigator.pushNamedAndRemoveUntil(context, BottomTabView.routeName, (route) => false);
         }, (errorMessage) {
           EasyLoading.dismiss();
           setState(() {

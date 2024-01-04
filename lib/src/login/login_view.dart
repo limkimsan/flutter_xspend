@@ -16,15 +16,9 @@ class LoginView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Image.asset(
-            //   'assets/images/xpense-icon.png',
-            //   width: 150,
-            //   height: 150,
-            // ),
             SizedBox(
               height:200,
               child: Stack(
-                // alignment: Alignment.center,
                 alignment: Alignment.topCenter,
                 children: [
                   Image.asset(
@@ -35,10 +29,7 @@ class LoginView extends StatelessWidget {
                   ),
                   const Positioned(
                     top: 115,
-                    // left: -widget.width / 2,
-                    // right: widget.width / 2,
                     child: Row(
-                      // mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text('X',
                           style: TextStyle(

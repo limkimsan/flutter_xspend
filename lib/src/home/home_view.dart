@@ -19,7 +19,7 @@ class HomeView extends StatelessWidget {
         Align(
           alignment: Alignment.centerRight,
           child: Container(
-            margin: const EdgeInsets.only(right: 16, top: 16),
+            margin: const EdgeInsets.only(bottom: 16, right: 16, top: 16),
             child: const Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [

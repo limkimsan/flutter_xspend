@@ -15,18 +15,16 @@ class TransactionList extends StatefulWidget {
 class _TransactionListState extends State<TransactionList> {
   @override
   Widget build(BuildContext context) {
-    Widget content = const Expanded(
-      child: Column(
+    double screenHeight = MediaQuery.of(context).size.height;
+
+    Widget content = SizedBox(
+      height: screenHeight / 2,
+      width: double.infinity,
+      child: const Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(Icons.receipt_long_outlined, size: 80, color: grey),
-          Text(
-            'No transaction',
-            style: TextStyle(
-              color: grey,
-              fontSize: 16
-            )
-          ),
+          Text('No transaction', style: TextStyle(color: grey, fontSize: 16)),
         ],
       ),
     );
@@ -40,7 +38,6 @@ class _TransactionListState extends State<TransactionList> {
         decoration: const BoxDecoration(
           color: lightBlack
         ),
-        // child: Text(groupByValue, style: const TextStyle(color: pewter))
         child: Row(
           children: [
             Expanded(child: Text(groupByValue, style: const TextStyle(color: pewter))),
@@ -51,18 +48,16 @@ class _TransactionListState extends State<TransactionList> {
     }
 
     if (transactions.isNotEmpty) {
-      content = Expanded(
-        child: GroupedListView<dynamic, String>(
-          padding: EdgeInsets.zero,
-          elements: transactions,
-          groupBy: (element) => element['transaction_date'],
-          groupSeparatorBuilder: (String groupByValue) => header(groupByValue),
-          itemBuilder: (context, dynamic element) => TransactionListItem(item: element),
-          useStickyGroupSeparators: true, // optional
-          order: GroupedListOrder.ASC, // optional
-          separator: const Divider(color: grey),
-        ),
-      );
+      content = GroupedListView<dynamic, String>(
+                  padding: const EdgeInsets.only(bottom: 62),
+                  elements: transactions,
+                  groupBy: (element) => element['transaction_date'],
+                  groupSeparatorBuilder: (String groupByValue) => header(groupByValue),
+                  itemBuilder: (context, dynamic element) => TransactionListItem(item: element),
+                  useStickyGroupSeparators: true, // optional
+                  order: GroupedListOrder.ASC, // optional
+                  separator: const Divider(color: grey),
+                );
     }
 
     return content;

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:grouped_list/grouped_list.dart';
+import 'package:flutter_xspend/src/home/transaction_line_chart.dart';
+import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'dummy_data.dart';
 import 'transaction_list_item.dart';
+
+
 
 class TransactionList extends StatefulWidget {
   const TransactionList({super.key});
@@ -15,23 +18,23 @@ class TransactionList extends StatefulWidget {
 class _TransactionListState extends State<TransactionList> {
   @override
   Widget build(BuildContext context) {
-    Widget content = const Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.receipt_long_outlined, size: 80, color: grey),
-          Text(
-            'No transaction',
-            style: TextStyle(
-              color: grey,
-              fontSize: 16
-            )
-          ),
-        ],
-      ),
-    );
+    double screenHeight = MediaQuery.of(context).size.height;
 
-    Widget header(groupByValue) {
+    if (groupedTransactions.isEmpty) {
+      return SizedBox(
+        height: screenHeight / 2,
+        width: double.infinity,
+        child: const Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.receipt_long_outlined, size: 80, color: grey),
+            Text('No transaction', style: TextStyle(color: grey, fontSize: 16)),
+          ],
+        ),
+      );
+    }
+
+    Widget sectionHeader(transactionDate, total) {
       return Container(
         alignment: Alignment.centerLeft,
         padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -40,31 +43,41 @@ class _TransactionListState extends State<TransactionList> {
         decoration: const BoxDecoration(
           color: lightBlack
         ),
-        // child: Text(groupByValue, style: const TextStyle(color: pewter))
         child: Row(
           children: [
-            Expanded(child: Text(groupByValue, style: const TextStyle(color: pewter))),
-            const Text('- KHR 5000', style: TextStyle(color: pewter)),
+            Expanded(child: Text(transactionDate, style: const TextStyle(color: pewter))),
+            Text('- KHR $total', style: const TextStyle(color: pewter)),
           ],
         )
       );
     }
 
-    if (transactions.isNotEmpty) {
-      content = Expanded(
-        child: GroupedListView<dynamic, String>(
-          padding: EdgeInsets.zero,
-          elements: transactions,
-          groupBy: (element) => element['transaction_date'],
-          groupSeparatorBuilder: (String groupByValue) => header(groupByValue),
-          itemBuilder: (context, dynamic element) => TransactionListItem(item: element),
-          useStickyGroupSeparators: true, // optional
-          order: GroupedListOrder.ASC, // optional
-          separator: const Divider(color: grey),
+    return CustomScrollView(
+      slivers: [
+        const SliverToBoxAdapter(
+          child: TransactionLineChart(),
         ),
-      );
-    }
-
-    return content;
+        for (final trans in groupedTransactions) ...[
+          SliverStickyHeader(
+            header: sectionHeader(trans['title'], 50000),
+            sliver: SliverList.separated(
+              separatorBuilder: (context, index) =>
+                  const Divider(color: grey),
+              itemCount: trans['data'].length,
+              itemBuilder: (context, index) => TransactionListItem(
+                  item: trans['data'][index], index: index),
+            ),
+            // List without divider
+            // sliver: SliverList(
+            //   delegate: SliverChildBuilderDelegate(
+            //     (context, index) => TransactionListItem(item: trans['data'][index], index: index),
+            //     childCount: trans['data'].length,
+            //   ),
+            // ),
+          ),
+        ],
+        const SliverPadding(padding: EdgeInsets.only(bottom: 62))
+      ],
+    );
   }
 }

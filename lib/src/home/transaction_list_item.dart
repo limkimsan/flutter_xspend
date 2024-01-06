@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 
 class TransactionListItem extends StatelessWidget {
-  const TransactionListItem({super.key, required this.item});
+  const TransactionListItem({super.key, required this.item, required this.index});
 
   final item;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class TransactionListItem extends StatelessWidget {
                 child: Text('jflkajsd flkjasdlkfjaskldfj', style: TextStyle(color: pewter))
               ),
             ],
-          )
+          ),
         ],
       );
     }
@@ -43,11 +44,11 @@ class TransactionListItem extends StatelessWidget {
       ),
       title: Text(item['note'], style: const TextStyle(color: Colors.white),),
       subtitle: subtitle(),
-      trailing: const Column(
+      trailing: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Text('- KHR 5000', style: TextStyle(color: red, fontSize: 16)),
-          Text('- \$ 1.40', style: TextStyle(color: red, fontSize: 14),),
+          Text("- KHR ${item['amount']}", style: const TextStyle(color: red, fontSize: 16)),
+          const Text('- \$ 1.40', style: TextStyle(color: red, fontSize: 14),),
         ],
       ),
     );

@@ -12,26 +12,48 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const HomeHeader(),
-        const HomeTransactionDuration(),
-        Align(
-          alignment: Alignment.centerRight,
-          child: Container(
-            margin: const EdgeInsets.only(bottom: 16, right: 16, top: 16),
-            child: const Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text('Total expense', style: TextStyle(color: grey)),
-                Text('- KHR 0', style: TextStyle(color: red)),
-                Text('- \$ 0', style: TextStyle(color: red)),
-              ],
-            ),
+
+    return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 220,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(color: background),
+          child: Column(
+            children: [
+              const HomeHeader(),
+              const HomeTransactionDuration(),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 0, right: 16, top: 16),
+                  child: const Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text('Total expense', style: TextStyle(color: grey)),
+                      Text('- KHR 0', style: TextStyle(color: red)),
+                      Text('- \$ 0', style: TextStyle(color: red)),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
-        const TransactionList(),
-      ],
+      ),
+      body: const TransactionList(),
+      floatingActionButton: SizedBox(
+        height: 56,
+        width: 56,
+        child: FloatingActionButton(
+          foregroundColor: Colors.white,
+          backgroundColor: primary,
+          shape: const CircleBorder(),
+          onPressed: () {
+            // Add your onPressed code here!
+          },
+          child: const Icon(Icons.add, size: 32),
+        ),
+      ),
     );
   }
 }

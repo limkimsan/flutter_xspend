@@ -90,6 +90,16 @@ class MyApp extends StatelessWidget {
           selectedItemColor: primary,
           unselectedItemColor: grey,
         ),
+        appBarTheme: const AppBarTheme().copyWith(
+          backgroundColor: background,
+          iconTheme: const IconThemeData().copyWith(
+            color: Colors.white
+          ),
+          titleTextStyle: const TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+          )
+        )
       ),
       darkTheme: ThemeData.dark(),
       onGenerateRoute: (RouteSettings routeSettings) {

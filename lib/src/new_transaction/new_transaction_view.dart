@@ -13,11 +13,13 @@ class NewTransactionView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Create New Transaction'),
       ),
-      body: const Column(
-        children: [
-          Text('New transaction content', style: TextStyle(color: Colors.white)),
-          TransactionCategoryPicker(),
-        ],
+      body: const Padding(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          children: [
+            TransactionCategoryPicker(),
+          ],
+        ),
       )
     );
   }

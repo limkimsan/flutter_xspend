@@ -69,7 +69,15 @@ class MyApp extends StatelessWidget {
             fontSize: 24,
             color: yellow,
             fontWeight: FontWeight.bold,
-          )
+          ),
+          headlineSmall: const TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+          bodyMedium: ThemeData().textTheme.bodyMedium?.copyWith(
+            color: Colors.white
+          ),
         ),
         inputDecorationTheme: const InputDecorationTheme().copyWith(
           border: OutlineInputBorder(

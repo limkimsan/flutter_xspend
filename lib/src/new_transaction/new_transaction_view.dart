@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_xspend/src/new_transaction/transaction_date_picker.dart';
 
 import 'transaction_category_picker.dart';
 import 'currency_type_picker.dart';
+import 'transaction_date_picker.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 
 class NewTransactionView extends StatelessWidget {
@@ -29,7 +31,7 @@ class NewTransactionView extends StatelessWidget {
                       keyboardType: const TextInputType.numberWithOptions(decimal: true),
                       decoration: InputDecoration(
                         hintText: 'Transaction amount',
-                        hintStyle: const TextStyle(color: pewter),
+                        hintStyle: const TextStyle(color: pewter, fontSize: 15),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: const BorderSide(color: primary, width: 1.5),
@@ -46,6 +48,7 @@ class NewTransactionView extends StatelessWidget {
                 const CurrencyTypePicker(),
               ],
             ),
+            const TransactionDatePicker(),
           ],
         ),
       )

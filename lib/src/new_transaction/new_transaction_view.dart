@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_xspend/src/new_transaction/transaction_date_picker.dart';
 
 import 'transaction_category_picker.dart';
 import 'currency_type_picker.dart';
 import 'transaction_date_picker.dart';
+import 'transaction_note_input.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 
 class NewTransactionView extends StatelessWidget {
@@ -49,6 +49,7 @@ class NewTransactionView extends StatelessWidget {
               ],
             ),
             const TransactionDatePicker(),
+            const TransactionNoteInput(),
           ],
         ),
       )

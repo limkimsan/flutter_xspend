@@ -64,58 +64,61 @@ class _TransactionCategoryPickerState extends State<TransactionCategoryPicker> {
 
   Widget transactionCateBottomSheet() {
     return Flexible(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 4, 0, 18),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                tabButton('expense'),
-                tabButton('income'),
-              ],
-            ),
-          ),
-          Flexible(     // make the its height fill the rest of its parent widget
-            child: SizedBox(
-              child: CustomScrollView(
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: Wrap(
-                      spacing: 45,
-                      children: [
-                        categoryItem(),
-                        categoryItem(),
-                        categoryItem(),
-                        categoryItem(),
-                        categoryItem(),
-                        categoryItem(),
-                        categoryItem(),
-                        categoryItem(),
-                        categoryItem(),
-                        categoryItem(),
-                        categoryItem(),
-                        categoryItem(),
-                        categoryItem(),
-                        categoryItem(),
-                        categoryItem(),
-                        categoryItem(),
-                        categoryItem(),
-                        categoryItem(),
-                        categoryItem(),
-                        categoryItem(),
-                        categoryItem(),
-                        categoryItem(),
-                        categoryItem(),
-                        categoryItem(),
-                      ],
-                    ),
-                  ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 4, 0, 18),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  tabButton('expense'),
+                  tabButton('income'),
                 ],
               ),
             ),
-          ),
-        ],
+            Flexible(     // make the its height fill the rest of its parent widget
+              child: SizedBox(
+                child: CustomScrollView(
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: Wrap(
+                        spacing: 45,
+                        children: [
+                          categoryItem(),
+                          categoryItem(),
+                          categoryItem(),
+                          categoryItem(),
+                          categoryItem(),
+                          categoryItem(),
+                          categoryItem(),
+                          categoryItem(),
+                          categoryItem(),
+                          categoryItem(),
+                          categoryItem(),
+                          categoryItem(),
+                          categoryItem(),
+                          categoryItem(),
+                          categoryItem(),
+                          categoryItem(),
+                          categoryItem(),
+                          categoryItem(),
+                          categoryItem(),
+                          categoryItem(),
+                          categoryItem(),
+                          categoryItem(),
+                          categoryItem(),
+                          categoryItem(),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

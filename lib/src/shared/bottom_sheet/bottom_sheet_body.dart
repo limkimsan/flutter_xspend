@@ -16,7 +16,8 @@ class BottomSheetBody extends StatelessWidget {
         color: bottomSheetBg,
         borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
       ),
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 28),
+      // padding: const EdgeInsets.fromLTRB(16, 8, 16, 28),
+      padding: const EdgeInsets.fromLTRB(0, 8, 0, 28),
       width: double.infinity,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -30,7 +31,7 @@ class BottomSheetBody extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12),
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
             child: Row(
               children: [
                 if (titleIcon != null)
@@ -50,7 +51,7 @@ class BottomSheetBody extends StatelessWidget {
               ],
             ),
           ),
-          const Divider(color: grey),
+          const Divider(color: Colors.white, thickness: 0.4),
           body
         ],
       ),

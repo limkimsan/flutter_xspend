@@ -128,7 +128,10 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: signUp,
-              child: const Text('Sign Up'),
+              child: Text(
+                'Sign Up',
+                style: Theme.of(context).textTheme.titleMedium
+              ),
             ),
           ),
         ],

@@ -78,6 +78,10 @@ class MyApp extends StatelessWidget {
           bodyMedium: ThemeData().textTheme.bodyMedium?.copyWith(
             color: Colors.white
           ),
+          titleMedium: ThemeData().textTheme.bodyLarge?.copyWith(
+            color: Colors.white,
+            fontSize: 18,
+          ),
         ),
         inputDecorationTheme: const InputDecorationTheme().copyWith(
           border: OutlineInputBorder(

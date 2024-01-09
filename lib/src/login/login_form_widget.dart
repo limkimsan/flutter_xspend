@@ -6,6 +6,7 @@ import 'package:flutter_xspend/src/bottom_tab/bottom_tab_view.dart';
 import 'package:flutter_xspend/src/login/login_controller.dart';
 import 'package:flutter_xspend/src/widgets/input_label_widget.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
+import 'package:flutter_xspend/src/constants/font_size.dart';
 
 class LoginFormWidget extends StatefulWidget {
   const LoginFormWidget({super.key});
@@ -93,7 +94,10 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: login,
-              child: const Text('Login'),
+              child: Text(
+                'Login',
+                style: Theme.of(context).textTheme.titleMedium
+              ),
             ),
           ),
         ],

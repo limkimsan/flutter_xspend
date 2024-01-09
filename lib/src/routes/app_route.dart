@@ -5,6 +5,7 @@ import 'package:flutter_xspend/src/bottom_tab/bottom_tab_view.dart';
 import 'package:flutter_xspend/src/home/home_view.dart';
 import 'package:flutter_xspend/src/login/login_view.dart';
 import 'package:flutter_xspend/src/sign_up/sign_up_view.dart';
+import 'package:flutter_xspend/src/new_transaction/new_transaction_view.dart';
 import 'package:flutter_xspend/src/isar/isar_service.dart';
 import 'package:flutter_xspend/src/models/user.dart';
 
@@ -22,6 +23,8 @@ class AppRoute {
             return const SignUpView();
           case HomeView.routeName:
             return const HomeView();
+          case NewTransactionView.routeName:
+            return const NewTransactionView();
           case BottomTabView.routeName:
           default:
             return const BottomTabView();

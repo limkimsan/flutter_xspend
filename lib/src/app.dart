@@ -69,7 +69,19 @@ class MyApp extends StatelessWidget {
             fontSize: 24,
             color: yellow,
             fontWeight: FontWeight.bold,
-          )
+          ),
+          headlineSmall: const TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+          bodyMedium: ThemeData().textTheme.bodyMedium?.copyWith(
+            color: Colors.white
+          ),
+          titleMedium: ThemeData().textTheme.bodyLarge?.copyWith(
+            color: Colors.white,
+            fontSize: 18,
+          ),
         ),
         inputDecorationTheme: const InputDecorationTheme().copyWith(
           border: OutlineInputBorder(
@@ -90,6 +102,16 @@ class MyApp extends StatelessWidget {
           selectedItemColor: primary,
           unselectedItemColor: grey,
         ),
+        appBarTheme: const AppBarTheme().copyWith(
+          backgroundColor: background,
+          iconTheme: const IconThemeData().copyWith(
+            color: Colors.white
+          ),
+          titleTextStyle: const TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+          )
+        )
       ),
       darkTheme: ThemeData.dark(),
       onGenerateRoute: (RouteSettings routeSettings) {

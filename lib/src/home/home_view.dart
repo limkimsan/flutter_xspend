@@ -4,6 +4,7 @@ import 'home_header.dart';
 import 'home_transaction_duration.dart';
 import 'transaction_list.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
+import 'package:flutter_xspend/src/new_transaction/new_transaction_view.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -48,9 +49,7 @@ class HomeView extends StatelessWidget {
           foregroundColor: Colors.white,
           backgroundColor: primary,
           shape: const CircleBorder(),
-          onPressed: () {
-            // Add your onPressed code here!
-          },
+          onPressed: () { Navigator.of(context).pushNamed(NewTransactionView.routeName); },
           child: const Icon(Icons.add, size: 32),
         ),
       ),

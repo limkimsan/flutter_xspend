@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'transaction_category_picker.dart';
+import 'currency_type_picker.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 
 class NewTransactionView extends StatelessWidget {
@@ -41,7 +42,8 @@ class NewTransactionView extends StatelessWidget {
                       },
                     ),
                   ),
-                )
+                ),
+                const CurrencyTypePicker(),
               ],
             ),
           ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
+import 'package:flutter_xspend/src/shared/bottom_sheet/bottom_sheet_body.dart';
 
 class TransactionCategoryPicker extends StatefulWidget {
   const TransactionCategoryPicker({super.key});
@@ -54,45 +55,17 @@ class _TransactionCategoryPickerState extends State<TransactionCategoryPicker> {
   }
 
   Widget bottomSheetChild() {
-    return Container(
-      decoration: const BoxDecoration(
-        color: bottomSheetBg,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-      ),
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 28),
-      width: double.infinity,
+    return BottomSheetBody(
+      title: 'Transaction category',
+      titleIcon: const Icon(Icons.category_outlined, size: 34, color: Colors.orange),
+      body: transactionCateBottomSheet()
+    );
+  }
+
+  Widget transactionCateBottomSheet() {
+    return Flexible(
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            height: 4,
-            width: 30,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: pewter,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            child: Row(
-              children: [
-                const Icon(Icons.category_outlined,
-                    size: 34, color: Colors.orange),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 12),
-                    child: Text(
-                      'Transaction category',
-                      style: Theme.of(context).textTheme.headlineSmall,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const Divider(color: grey),
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 4, 0, 18),
             child: Row(
@@ -103,13 +76,12 @@ class _TransactionCategoryPickerState extends State<TransactionCategoryPicker> {
               ],
             ),
           ),
-          Flexible(      // make the its height fill the rest of its parent widget
+          Flexible(     // make the its height fill the rest of its parent widget
             child: SizedBox(
               child: CustomScrollView(
                 slivers: [
                   SliverToBoxAdapter(
                     child: Wrap(
-                      // spacing: 40,
                       spacing: 45,
                       children: [
                         categoryItem(),

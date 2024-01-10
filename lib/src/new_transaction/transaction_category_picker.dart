@@ -4,6 +4,8 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/constants/transaction_constant.dart';
 import 'package:flutter_xspend/src/shared/bottom_sheet/bottom_sheet_body.dart';
+import 'package:flutter_xspend/src/models/category.dart';
+import 'package:flutter_xspend/src/utils/color_util.dart';
 
 class TransactionCategoryPicker extends StatefulWidget {
   const TransactionCategoryPicker({super.key});
@@ -13,12 +15,22 @@ class TransactionCategoryPicker extends StatefulWidget {
 }
 
 class _TransactionCategoryPickerState extends State<TransactionCategoryPicker> {
-  Widget tabButton(type) {
-    // final types = {
-    //   'expense': { 'label': 'Expense', 'icon': const Icon(Icons.arrow_circle_up_outlined), 'color': red },
-    //   'income': { 'label': 'Incom', 'icon': const Icon(Icons.arrow_circle_down_outlined), 'color': success }
-    // };
+  List categories = [];
 
+  @override
+  void initState() {
+    super.initState();
+    loadCategories();
+  }
+
+  void loadCategories() async {
+    final cateList = await Category.expenseCategories();
+    setState(() {
+      categories = cateList;
+    });
+  }
+
+  Widget tabButton(type) {
     return Expanded(
       child: Container(
         margin: type == 'expense' ? const EdgeInsets.only(right: 10) : const EdgeInsets.only(left: 10),
@@ -34,22 +46,38 @@ class _TransactionCategoryPickerState extends State<TransactionCategoryPicker> {
     );
   }
 
-  Widget categoryItem() {
+  Widget categoryItem(category) {
     return Container(
       margin: const EdgeInsets.only(bottom: 28),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            height: 56,
-            width: 56,
-            margin: const EdgeInsets.only(bottom: 4),
-            child: IconButton.filled(
-              onPressed: () {},
-              icon: const Icon(Icons.search)
+          InkWell(
+            child: Container(
+              height: 56,
+              width: 56,
+              margin: const EdgeInsets.only(bottom: 4),
+              decoration: BoxDecoration(
+                color: getColorFromHex(category.bgColor),
+                borderRadius: BorderRadius.circular(56)
+              ),
+              child: Icon(Icons.search, color: getColorFromHex(category.iconColor)),
+              // child: IconButton.filled(
+              //   onPressed: () {},
+              //   icon: const Icon(Icons.search),
+              //   color: Colors.blue,
+              // ),
             ),
           ),
-          const Text('Food', style: TextStyle(fontSize: 12)),
+          SizedBox(
+            width: 56,
+            child: Text(
+              category.name,
+              style: const TextStyle(fontSize: 12, overflow: TextOverflow.ellipsis),
+              maxLines: 2,
+              textAlign: TextAlign.center,
+            ),
+          ),
         ],
       ),
     );
@@ -87,30 +115,31 @@ class _TransactionCategoryPickerState extends State<TransactionCategoryPicker> {
                       child: Wrap(
                         spacing: 45,
                         children: [
-                          categoryItem(),
-                          categoryItem(),
-                          categoryItem(),
-                          categoryItem(),
-                          categoryItem(),
-                          categoryItem(),
-                          categoryItem(),
-                          categoryItem(),
-                          categoryItem(),
-                          categoryItem(),
-                          categoryItem(),
-                          categoryItem(),
-                          categoryItem(),
-                          categoryItem(),
-                          categoryItem(),
-                          categoryItem(),
-                          categoryItem(),
-                          categoryItem(),
-                          categoryItem(),
-                          categoryItem(),
-                          categoryItem(),
-                          categoryItem(),
-                          categoryItem(),
-                          categoryItem(),
+                          for (int i = 0; i < categories.length; i++)
+                            categoryItem(categories[i]),
+                          // categoryItem(),
+                          // categoryItem(),
+                          // categoryItem(),
+                          // categoryItem(),
+                          // categoryItem(),
+                          // categoryItem(),
+                          // categoryItem(),
+                          // categoryItem(),
+                          // categoryItem(),
+                          // categoryItem(),
+                          // categoryItem(),
+                          // categoryItem(),
+                          // categoryItem(),
+                          // categoryItem(),
+                          // categoryItem(),
+                          // categoryItem(),
+                          // categoryItem(),
+                          // categoryItem(),
+                          // categoryItem(),
+                          // categoryItem(),
+                          // categoryItem(),
+                          // categoryItem(),
+                          // categoryItem(),
                         ],
                       ),
                     ),

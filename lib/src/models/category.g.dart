@@ -139,15 +139,16 @@ Category _categoryDeserialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = Category();
-  object.bgColor = reader.readStringOrNull(offsets[0]);
-  object.icon = reader.readStringOrNull(offsets[1]);
-  object.iconColor = reader.readStringOrNull(offsets[2]);
-  object.iconType = reader.readStringOrNull(offsets[3]);
-  object.id = reader.readStringOrNull(offsets[4]);
-  object.name = reader.readStringOrNull(offsets[5]);
-  object.order = reader.readLongOrNull(offsets[6]);
-  object.transactionType = reader.readLongOrNull(offsets[7]);
+  final object = Category(
+    reader.readStringOrNull(offsets[4]),
+    reader.readStringOrNull(offsets[5]),
+    reader.readLongOrNull(offsets[7]),
+    reader.readLongOrNull(offsets[6]),
+    reader.readStringOrNull(offsets[1]),
+    reader.readStringOrNull(offsets[3]),
+    reader.readStringOrNull(offsets[2]),
+    reader.readStringOrNull(offsets[0]),
+  );
   return object;
 }
 

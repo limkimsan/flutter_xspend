@@ -10,6 +10,7 @@ void main() async {
   String env = 'development';
   await dotenv.load(fileName: '.env.$env');
   final initialRoute = await AppRoute.getInitialRoute();
+  AppRoute();
 
   runApp(MyApp(initialRoute: initialRoute));
   configLoading();

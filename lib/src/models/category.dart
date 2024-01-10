@@ -66,7 +66,7 @@ class Category {
     });
   }
 
-  static expenseCategories() async {
+  static Future <List<Category>> expenseCategories() async {
     final isar = await IsarService().getDB();
     return await isar.categorys.filter().transactionTypeEqualTo(1).findAll();
   }

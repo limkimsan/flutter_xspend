@@ -4,6 +4,8 @@ import 'category.dart';
 import 'user.dart';
 import 'package:flutter_xspend/src/utils/fast_hash_util.dart';
 
+part 'transaction.g.dart';
+
 @collection
 class Transaction {
   String? id;

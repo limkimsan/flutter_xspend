@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
+import 'package:flutter_xspend/src/constants/transaction_constant.dart';
 import 'package:flutter_xspend/src/shared/bottom_sheet/bottom_sheet_body.dart';
 
 class TransactionCategoryPicker extends StatefulWidget {
@@ -13,20 +14,20 @@ class TransactionCategoryPicker extends StatefulWidget {
 
 class _TransactionCategoryPickerState extends State<TransactionCategoryPicker> {
   Widget tabButton(type) {
-    final types = {
-      'expense': { 'label': 'Expense', 'icon': const Icon(Icons.arrow_circle_up_outlined), 'color': red },
-      'income': { 'label': 'Incom', 'icon': const Icon(Icons.arrow_circle_down_outlined), 'color': success }
-    };
+    // final types = {
+    //   'expense': { 'label': 'Expense', 'icon': const Icon(Icons.arrow_circle_up_outlined), 'color': red },
+    //   'income': { 'label': 'Incom', 'icon': const Icon(Icons.arrow_circle_down_outlined), 'color': success }
+    // };
 
     return Expanded(
       child: Container(
         margin: type == 'expense' ? const EdgeInsets.only(right: 10) : const EdgeInsets.only(left: 10),
         child: FilledButton.icon(
           onPressed: () {},
-          icon: types[type]!['icon'] as Icon,
-          label: Text(types[type]!['label'].toString()),
+          icon: transactionTypes[type]!['icon'] as Icon,
+          label: Text(transactionTypes[type]!['label'].toString()),
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(types[type]!['color'] as Color),
+            backgroundColor: MaterialStateProperty.all<Color>(transactionTypes[type]!['color'] as Color),
           )
         ),
       ),

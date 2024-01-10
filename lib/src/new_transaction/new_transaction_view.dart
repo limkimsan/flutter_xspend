@@ -32,16 +32,13 @@ class NewTransactionView extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: TextField(
-                              keyboardType: const TextInputType.numberWithOptions(
-                                  decimal: true),
+                              keyboardType: const TextInputType.numberWithOptions(decimal: true),
                               decoration: InputDecoration(
                                 hintText: 'Transaction amount',
-                                hintStyle:
-                                    const TextStyle(color: pewter, fontSize: 15),
+                                hintStyle: const TextStyle(color: pewter, fontSize: 15),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10),
-                                  borderSide: const BorderSide(
-                                      color: primary, width: 1.5),
+                                  borderSide: const BorderSide(color: primary, width: 1.5),
                                 ),
                                 filled: false,
                               ),

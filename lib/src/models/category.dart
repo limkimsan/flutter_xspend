@@ -2,6 +2,7 @@ import 'package:isar/isar.dart';
 
 import 'package:flutter_xspend/src/utils/fast_hash_util.dart';
 import 'package:flutter_xspend/src/isar/isar_service.dart';
+import 'package:flutter_xspend/src/data/categories.dart';
 
 part 'category.g.dart';
 
@@ -16,6 +17,8 @@ class Category {
   String? iconType;
   String? iconColor;
   String? bgColor;
+
+  Category(this.id, this.name, this.transactionType, this.order,  this.icon, this.iconType, this.iconColor, this.bgColor);
 
   // Map<String, dynamic> toMap() {
   //   return {
@@ -41,6 +44,20 @@ class Category {
   //           ..iconColor = json['iconColor']
   //           ..bgColor = json['bgColor'];
   // }
+
+  static seedData() async {
+    final isar = await IsarService().getDB();
+    List<Category> items = await isar.categorys.where().findAll();
+    if (items.isNotEmpty) {
+      return;
+    }
+
+    isar.writeTxnSync(() {
+      for (final category in categories) {
+        isar.categorys.putSync(category);
+      }
+    });
+  }
 
   static create(Category newCate) async {
     final isar = await IsarService().getDB();

@@ -4,6 +4,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/constants/transaction_constant.dart';
 import 'package:flutter_xspend/src/shared/bottom_sheet/bottom_sheet_body.dart';
+import 'package:flutter_xspend/src/shared/category_icon.dart';
 import 'package:flutter_xspend/src/models/category.dart';
 import 'package:flutter_xspend/src/utils/color_util.dart';
 
@@ -61,12 +62,7 @@ class _TransactionCategoryPickerState extends State<TransactionCategoryPicker> {
                 color: getColorFromHex(category.bgColor),
                 borderRadius: BorderRadius.circular(56)
               ),
-              child: Icon(Icons.search, color: getColorFromHex(category.iconColor)),
-              // child: IconButton.filled(
-              //   onPressed: () {},
-              //   icon: const Icon(Icons.search),
-              //   color: Colors.blue,
-              // ),
+              child: CategoryIcon(type: category.iconType, name: category.icon, color: getColorFromHex(category.iconColor)),
             ),
           ),
           SizedBox(

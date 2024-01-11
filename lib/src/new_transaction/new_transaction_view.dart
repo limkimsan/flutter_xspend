@@ -19,12 +19,26 @@ class NewTransactionView extends StatefulWidget {
 class _NewTransactionViewState extends State<NewTransactionView> {
   String transcationType = 'expense';
   String? currencyType;
-  String? note;
-  DateTime? transactionDate;
-  Category? category;
+  DateTime? date;
+  Category? selectedCategory;
+  final amountController = TextEditingController();
+  final noteController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      currencyType = 'KHR';
+    });
+  }
 
   void createTransaction() {
-    print('==== create transaction ==== $transcationType');
+    print('==== amount ==== ${amountController.text}');
+    print('==== trans type ==== $transcationType');
+    print('==== category ==== $selectedCategory');
+    print('==== note ==== ${noteController.text}');
+    print('==== currency ==== $currencyType');
+    print('==== date ==== $date');
   }
 
   @override
@@ -46,7 +60,7 @@ class _NewTransactionViewState extends State<NewTransactionView> {
                         TransactionCategoryPicker(updateSelectedValue: (transactionType, category) {
                           setState(() {
                             transcationType = transactionType;
-                            category = category;
+                            selectedCategory = category;
                           });
                           Navigator.of(context).pop();
                         }),
@@ -54,6 +68,7 @@ class _NewTransactionViewState extends State<NewTransactionView> {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: TextField(
+                              controller: amountController,
                               keyboardType: const TextInputType.numberWithOptions(decimal: true),
                               decoration: InputDecoration(
                                 hintText: 'Transaction amount',
@@ -71,11 +86,16 @@ class _NewTransactionViewState extends State<NewTransactionView> {
                             ),
                           ),
                         ),
-                        const CurrencyTypePicker(),
+                        CurrencyTypePicker(currencyType!, (type) {
+                          setState(() { currencyType = type; });
+                          Navigator.of(context).pop();
+                        }),
                       ],
                     ),
-                    const TransactionDatePicker(),
-                    const TransactionNoteInput(),
+                    TransactionDatePicker(updateSelectedDate: (date) {
+                      setState(() { date = date; });
+                    }),
+                    TransactionNoteInput(noteController),
                   ],
                 )
               ),

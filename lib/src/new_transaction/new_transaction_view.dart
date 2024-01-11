@@ -5,11 +5,27 @@ import 'currency_type_picker.dart';
 import 'transaction_date_picker.dart';
 import 'transaction_note_input.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
+import 'package:flutter_xspend/src/models/category.dart';
 
-class NewTransactionView extends StatelessWidget {
+class NewTransactionView extends StatefulWidget {
   const NewTransactionView({super.key});
 
   static const routeName = '/new_transaction';
+
+  @override
+  State<NewTransactionView> createState() => _NewTransactionViewState();
+}
+
+class _NewTransactionViewState extends State<NewTransactionView> {
+  String transcationType = 'expense';
+  String? currencyType;
+  String? note;
+  DateTime? transactionDate;
+  Category? category;
+
+  void createTransaction() {
+    print('==== create transaction ==== $transcationType');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +43,13 @@ class NewTransactionView extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        const TransactionCategoryPicker(),
+                        TransactionCategoryPicker(updateSelectedValue: (transactionType, category) {
+                          setState(() {
+                            transcationType = transactionType;
+                            category = category;
+                          });
+                          Navigator.of(context).pop();
+                        }),
                         Flexible(
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -60,7 +82,7 @@ class NewTransactionView extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () { createTransaction(); },
                   child: Text(
                     'Create',
                     style: Theme.of(context).textTheme.titleMedium

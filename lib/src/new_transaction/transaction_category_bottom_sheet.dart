@@ -8,7 +8,9 @@ import 'package:flutter_xspend/src/models/category.dart';
 import 'package:flutter_xspend/src/utils/color_util.dart';
 
 class TransactionCategoryBottomSheet extends StatefulWidget {
-  const TransactionCategoryBottomSheet({super.key});
+  const TransactionCategoryBottomSheet({super.key, required this.updateSelectedValue});
+
+  final void Function(String transactionType, Category category) updateSelectedValue;
 
   void showBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -79,6 +81,9 @@ class _TransactionCategoryBottomSheetState extends State<TransactionCategoryBott
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           InkWell(
+            onTap: () {
+              widget.updateSelectedValue(selectedType, category);
+            },
             child: Container(
               height: 56,
               width: 56,

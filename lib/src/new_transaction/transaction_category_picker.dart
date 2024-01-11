@@ -2,16 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
+import 'package:flutter_xspend/src/models/category.dart';
 import 'transaction_category_bottom_sheet.dart';
 
 class TransactionCategoryPicker extends StatelessWidget {
-  const TransactionCategoryPicker({super.key});
+  const TransactionCategoryPicker({super.key, required this.updateSelectedValue});
+
+  final void Function(String transactionType, Category category) updateSelectedValue;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        const TransactionCategoryBottomSheet().showBottomSheet(context);
+        TransactionCategoryBottomSheet(updateSelectedValue: updateSelectedValue).showBottomSheet(context);
       },
       borderRadius: BorderRadius.circular(64),
       child: DottedBorder(

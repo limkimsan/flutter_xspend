@@ -6,6 +6,7 @@ import 'transaction_date_picker.dart';
 import 'transaction_note_input.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/models/category.dart';
+import 'transaction_controller.dart';
 
 class NewTransactionView extends StatefulWidget {
   const NewTransactionView({super.key});
@@ -23,6 +24,10 @@ class _NewTransactionViewState extends State<NewTransactionView> {
   Category? selectedCategory;
   final amountController = TextEditingController();
   final noteController = TextEditingController();
+  bool isValid = false;
+  String? categoryErrorMsg;
+  String? amountErrorMsg;
+  String? dateErrorMsg;
 
   @override
   void initState() {
@@ -39,6 +44,25 @@ class _NewTransactionViewState extends State<NewTransactionView> {
     print('==== note ==== ${noteController.text}');
     print('==== currency ==== $currencyType');
     print('==== date ==== $date');
+  }
+
+  void validate(fieldName, value) {
+    switch (fieldName) {
+      case 'category':
+        setState(() {
+          isValid = TransactionController.isValid(value, amountController.text, date);
+        });
+        break;
+      case 'date':
+        setState(() {
+          isValid = TransactionController.isValid(selectedCategory, amountController.text, value);
+        });
+        break;
+      default:
+        setState(() {
+          isValid = TransactionController.isValid(selectedCategory, amountController.text, date);
+        });
+    }
   }
 
   @override
@@ -62,6 +86,7 @@ class _NewTransactionViewState extends State<NewTransactionView> {
                             transcationType = transactionType;
                             selectedCategory = category;
                           });
+                          validate('category', category);
                           Navigator.of(context).pop();
                         }),
                         Flexible(
@@ -70,6 +95,7 @@ class _NewTransactionViewState extends State<NewTransactionView> {
                             child: TextField(
                               controller: amountController,
                               keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                              onChanged: (value) => validate('amount', value),
                               decoration: InputDecoration(
                                 hintText: 'Transaction amount',
                                 hintStyle: const TextStyle(color: pewter, fontSize: 15),
@@ -92,8 +118,9 @@ class _NewTransactionViewState extends State<NewTransactionView> {
                         }),
                       ],
                     ),
-                    TransactionDatePicker(updateSelectedDate: (date) {
-                      setState(() { date = date; });
+                    TransactionDatePicker(updateSelectedDate: (selectedDate) {
+                      setState(() { date = selectedDate; });
+                      validate('date', date);
                     }),
                     TransactionNoteInput(noteController),
                   ],
@@ -102,7 +129,10 @@ class _NewTransactionViewState extends State<NewTransactionView> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () { createTransaction(); },
+                  style: ElevatedButton.styleFrom(
+                    primary: isValid ? primary : pewter,
+                  ),
+                  onPressed: () { isValid == true ? createTransaction() : null; },
                   child: Text(
                     'Create',
                     style: Theme.of(context).textTheme.titleMedium

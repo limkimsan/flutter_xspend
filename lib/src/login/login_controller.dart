@@ -25,6 +25,8 @@ class LoginController {
     }
     else {
       if (await User.isAuthenticationMatched(email, password)) {
+        final user = User.findByEmail(email);
+        User.markAsLoggedIn(user.id);
         successCallback?.call();
       }
       else {

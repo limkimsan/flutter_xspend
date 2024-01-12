@@ -62,6 +62,7 @@ class _TransactionDatePickerState extends State<TransactionDatePicker> {
               setState(() {
                 selectedDate = DateTime.now();
               });
+              widget.updateSelectedDate(DateTime.now());
             },
             style: OutlinedButton.styleFrom(
               side: const BorderSide(color: primary, width: 2.5),

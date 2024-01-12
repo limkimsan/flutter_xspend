@@ -78,7 +78,7 @@ class MyApp extends StatelessWidget {
           bodyMedium: ThemeData().textTheme.bodyMedium?.copyWith(
             color: Colors.white
           ),
-          titleMedium: ThemeData().textTheme.bodyLarge?.copyWith(
+          titleMedium: ThemeData().textTheme.titleMedium?.copyWith(
             color: Colors.white,
             fontSize: 18,
           ),

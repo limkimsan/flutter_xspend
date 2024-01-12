@@ -56,7 +56,8 @@ class MyApp extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: kColorScheme.primary,
             foregroundColor: Colors.white,
-            textStyle: const TextStyle(fontWeight: FontWeight.bold)
+            textStyle: const TextStyle(fontWeight: FontWeight.bold),
+            minimumSize: const Size.fromHeight(48),
           ),
         ),
         textTheme: ThemeData().textTheme.copyWith(

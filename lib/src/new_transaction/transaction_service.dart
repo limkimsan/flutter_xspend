@@ -1,7 +1,4 @@
-import 'package:uuid/uuid.dart';
-
 import 'package:flutter_xspend/src/models/transaction.dart';
-import 'package:flutter_xspend/src/models/user.dart';
 import 'package:flutter_xspend/src/web/web_service.dart';
 import 'package:flutter_xspend/src/utils/url_util.dart';
 

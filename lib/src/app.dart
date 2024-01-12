@@ -60,6 +60,12 @@ class MyApp extends StatelessWidget {
             minimumSize: const Size.fromHeight(48),
           ),
         ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            textStyle: const TextStyle(fontWeight: FontWeight.bold),
+          )
+        ),
         textTheme: ThemeData().textTheme.copyWith(
           headlineLarge: const TextStyle(
             fontSize: 36,

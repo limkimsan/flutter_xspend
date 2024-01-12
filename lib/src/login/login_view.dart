@@ -67,7 +67,12 @@ class LoginView extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushNamedAndRemoveUntil(context, SignUpView.routeName, (route) => false);
                 },
-                child: const Text('Create new account', style: TextStyle(fontWeight: FontWeight.bold))
+                child: Text(
+                  'Create new account',
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    color: primary
+                  )
+                )
               ),
             )
           ],

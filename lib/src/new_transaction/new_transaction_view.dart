@@ -26,7 +26,7 @@ class _NewTransactionViewState extends State<NewTransactionView> {
   Category? selectedCategory;
   final amountController = TextEditingController();
   final noteController = TextEditingController();
-  bool isValid = false;
+  bool isValid = true;
   String errorMsg = '';
 
   @override
@@ -82,6 +82,8 @@ class _NewTransactionViewState extends State<NewTransactionView> {
 
   @override
   Widget build(BuildContext context) {
+    // Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Create New Transaction'),

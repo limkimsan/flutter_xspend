@@ -1,27 +1,27 @@
 import 'package:uuid/uuid.dart';
 
-import 'package:flutter_xspend/src/models/category.dart';
 import 'package:flutter_xspend/src/models/transaction.dart';
 import 'package:flutter_xspend/src/models/user.dart';
+import 'package:flutter_xspend/src/web/web_service.dart';
+import 'package:flutter_xspend/src/utils/url_util.dart';
 
 class TransactionService {
-  // static sendCreateRequst() {
+  static sendCreateRequst(transaction) async {
+    final params = {
+      'category_id': transaction.category.id,
+      'amount': double.parse(transaction.amount),
+      'transaction_date': transaction.date,
+      'note': transaction.note,
+      'currency_type': transaction.currencyType,
+      'transaction_type': transaction.category.transactionType == 0 ? 'income' : 'expense',
+      'user_id': transaction.user.serverId ?? '',
+    };
 
-  // }
+    final url = Uri.parse(UrlUtil.absoluteUrl(UrlUtil.relativeUrl('transactions')));
+    return await WebService(isTokenBased: true).post(url, params);
+  }
 
-  static createNewInLocal(category, amount, date, note, currency, synced) {
-    const uuid = Uuid();
-    final transaction = Transaction()
-                          ..id = uuid.v4()
-                          ..amount = double.parse(amount)
-                          ..currencyType = currency
-                          ..note = note
-                          ..transactionType = category.transactionType
-                          ..transactionDate = date
-                          ..synced = synced
-                          ..category.value = category
-                          ..user.value = User.currentLoggedIn() as User?;
-
+  static createNewInLocal(transaction) {
     Transaction.create(transaction);
   }
 }

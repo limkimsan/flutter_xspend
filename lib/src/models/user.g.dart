@@ -41,6 +41,11 @@ const UserSchema = CollectionSchema(
       id: 4,
       name: r'password',
       type: IsarType.string,
+    ),
+    r'serverId': PropertySchema(
+      id: 5,
+      name: r'serverId',
+      type: IsarType.string,
     )
   },
   estimateSize: _userEstimateSize,
@@ -87,6 +92,12 @@ int _userEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
+  {
+    final value = object.serverId;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -101,6 +112,7 @@ void _userSerialize(
   writer.writeBool(offsets[2], object.loggedIn);
   writer.writeString(offsets[3], object.name);
   writer.writeString(offsets[4], object.password);
+  writer.writeString(offsets[5], object.serverId);
 }
 
 User _userDeserialize(
@@ -115,6 +127,7 @@ User _userDeserialize(
   object.loggedIn = reader.readBoolOrNull(offsets[2]);
   object.name = reader.readStringOrNull(offsets[3]);
   object.password = reader.readStringOrNull(offsets[4]);
+  object.serverId = reader.readStringOrNull(offsets[5]);
   return object;
 }
 
@@ -134,6 +147,8 @@ P _userDeserializeProp<P>(
     case 3:
       return (reader.readStringOrNull(offset)) as P;
     case 4:
+      return (reader.readStringOrNull(offset)) as P;
+    case 5:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -879,6 +894,151 @@ extension UserQueryFilter on QueryBuilder<User, User, QFilterCondition> {
       ));
     });
   }
+
+  QueryBuilder<User, User, QAfterFilterCondition> serverIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'serverId',
+      ));
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> serverIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'serverId',
+      ));
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> serverIdEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'serverId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> serverIdGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'serverId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> serverIdLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'serverId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> serverIdBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'serverId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> serverIdStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'serverId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> serverIdEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'serverId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> serverIdContains(String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'serverId',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> serverIdMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'serverId',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> serverIdIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'serverId',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<User, User, QAfterFilterCondition> serverIdIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'serverId',
+        value: '',
+      ));
+    });
+  }
 }
 
 extension UserQueryObject on QueryBuilder<User, User, QFilterCondition> {}
@@ -943,6 +1103,18 @@ extension UserQuerySortBy on QueryBuilder<User, User, QSortBy> {
   QueryBuilder<User, User, QAfterSortBy> sortByPasswordDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'password', Sort.desc);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterSortBy> sortByServerId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'serverId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterSortBy> sortByServerIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'serverId', Sort.desc);
     });
   }
 }
@@ -1019,6 +1191,18 @@ extension UserQuerySortThenBy on QueryBuilder<User, User, QSortThenBy> {
       return query.addSortBy(r'password', Sort.desc);
     });
   }
+
+  QueryBuilder<User, User, QAfterSortBy> thenByServerId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'serverId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<User, User, QAfterSortBy> thenByServerIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'serverId', Sort.desc);
+    });
+  }
 }
 
 extension UserQueryWhereDistinct on QueryBuilder<User, User, QDistinct> {
@@ -1053,6 +1237,13 @@ extension UserQueryWhereDistinct on QueryBuilder<User, User, QDistinct> {
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'password', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<User, User, QDistinct> distinctByServerId(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'serverId', caseSensitive: caseSensitive);
     });
   }
 }
@@ -1091,6 +1282,12 @@ extension UserQueryProperty on QueryBuilder<User, User, QQueryProperty> {
   QueryBuilder<User, String?, QQueryOperations> passwordProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'password');
+    });
+  }
+
+  QueryBuilder<User, String?, QQueryOperations> serverIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'serverId');
     });
   }
 }

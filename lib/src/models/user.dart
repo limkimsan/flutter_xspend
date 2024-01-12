@@ -13,6 +13,7 @@ class User {
   String? email;
   String? password;
   bool? loggedIn;
+  String? serverId;
 
   Map<String, dynamic> toMap() {
     return {
@@ -21,6 +22,7 @@ class User {
       'email': email,
       'password': password,
       'loggedIn': loggedIn,
+      'serverId': serverId,
     };
   }
 
@@ -30,7 +32,8 @@ class User {
             ..name = json['name']
             ..email = json['email']
             ..password = json['password']
-            ..loggedIn = json['loggedIn'];
+            ..loggedIn = json['loggedIn']
+            ..serverId = json['serverId'];
   }
 
   static create(User newUser) async {

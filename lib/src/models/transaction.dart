@@ -34,7 +34,7 @@ class Transaction {
     };
   }
 
-  fromJson(Map<String, dynamic> json) {
+  static fromJson(Map<String, dynamic> json) {
     return Transaction()
             ..id = json['id']
             ..amount = json['amount']
@@ -52,5 +52,20 @@ class Transaction {
     isar.writeTxnSync(() {
       isar.transactions.putSync(newTransaction);
     });
+  }
+
+  static update(id, Map<String, dynamic> params) async {
+    final isar = await IsarService().getDB();
+    Transaction? transaction = await isar.transactions.get(id);
+    if (transaction != null) {
+      Map<String, dynamic> newTransaction = transaction.toMap();
+      params.forEach((key, value) {
+        newTransaction[key] = value;
+      });
+      Transaction formattedParams = Transaction.fromJson(newTransaction);
+      isar.writeTxnSync(() {
+        isar.transactions.putSync(formattedParams);
+      });
+    }
   }
 }

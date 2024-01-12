@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 import 'transaction_category_picker.dart';
 import 'currency_type_picker.dart';
 import 'transaction_date_picker.dart';
 import 'transaction_note_input.dart';
+import 'transaction_controller.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/models/category.dart';
-import 'transaction_controller.dart';
+import 'package:flutter_xspend/src/models/user.dart';
+import 'package:flutter_xspend/src/models/transaction.dart';
 
 class NewTransactionView extends StatefulWidget {
   const NewTransactionView({super.key});
@@ -24,9 +27,7 @@ class _NewTransactionViewState extends State<NewTransactionView> {
   final amountController = TextEditingController();
   final noteController = TextEditingController();
   bool isValid = false;
-  String? categoryErrorMsg;
-  String? amountErrorMsg;
-  String? dateErrorMsg;
+  String errorMsg = '';
 
   @override
   void initState() {
@@ -36,12 +37,28 @@ class _NewTransactionViewState extends State<NewTransactionView> {
     });
   }
 
-  void createTransaction() {
-    print('==== amount ==== ${amountController.text}');
-    print('==== category ==== $selectedCategory');
-    print('==== note ==== ${noteController.text}');
-    print('==== currency ==== $currencyType');
-    print('==== date ==== $date');
+  void createTransaction() async {
+    setState(() { errorMsg = ''; });
+    const uuid = Uuid();
+    final transaction = Transaction()
+                          ..id = uuid.v4()
+                          ..amount = double.parse(amountController.text)
+                          ..currencyType = currencyType
+                          ..note = noteController.text
+                          ..transactionType = selectedCategory?.transactionType
+                          ..transactionDate = date
+                          ..synced = false
+                          ..category.value = selectedCategory
+                          ..user.value = await User.currentLoggedIn();
+    TransactionController.create(transaction, () {
+      print('== trans success =');
+      Navigator.of(context).pop();
+    }, (errorMsg) {
+      print('== trans error = $errorMsg');
+      setState(() {
+        errorMsg = 'Failed to create new transaction.';
+      });
+    });
   }
 
   void validate(fieldName, value) {
@@ -124,6 +141,12 @@ class _NewTransactionViewState extends State<NewTransactionView> {
                   ],
                 )
               ),
+              if (errorMsg.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: Text(errorMsg, style: const TextStyle(color: red, fontSize: 16)),
+                ),
+
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(

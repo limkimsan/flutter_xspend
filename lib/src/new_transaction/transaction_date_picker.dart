@@ -33,7 +33,7 @@ class _TransactionDatePickerState extends State<TransactionDatePicker> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 22),
+      margin: const EdgeInsets.only(top: 20, bottom: 26),
       child: Row(
         children: [
           Expanded(

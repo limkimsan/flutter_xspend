@@ -80,8 +80,9 @@ class _NewTransactionViewState extends State<NewTransactionView> {
                 child: Column(
                   children: [
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        TransactionCategoryPicker(updateSelectedValue: (transactionType, category) {
+                        TransactionCategoryPicker(selectedCategory: selectedCategory, updateSelectedValue: (transactionType, category) {
                           setState(() {
                             transcationType = transactionType;
                             selectedCategory = category;

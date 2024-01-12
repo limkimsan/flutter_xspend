@@ -1,4 +1,3 @@
-import 'package:flutter_xspend/src/models/category.dart';
 import 'package:flutter_xspend/src/models/transaction.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'transaction_service.dart';
@@ -12,10 +11,12 @@ class TransactionController {
   static create(Transaction transaction, successCallback, failureCallback) async {
     if (await InternetConnectionChecker().hasConnection) {
       try {
-        print('== connect to API ==');
-        final response = TransactionService.sendCreateRequst(transaction);
+        final response = await TransactionService.sendCreateRequest(transaction);
         ApiResponseUtil.handleResponse(response, () {
-          Transaction.update(transaction.id, { 'synced': true });
+          // Transaction.update(transaction.id, { 'synced': true });
+          transaction.synced = true;
+          Transaction.create(transaction);
+
           successCallback?.call();
         }, (errorMsg) {
           failureCallback?.call('Failed to create new transaction.');

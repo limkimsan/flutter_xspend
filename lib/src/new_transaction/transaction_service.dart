@@ -1,17 +1,18 @@
 import 'package:flutter_xspend/src/models/transaction.dart';
 import 'package:flutter_xspend/src/web/web_service.dart';
 import 'package:flutter_xspend/src/utils/url_util.dart';
+import 'package:flutter_xspend/src/constants/transaction_constant.dart';
 
 class TransactionService {
-  static sendCreateRequst(transaction) async {
+  static sendCreateRequest(transaction) async {
     final params = {
-      'category_id': transaction.category.id,
-      'amount': double.parse(transaction.amount),
-      'transaction_date': transaction.date,
+      'category_id': transaction.category.value.id,
+      'amount': transaction.amount,
+      'transaction_date': transaction.transactionDate.toString(),
       'note': transaction.note,
-      'currency_type': transaction.currencyType,
-      'transaction_type': transaction.category.transactionType == 0 ? 'income' : 'expense',
-      'user_id': transaction.user.serverId ?? '',
+      'currency_type': currencyTypes[transaction.currencyType],
+      'transaction_type': transaction.category.value.transactionType == 0 ? 'income' : 'expense',
+      'user_id': transaction.user.value.serverId ?? '',
     };
 
     final url = Uri.parse(UrlUtil.absoluteUrl(UrlUtil.relativeUrl('transactions')));

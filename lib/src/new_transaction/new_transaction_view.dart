@@ -18,7 +18,6 @@ class NewTransactionView extends StatefulWidget {
 }
 
 class _NewTransactionViewState extends State<NewTransactionView> {
-  String transcationType = 'expense';
   String? currencyType;
   DateTime? date;
   Category? selectedCategory;
@@ -39,7 +38,6 @@ class _NewTransactionViewState extends State<NewTransactionView> {
 
   void createTransaction() {
     print('==== amount ==== ${amountController.text}');
-    print('==== trans type ==== $transcationType');
     print('==== category ==== $selectedCategory');
     print('==== note ==== ${noteController.text}');
     print('==== currency ==== $currencyType');
@@ -82,9 +80,8 @@ class _NewTransactionViewState extends State<NewTransactionView> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        TransactionCategoryPicker(selectedCategory: selectedCategory, updateSelectedValue: (transactionType, category) {
+                        TransactionCategoryPicker(selectedCategory: selectedCategory, updateSelectedValue: (category) {
                           setState(() {
-                            transcationType = transactionType;
                             selectedCategory = category;
                           });
                           validate('category', category);

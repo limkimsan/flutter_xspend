@@ -11,7 +11,7 @@ class TransactionCategoryPicker extends StatelessWidget {
   const TransactionCategoryPicker({super.key, required this.selectedCategory, required this.updateSelectedValue});
 
   final Category? selectedCategory;
-  final void Function(String transactionType, Category category) updateSelectedValue;
+  final void Function(Category category) updateSelectedValue;
 
   Widget dottedButton() {
     return DottedBorder(

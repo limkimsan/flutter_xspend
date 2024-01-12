@@ -1,3 +1,4 @@
+import 'package:flutter_xspend/src/isar/isar_service.dart';
 import 'package:isar/isar.dart';
 
 import 'category.dart';
@@ -44,5 +45,12 @@ class Transaction {
             ..synced = json['synced']
             ..category.value = json['category'].value
             ..user.value = json['user'].value;
+  }
+
+  static create(Transaction newTransaction) async {
+    final isar = await IsarService().getDB();
+    isar.writeTxnSync(() {
+      isar.transactions.putSync(newTransaction);
+    });
   }
 }

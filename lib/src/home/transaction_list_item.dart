@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/utils/color_util.dart';
 import 'package:flutter_xspend/src/shared/category_icon.dart';
+import 'package:flutter_xspend/src/constants/transaction_constant.dart';
+import 'package:flutter_xspend/src/helpers/currency_helper.dart';
 
 class TransactionListItem extends StatelessWidget {
   const TransactionListItem({super.key, required this.item, required this.index});
@@ -50,10 +52,16 @@ class TransactionListItem extends StatelessWidget {
       trailing: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Text("- KHR ${item.amount}", style: TextStyle(color: item.transactionType == 1 ? red : success, fontSize: 16)),
-          Text('- \$ ${item.amount}', style: TextStyle(color: item.transactionType == 1 ? red : success, fontSize: 14),),
-        ],
+          for (int i = 0; i < currencyTypes.length; i++)
+            Text(
+              CurrencyHelper.getTransactionCurrency(item.transactionType, 'usd', item.amount, item.currencyType, {'khr': 4100, 'usd': 1}),
+              // CurrencyHelper.getTransactionCurrency(0, 'usd', item.amount, 'usd', {'khr': 4100, 'usd': 1}),
+              style: TextStyle(color: item.transactionType == 1 ? red : success, fontSize: i == 0 ? 16 : 14)
+            ),
+        ]
       ),
     );
   }
 }
+
+// {currencyHelper.getTransactionCurrency(props.transaction.transaction_type, currencyType.value, props.transaction.amount, props.transaction.currency_type, exchangeRates)}

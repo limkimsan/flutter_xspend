@@ -8,6 +8,6 @@ final transactionTypes = {
 };
 
 final currencyTypes = {
-  'khr': 0,
-  'usd': 1
+  'KHR': 0,
+  'USD': 1
 };

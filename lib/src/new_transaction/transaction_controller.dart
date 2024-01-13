@@ -4,6 +4,7 @@ import 'package:flutter_xspend/src/models/transaction.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'transaction_service.dart';
 import 'package:flutter_xspend/src/utils/api_response_util.dart';
+import 'package:flutter_xspend/src/helpers/transaction_helper.dart';
 
 class TransactionController {
   static isValid(category, amount, date) {
@@ -37,14 +38,10 @@ class TransactionController {
   static getGroupedTransactions() async {
     final transactions = await Transaction.getAllByDurationType('month');
     final groupedList = groupBy(transactions, (t) => (t as Transaction).transactionDate);
-
-    print('=== trans list =');
-    print(groupedList);
-
     final formattedList = [];
     groupedList.forEach((key, value) {
       final obj = {
-        'title': key.toString(),
+        'title': {'date': key.toString(), 'total': TransactionHelper.getFormattedTotal(value)},
         'data': value,
       };
       formattedList.add(obj);

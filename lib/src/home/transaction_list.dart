@@ -65,7 +65,7 @@ class _TransactionListState extends State<TransactionList> {
               DateFormat.yMMMd().format(DateTime.parse(transactionDate)),
               style: const TextStyle(color: pewter)
             )),
-            Text('- KHR $total', style: const TextStyle(color: pewter)),
+            Text('$total', style: const TextStyle(color: pewter)),
           ],
         )
       );
@@ -78,7 +78,7 @@ class _TransactionListState extends State<TransactionList> {
         ),
         for (final trans in groupedTransactions) ...[
           SliverStickyHeader(
-            header: sectionHeader(trans['title'], 50000),
+            header: sectionHeader(trans['title']['date'], trans['title']['total']),
             sliver: SliverList.separated(
               separatorBuilder: (context, index) => const Divider(color: grey),
               itemCount: trans['data'].length,

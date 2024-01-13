@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:flutter_xspend/src/isar/isar_service.dart';
 import 'package:isar/isar.dart';
 
@@ -67,5 +68,37 @@ class Transaction {
         isar.transactions.putSync(formattedParams);
       });
     }
+  }
+
+  static getAllOfCurrentUser() async {
+    final user = await User.currentLoggedIn();
+    final isar = await IsarService().getDB();
+    return await isar.transactions.filter().user((q) => q.idEqualTo(user.id)).findAll();
+  }
+
+  static getAllByDurationType(String type, [String? customStartDate, String? customEndDate]) async {
+    DateTime now = DateTime.now();
+    DateTime startDate = DateTime(now.year, now.month, 1);
+    DateTime startOfNextMonth = DateTime(now.year, now.month + 1, 1);
+    DateTime endDate = startOfNextMonth.subtract(const Duration(days: 1));
+
+    if (type == 'custom') {
+      startDate = DateTime.parse(customStartDate as String);
+      endDate = DateTime.parse(customEndDate as String);
+    }
+    else if (type == 'week') {
+      startDate = now.subtract(Duration(days: now.weekday - DateTime.monday));
+      endDate = now.add(Duration(days: DateTime.sunday - now.weekday));
+    }
+    else if (type == 'year') {
+      startDate = DateTime(now.year, 1, 1);
+      DateTime startOfNextYear = DateTime(now.year + 1, 1, 1);
+      endDate = startOfNextYear.subtract(const Duration(days: 1));
+    }
+
+    final user = await User.currentLoggedIn();
+    final isar = await IsarService().getDB();
+    final result = await isar.transactions.filter().transactionDateBetween(startDate, endDate).and().user((q) => q.idEqualTo(user.id)).sortByTransactionDateDesc().findAll();
+    return result;
   }
 }

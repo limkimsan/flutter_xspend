@@ -6,6 +6,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:flutter_xspend/src/login/login_service.dart';
 import 'package:flutter_xspend/src/utils/api_response_util.dart';
 import 'package:flutter_xspend/src/models/user.dart';
+import 'package:flutter_xspend/src/user/user_controller.dart';
 
 class LoginController {
   static Future<void> login(email, password, successCallback, failureCallback) async {
@@ -15,6 +16,11 @@ class LoginController {
         ApiResponseUtil.handleResponse(response, () async {
           final SharedPreferences prefs = await SharedPreferences.getInstance();
           await prefs.setString('TOKEN', jsonDecode(response.body)['access_token']);
+
+          // Check if the user is not existed then create new
+          // If the user is already existed then update the serverId of the existing user
+          UserController.handleCreateUpdateUser(email);
+
           successCallback?.call();
         }, (errorMsg) {
           failureCallback?.call('Failed to login.');
@@ -25,6 +31,8 @@ class LoginController {
     }
     else {
       if (await User.isAuthenticationMatched(email, password)) {
+        final user = await User.findByEmail(email);
+        User.markAsLoggedIn(user.id);
         successCallback?.call();
       }
       else {

@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 
 class TransactionNoteInput extends StatelessWidget {
-  const TransactionNoteInput({super.key});
+  const TransactionNoteInput(this.noteController, {super.key});
+
+  final TextEditingController noteController;
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +18,7 @@ class TransactionNoteInput extends StatelessWidget {
         ),
         Expanded(
           child: TextField(
+            controller: noteController,
             minLines: 5,
             maxLines: 5,
             decoration: InputDecoration(

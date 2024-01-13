@@ -4,7 +4,9 @@ import 'package:intl/intl.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 
 class TransactionDatePicker extends StatefulWidget {
-  const TransactionDatePicker({super.key});
+  const TransactionDatePicker({super.key, required this.updateSelectedDate});
+
+  final void Function(DateTime date) updateSelectedDate;
 
   @override
   State<TransactionDatePicker> createState() => _TransactionDatePickerState();
@@ -24,13 +26,14 @@ class _TransactionDatePickerState extends State<TransactionDatePicker> {
       setState(() {
         selectedDate = pickedDate;
       });
+      widget.updateSelectedDate(pickedDate);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 22),
+      margin: const EdgeInsets.only(top: 20, bottom: 26),
       child: Row(
         children: [
           Expanded(
@@ -59,6 +62,7 @@ class _TransactionDatePickerState extends State<TransactionDatePicker> {
               setState(() {
                 selectedDate = DateTime.now();
               });
+              widget.updateSelectedDate(DateTime.now());
             },
             style: OutlinedButton.styleFrom(
               side: const BorderSide(color: primary, width: 2.5),

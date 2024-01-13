@@ -8,9 +8,14 @@ import 'package:flutter_xspend/src/sign_up/sign_up_view.dart';
 import 'package:flutter_xspend/src/new_transaction/new_transaction_view.dart';
 import 'package:flutter_xspend/src/isar/isar_service.dart';
 import 'package:flutter_xspend/src/models/user.dart';
+import 'package:flutter_xspend/src/models/category.dart';
 
 class AppRoute {
   final isarService = IsarService();
+
+  AppRoute() {
+    Category.seedData();
+  }
 
   static Route onGenerateRoute(RouteSettings routeSettings) {
     return MaterialPageRoute(

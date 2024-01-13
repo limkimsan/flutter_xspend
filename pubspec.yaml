@@ -20,6 +20,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_sticky_header: ^0.6.5
+  flutter_vector_icons: ^2.0.0
   http: ^1.1.2
   internet_connection_checker: ^1.0.0+1
   intl: ^0.18.1

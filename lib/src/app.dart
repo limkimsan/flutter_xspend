@@ -56,8 +56,15 @@ class MyApp extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: kColorScheme.primary,
             foregroundColor: Colors.white,
-            textStyle: const TextStyle(fontWeight: FontWeight.bold)
+            textStyle: const TextStyle(fontWeight: FontWeight.bold),
+            minimumSize: const Size.fromHeight(48),
           ),
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            textStyle: const TextStyle(fontWeight: FontWeight.bold),
+          )
         ),
         textTheme: ThemeData().textTheme.copyWith(
           headlineLarge: const TextStyle(
@@ -78,7 +85,7 @@ class MyApp extends StatelessWidget {
           bodyMedium: ThemeData().textTheme.bodyMedium?.copyWith(
             color: Colors.white
           ),
-          titleMedium: ThemeData().textTheme.bodyLarge?.copyWith(
+          titleMedium: ThemeData().textTheme.titleMedium?.copyWith(
             color: Colors.white,
             fontSize: 18,
           ),

@@ -26,7 +26,7 @@ class _NewTransactionViewState extends State<NewTransactionView> {
   Category? selectedCategory;
   final amountController = TextEditingController();
   final noteController = TextEditingController();
-  bool isValid = true;
+  bool isValid = false;
   String errorMsg = '';
 
   @override

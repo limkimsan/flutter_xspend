@@ -1,12 +1,13 @@
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_xspend/src/home/transaction_line_chart.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
-import 'dummy_data.dart';
+// import 'dummy_data.dart';
 import 'transaction_list_item.dart';
 
-
+import 'package:flutter_xspend/src/new_transaction/transaction_controller.dart';
 
 class TransactionList extends StatefulWidget {
   const TransactionList({super.key});
@@ -16,6 +17,21 @@ class TransactionList extends StatefulWidget {
 }
 
 class _TransactionListState extends State<TransactionList> {
+  List groupedTransactions = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  void loadData() async {
+    List data = await TransactionController.getGroupedTransactions();
+    setState(() {
+      groupedTransactions = data;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -45,7 +61,10 @@ class _TransactionListState extends State<TransactionList> {
         ),
         child: Row(
           children: [
-            Expanded(child: Text(transactionDate, style: const TextStyle(color: pewter))),
+            Expanded(child: Text(
+              DateFormat.yMMMd().format(DateTime.parse(transactionDate)),
+              style: const TextStyle(color: pewter)
+            )),
             Text('- KHR $total', style: const TextStyle(color: pewter)),
           ],
         )
@@ -61,11 +80,9 @@ class _TransactionListState extends State<TransactionList> {
           SliverStickyHeader(
             header: sectionHeader(trans['title'], 50000),
             sliver: SliverList.separated(
-              separatorBuilder: (context, index) =>
-                  const Divider(color: grey),
+              separatorBuilder: (context, index) => const Divider(color: grey),
               itemCount: trans['data'].length,
-              itemBuilder: (context, index) => TransactionListItem(
-                  item: trans['data'][index], index: index),
+              itemBuilder: (context, index) => TransactionListItem(item: trans['data'][index], index: index),
             ),
             // List without divider
             // sliver: SliverList(

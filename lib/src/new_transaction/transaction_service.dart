@@ -18,8 +18,4 @@ class TransactionService {
     final url = Uri.parse(UrlUtil.absoluteUrl(UrlUtil.relativeUrl('transactions')));
     return await WebService(isTokenBased: true).post(url, params);
   }
-
-  static createNewInLocal(transaction) {
-    Transaction.create(transaction);
-  }
 }

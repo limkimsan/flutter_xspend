@@ -1,13 +1,14 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_xspend/src/home/transaction_line_chart.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
-// import 'dummy_data.dart';
 import 'transaction_list_item.dart';
-
 import 'package:flutter_xspend/src/new_transaction/transaction_controller.dart';
+import 'package:flutter_xspend/src/helpers/transaction_helper.dart';
+import 'package:flutter_xspend/src/bloc/transaction_bloc.dart';
 
 class TransactionList extends StatefulWidget {
   const TransactionList({super.key});
@@ -17,26 +18,19 @@ class TransactionList extends StatefulWidget {
 }
 
 class _TransactionListState extends State<TransactionList> {
-  List groupedTransactions = [];
-
   @override
   void initState() {
     super.initState();
-    loadData();
-  }
-
-  void loadData() async {
-    List data = await TransactionController.getGroupedTransactions();
-    setState(() {
-      groupedTransactions = data;
+    TransactionController.loadTransactions((transactions) {
+      context.read<TransactionBloc>().add(LoadTransaction(transactions: transactions));
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final state = context.watch<TransactionBloc>().state;
     double screenHeight = MediaQuery.of(context).size.height;
-
-    if (groupedTransactions.isEmpty) {
+    if (state.transactions.isEmpty) {
       return SizedBox(
         height: screenHeight / 2,
         width: double.infinity,
@@ -53,6 +47,7 @@ class _TransactionListState extends State<TransactionList> {
     Widget sectionHeader(transactionDate, total) {
       return Container(
         alignment: Alignment.centerLeft,
+        margin: const EdgeInsets.only(bottom: 6),
         padding: const EdgeInsets.symmetric(horizontal: 12),
         height: 30,
         width: double.infinity,
@@ -76,13 +71,13 @@ class _TransactionListState extends State<TransactionList> {
         const SliverToBoxAdapter(
           child: TransactionLineChart(),
         ),
-        for (final trans in groupedTransactions) ...[
+        for (final trans in TransactionHelper.getGroupedTransactions(state.transactions)) ...[
           SliverStickyHeader(
             header: sectionHeader(trans['title']['date'], trans['title']['total']),
             sliver: SliverList.separated(
               separatorBuilder: (context, index) => const Divider(color: grey),
               itemCount: trans['data'].length,
-              itemBuilder: (context, index) => TransactionListItem(item: trans['data'][index], index: index),
+              itemBuilder: (context, index) => TransactionListItem(item: trans['data'][index], index: index, itemCount: trans['data'].length),
             ),
             // List without divider
             // sliver: SliverList(

@@ -8,8 +8,9 @@ import 'constants/colors.dart';
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
-  const MyApp({super.key, required this.initialRoute});
+  const MyApp({super.key, required this.initialRoute, required this.appRoute});
   final String initialRoute;
+  final AppRoute appRoute;
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +123,7 @@ class MyApp extends StatelessWidget {
       ),
       darkTheme: ThemeData.dark(),
       onGenerateRoute: (RouteSettings routeSettings) {
-        return AppRoute.onGenerateRoute(routeSettings);
+        return appRoute.onGenerateRoute(routeSettings);
       },
       initialRoute: initialRoute,
       builder: EasyLoading.init()

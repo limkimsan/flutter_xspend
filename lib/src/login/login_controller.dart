@@ -19,9 +19,9 @@ class LoginController {
 
           // Check if the user is not existed then create new
           // If the user is already existed then update the serverId of the existing user
-          UserController.handleCreateUpdateUser(email);
-
-          successCallback?.call();
+          UserController.handleCreateUpdateUser(email, () {
+            successCallback?.call();
+          });
         }, (errorMsg) {
           failureCallback?.call('Failed to login.');
         });

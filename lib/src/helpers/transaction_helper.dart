@@ -1,7 +1,9 @@
 import 'package:intl/intl.dart';
+import 'package:collection/collection.dart';
 
 import 'package:flutter_xspend/src/utils/currency_util.dart';
 import 'package:flutter_xspend/src/constants/transaction_constant.dart';
+import 'package:flutter_xspend/src/models/transaction.dart';
 
 class TransactionHelper {
   // transType: the type of the transaction (0 = expense, 1 = income)
@@ -64,5 +66,18 @@ class TransactionHelper {
     ).format(result);
 
     return currencyType == "khr" ? formattedKhr : formattedUsd;
+  }
+
+  static getGroupedTransactions(transactions) {
+    final groupedList = groupBy(transactions, (t) => (t as Transaction).transactionDate);
+    final formattedList = [];
+    groupedList.forEach((key, value) {
+      final obj = {
+        'title': {'date': key.toString(), 'total': getFormattedTotal(value)},
+        'data': value,
+      };
+      formattedList.add(obj);
+    });
+    return formattedList;
   }
 }

@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'home_header.dart';
 import 'home_transaction_duration.dart';
 import 'transaction_list.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/new_transaction/new_transaction_view.dart';
+import 'package:flutter_xspend/src/bloc/transaction_bloc.dart';
 
-class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+class HomeView extends StatefulWidget {
+  const HomeView({super.key, required this.transactionBloc});
+
+  final TransactionBloc transactionBloc;
 
   static const routeName = '/home';
 
   @override
-  Widget build(BuildContext context) {
+  State<HomeView> createState() => _HomeViewState();
+}
 
+class _HomeViewState extends State<HomeView> {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,  // hide the back button
         toolbarHeight: 220,
         flexibleSpace: Container(
           decoration: const BoxDecoration(color: background),
@@ -41,7 +50,12 @@ class HomeView extends StatelessWidget {
           ),
         ),
       ),
-      body: const TransactionList(),
+      body: Builder(
+        builder: (_) => BlocProvider.value(
+          value: widget.transactionBloc,
+          child: const TransactionList(),
+        )
+      ),
       floatingActionButton: SizedBox(
         height: 56,
         width: 56,

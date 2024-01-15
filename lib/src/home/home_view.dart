@@ -9,7 +9,9 @@ import 'package:flutter_xspend/src/new_transaction/new_transaction_view.dart';
 import 'package:flutter_xspend/src/bloc/transaction_bloc.dart';
 
 class HomeView extends StatefulWidget {
-  const HomeView({super.key});
+  const HomeView({super.key, required this.transactionBloc});
+
+  final TransactionBloc transactionBloc;
 
   static const routeName = '/home';
 
@@ -18,14 +20,6 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  final TransactionBloc transactionBloc = TransactionBloc();
-
-  @override
-  void dispose() {
-    transactionBloc.close();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +51,7 @@ class _HomeViewState extends State<HomeView> {
       ),
       body: Builder(
         builder: (_) => BlocProvider(
-          create: (ctx) => transactionBloc,
+          create: (ctx) => widget.transactionBloc,
           child: const TransactionList(),
         )
       ),

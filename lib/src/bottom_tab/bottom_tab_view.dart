@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_xspend/src/home/home_view.dart';
-// import 'package:flutter_xspend/src/constants/colors.dart';
+import 'package:flutter_xspend/src/bloc/transaction_bloc.dart';
 
 class BottomTabView extends StatefulWidget {
-  const BottomTabView({super.key});
+  const BottomTabView({super.key, required this.transactionBloc});
+
+  final TransactionBloc transactionBloc;
 
   static const routeName = '/bottom_tab';
 
@@ -23,7 +25,7 @@ class _BottomTabViewState extends State<BottomTabView> {
 
   @override
   Widget build(BuildContext context) {
-    Widget activePage = const HomeView();
+    Widget activePage = HomeView(transactionBloc: widget.transactionBloc,);
 
     return Scaffold(
       body: activePage,

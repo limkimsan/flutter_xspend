@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
 import 'transaction_category_picker.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/models/category.dart';
 import 'package:flutter_xspend/src/models/user.dart';
 import 'package:flutter_xspend/src/models/transaction.dart';
+import 'package:flutter_xspend/src/bloc/transaction_bloc.dart';
 
 class NewTransactionView extends StatefulWidget {
   const NewTransactionView({super.key});
@@ -26,7 +28,8 @@ class _NewTransactionViewState extends State<NewTransactionView> {
   Category? selectedCategory;
   final amountController = TextEditingController();
   final noteController = TextEditingController();
-  bool isValid = false;
+  // bool isValid = false;
+  bool isValid = true;
   String errorMsg = '';
 
   @override
@@ -38,27 +41,27 @@ class _NewTransactionViewState extends State<NewTransactionView> {
   }
 
   void createTransaction() async {
-    setState(() { errorMsg = ''; });
-    const uuid = Uuid();
-    final transaction = Transaction()
-                          ..id = uuid.v4()
-                          ..amount = double.parse(amountController.text)
-                          ..currencyType = currencyType
-                          ..note = noteController.text
-                          ..transactionType = selectedCategory?.transactionType
-                          ..transactionDate = date
-                          ..synced = false
-                          ..category.value = selectedCategory
-                          ..user.value = await User.currentLoggedIn();
-    TransactionController.create(transaction, () {
-      print('== trans success =');
-      Navigator.of(context).pop();
-    }, (errorMsg) {
-      print('== trans error = $errorMsg');
-      setState(() {
-        errorMsg = 'Failed to create new transaction.';
-      });
-    });
+    // setState(() { errorMsg = ''; });
+    // const uuid = Uuid();
+    // final transaction = Transaction()
+    //                       ..id = uuid.v4()
+    //                       ..amount = double.parse(amountController.text)
+    //                       ..currencyType = currencyType
+    //                       ..note = noteController.text
+    //                       ..transactionType = selectedCategory?.transactionType
+    //                       ..transactionDate = date
+    //                       ..synced = false
+    //                       ..category.value = selectedCategory
+    //                       ..user.value = await User.currentLoggedIn();
+    // TransactionController.create(transaction, () {
+    //   print('== trans success =');
+    //   Navigator.of(context).pop();
+    // }, (errorMsg) {
+    //   print('== trans error = $errorMsg');
+    //   setState(() {
+    //     errorMsg = 'Failed to create new transaction.';
+    //   });
+    // });
   }
 
   void validate(fieldName, value) {
@@ -83,6 +86,10 @@ class _NewTransactionViewState extends State<NewTransactionView> {
   @override
   Widget build(BuildContext context) {
     // Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
+
+    final state = context.watch<TransactionBloc>().state;
+    // context.watch<TransactionBloc>().state;
+    print('=== trans state = ${state.transactions.length}');
 
     return Scaffold(
       appBar: AppBar(

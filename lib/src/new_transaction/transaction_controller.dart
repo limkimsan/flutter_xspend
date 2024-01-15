@@ -12,27 +12,31 @@ class TransactionController {
   }
 
   static create(Transaction transaction, successCallback, failureCallback) async {
-    if (await InternetConnectionChecker().hasConnection) {
-      try {
-        final response = await TransactionService.sendCreateRequest(transaction);
-        ApiResponseUtil.handleResponse(response, () {
-          transaction.synced = true;
-          Transaction.create(transaction);
+    // save new transaction in local
+    Transaction.create(transaction);
+    successCallback?.call();
 
-          successCallback?.call();
-        }, (errorMsg) {
-          failureCallback?.call('Failed to create new transaction.');
-        });
-      }
-      catch (error) {
-        print('= create transaction error = $error');
-        Transaction.create(transaction);
-        failureCallback?.call('Failed to create new transaction.');
-      }
-    }
-    else {
-      Transaction.create(transaction);
-    }
+    // if (await InternetConnectionChecker().hasConnection) {
+    //   try {
+    //     final response = await TransactionService.sendCreateRequest(transaction);
+    //     ApiResponseUtil.handleResponse(response, () {
+    //       transaction.synced = true;
+    //       Transaction.create(transaction);
+    //       successCallback?.call();
+    //     }, (errorMsg) {
+    //       failureCallback?.call('Failed to create new transaction.');
+    //     });
+    //   }
+    //   catch (error) {
+    //     print('= create transaction error = $error');
+    //     Transaction.create(transaction);
+    //     failureCallback?.call('Failed to create new transaction.');
+    //   }
+    // }
+    // else {
+    //   Transaction.create(transaction);
+    //   successCallback?.call();
+    // }
   }
 
   static loadTransactions(successCallback, [failureCallback]) async {

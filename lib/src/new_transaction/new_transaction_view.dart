@@ -28,8 +28,7 @@ class _NewTransactionViewState extends State<NewTransactionView> {
   Category? selectedCategory;
   final amountController = TextEditingController();
   final noteController = TextEditingController();
-  // bool isValid = false;
-  bool isValid = true;
+  bool isValid = false;
   String errorMsg = '';
 
   @override
@@ -41,27 +40,28 @@ class _NewTransactionViewState extends State<NewTransactionView> {
   }
 
   void createTransaction() async {
-    // setState(() { errorMsg = ''; });
-    // const uuid = Uuid();
-    // final transaction = Transaction()
-    //                       ..id = uuid.v4()
-    //                       ..amount = double.parse(amountController.text)
-    //                       ..currencyType = currencyType
-    //                       ..note = noteController.text
-    //                       ..transactionType = selectedCategory?.transactionType
-    //                       ..transactionDate = date
-    //                       ..synced = false
-    //                       ..category.value = selectedCategory
-    //                       ..user.value = await User.currentLoggedIn();
-    // TransactionController.create(transaction, () {
-    //   print('== trans success =');
-    //   Navigator.of(context).pop();
-    // }, (errorMsg) {
-    //   print('== trans error = $errorMsg');
-    //   setState(() {
-    //     errorMsg = 'Failed to create new transaction.';
-    //   });
-    // });
+    setState(() { errorMsg = ''; });
+    const uuid = Uuid();
+    DateTime tDate = date!.copyWith(hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
+    final transaction = Transaction()
+                          ..id = uuid.v4()
+                          ..amount = double.parse(amountController.text)
+                          ..currencyType = currencyType
+                          ..note = noteController.text
+                          ..transactionType = selectedCategory?.transactionType
+                          ..transactionDate = tDate
+                          ..synced = false
+                          ..category.value = selectedCategory
+                          ..user.value = await User.currentLoggedIn();
+    TransactionController.create(transaction, () {
+      context.read<TransactionBloc>().add(AddNewTransaction(transaction: transaction));
+      Navigator.of(context).pop();
+    }, (errorMsg) {
+      print('== trans error = $errorMsg');
+      setState(() {
+        errorMsg = 'Failed to create new transaction.';
+      });
+    });
   }
 
   void validate(fieldName, value) {
@@ -85,12 +85,6 @@ class _NewTransactionViewState extends State<NewTransactionView> {
 
   @override
   Widget build(BuildContext context) {
-    // Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
-
-    final state = context.watch<TransactionBloc>().state;
-    // context.watch<TransactionBloc>().state;
-    print('=== trans state = ${state.transactions.length}');
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Create New Transaction'),

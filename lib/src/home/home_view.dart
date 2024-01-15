@@ -24,6 +24,7 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,  // hide the back button
         toolbarHeight: 220,
         flexibleSpace: Container(
           decoration: const BoxDecoration(color: background),
@@ -50,8 +51,8 @@ class _HomeViewState extends State<HomeView> {
         ),
       ),
       body: Builder(
-        builder: (_) => BlocProvider(
-          create: (ctx) => widget.transactionBloc,
+        builder: (_) => BlocProvider.value(
+          value: widget.transactionBloc,
           child: const TransactionList(),
         )
       ),

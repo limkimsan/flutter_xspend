@@ -5,12 +5,14 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'src/app.dart';
 import 'src/constants/colors.dart';
 import 'src/routes/app_route.dart';
+import 'src/models/category.dart';
 
 void main() async {
   String env = 'development';
   await dotenv.load(fileName: '.env.$env');
-  final initialRoute = await AppRoute.getInitialRoute();
+  Category.seedData();
   final appRoute = AppRoute();
+  final initialRoute = await appRoute.getInitialRoute();
 
   runApp(MyApp(initialRoute: initialRoute, appRoute: appRoute));
   configLoading();

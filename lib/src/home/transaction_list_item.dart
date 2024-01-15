@@ -7,11 +7,12 @@ import 'package:flutter_xspend/src/constants/transaction_constant.dart';
 import 'package:flutter_xspend/src/helpers/transaction_helper.dart';
 
 class TransactionListItem extends StatelessWidget {
-  const TransactionListItem({super.key, required this.item, required this.index});
+  const TransactionListItem({super.key, required this.item, required this.index, required this.itemCount});
 
   // ignore: prefer_typing_uninitialized_variables
   final item;
   final int index;
+  final int itemCount;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class TransactionListItem extends StatelessWidget {
     }
 
     return ListTile(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+      contentPadding: EdgeInsets.only(left: 16, right: 16, bottom: index == itemCount - 1 ? 6 : 0),
       leading: SizedBox(
         height: double.infinity,
         child: CircleAvatar(

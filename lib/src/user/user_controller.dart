@@ -6,7 +6,7 @@ import 'user_service.dart';
 import 'package:flutter_xspend/src/models/user.dart';
 
 class UserController {
-  static handleCreateUpdateUser(email) async {
+  static handleCreateUpdateUser(email, successCallback) async {
     final response = await UserService.getDetail(email);
     final user = await User.findByEmail(email);
     final userInfo = jsonDecode(response.body);
@@ -22,9 +22,11 @@ class UserController {
           ..loggedIn = true
           ..serverId = userInfo['id']
       );
+      successCallback?.call();
     }
     else {
       User.update(user.id, { 'serverId': userInfo['id'] });
+      successCallback?.call();
     }
   }
 }

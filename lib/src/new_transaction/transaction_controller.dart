@@ -35,6 +35,11 @@ class TransactionController {
     }
   }
 
+  static loadTransactions(successCallback, [failureCallback]) async {
+    final transactions = await Transaction.getAllByDurationType('month');
+    successCallback?.call(transactions);
+  }
+
   static getGroupedTransactions() async {
     final transactions = await Transaction.getAllByDurationType('month');
     final groupedList = groupBy(transactions, (t) => (t as Transaction).transactionDate);

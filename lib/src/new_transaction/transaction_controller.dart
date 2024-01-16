@@ -57,4 +57,9 @@ class TransactionController {
     });
     return formattedList;
   }
+
+  static getTransactionDetail(id, callback) async {
+    final transaction = await Transaction.findById(id);
+    callback?.call(transaction);
+  }
 }

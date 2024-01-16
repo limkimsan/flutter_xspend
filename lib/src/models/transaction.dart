@@ -70,6 +70,11 @@ class Transaction {
     }
   }
 
+  static findById(id) async {
+    final isar = await IsarService().getDB();
+    return await isar.transactions.filter().idEqualTo(id).findFirst();
+  }
+
   static getAllOfCurrentUser() async {
     final user = await User.currentLoggedIn();
     final isar = await IsarService().getDB();

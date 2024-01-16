@@ -74,7 +74,7 @@ class TransactionListItem extends StatelessWidget {
         motion: const ScrollMotion(),
         children: [
           SlidableAction(
-            onPressed: (context) { Navigator.of(context).pushNamed(NewTransactionView.routeName); },
+            onPressed: (context) { Navigator.of(context).pushNamed(NewTransactionView.routeName, arguments: { 'transactionId': item.id }); },
             backgroundColor: lightBlue,
             foregroundColor: Colors.white,
             icon: Icons.edit_outlined,

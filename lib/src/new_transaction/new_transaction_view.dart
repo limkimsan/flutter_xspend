@@ -37,6 +37,21 @@ class _NewTransactionViewState extends State<NewTransactionView> {
     setState(() {
       currencyType = 'KHR';
     });
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {  // Schedule a callback to execute after the first frame, where context is available:
+      if (ModalRoute.of(context)?.settings.arguments != null) {
+        final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+        TransactionController.getTransactionDetail(args['transactionId'], (transaction) {
+          setState(() {
+            currencyType = transaction.currencyType;
+            date = transaction.transactionDate;
+            selectedCategory = transaction.category.value;
+          });
+          amountController.text = transaction.amount.toString();
+          noteController.text = transaction.note;
+        });
+      }
+    });
   }
 
   void createTransaction() async {
@@ -136,7 +151,7 @@ class _NewTransactionViewState extends State<NewTransactionView> {
                         }),
                       ],
                     ),
-                    TransactionDatePicker(updateSelectedDate: (selectedDate) {
+                    TransactionDatePicker(defaultDate: date, updateSelectedDate: (selectedDate) {
                       setState(() { date = selectedDate; });
                       validate('date', date);
                     }),
@@ -158,7 +173,7 @@ class _NewTransactionViewState extends State<NewTransactionView> {
                   ),
                   onPressed: () { isValid == true ? createTransaction() : null; },
                   child: Text(
-                    'Create',
+                    ModalRoute.of(context)?.settings.arguments != null ? 'Update' : 'Create',
                     style: Theme.of(context).textTheme.titleMedium
                   ),
                 ),

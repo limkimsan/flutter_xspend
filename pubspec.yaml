@@ -21,6 +21,7 @@ dependencies:
   flutter_easyloading: ^3.0.5
   flutter_localizations:
     sdk: flutter
+  flutter_slidable: ^3.0.1
   flutter_sticky_header: ^0.6.5
   flutter_vector_icons: ^2.0.0
   http: ^1.1.2

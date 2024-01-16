@@ -47,7 +47,7 @@ class _TransactionListState extends State<TransactionList> {
     Widget sectionHeader(transactionDate, total) {
       return Container(
         alignment: Alignment.centerLeft,
-        margin: const EdgeInsets.only(bottom: 6),
+        // margin: const EdgeInsets.only(bottom: 6),
         padding: const EdgeInsets.symmetric(horizontal: 12),
         height: 30,
         width: double.infinity,
@@ -75,9 +75,9 @@ class _TransactionListState extends State<TransactionList> {
           SliverStickyHeader(
             header: sectionHeader(trans['title']['date'], trans['title']['total']),
             sliver: SliverList.separated(
-              separatorBuilder: (context, index) => const Divider(color: grey),
+              separatorBuilder: (context, index) => const Divider(color: grey, height: 1),
               itemCount: trans['data'].length,
-              itemBuilder: (context, index) => TransactionListItem(item: trans['data'][index], index: index, itemCount: trans['data'].length),
+              itemBuilder: (context, index) => TransactionListItem(item: trans['data'][index], index: index),
             ),
             // List without divider
             // sliver: SliverList(

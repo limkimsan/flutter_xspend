@@ -151,7 +151,7 @@ class _NewTransactionViewState extends State<NewTransactionView> {
                         }),
                       ],
                     ),
-                    TransactionDatePicker(defaultDate: date, updateSelectedDate: (selectedDate) {
+                    TransactionDatePicker(selectedDate: date, updateSelectedDate: (selectedDate) {
                       setState(() { date = selectedDate; });
                       validate('date', date);
                     }),

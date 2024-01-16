@@ -30,6 +30,9 @@ class _NewTransactionViewState extends State<NewTransactionView> {
   final noteController = TextEditingController();
   bool isValid = false;
   String errorMsg = '';
+  bool isEdit = false;
+  String? selectedTransactionId;
+  bool isSending = false;
 
   @override
   void initState() {
@@ -40,7 +43,9 @@ class _NewTransactionViewState extends State<NewTransactionView> {
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {  // Schedule a callback to execute after the first frame, where context is available:
       if (ModalRoute.of(context)?.settings.arguments != null) {
+        isEdit = true;
         final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+        selectedTransactionId = args['transactionId'];
         TransactionController.getTransactionDetail(args['transactionId'], (transaction) {
           setState(() {
             currencyType = transaction.currencyType;
@@ -54,12 +59,16 @@ class _NewTransactionViewState extends State<NewTransactionView> {
     });
   }
 
-  void createTransaction() async {
+  void saveTransaction() async {
+    if (isSending) {
+      return;
+    }
+    isSending = true;
     setState(() { errorMsg = ''; });
     const uuid = Uuid();
     DateTime tDate = date!.copyWith(hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
     final transaction = Transaction()
-                          ..id = uuid.v4()
+                          ..id = isEdit ? selectedTransactionId : uuid.v4()
                           ..amount = double.parse(amountController.text)
                           ..currencyType = currencyType
                           ..note = noteController.text
@@ -68,15 +77,24 @@ class _NewTransactionViewState extends State<NewTransactionView> {
                           ..synced = false
                           ..category.value = selectedCategory
                           ..user.value = await User.currentLoggedIn();
-    TransactionController.create(transaction, () {
-      context.read<TransactionBloc>().add(AddNewTransaction(transaction: transaction));
-      Navigator.of(context).pop();
-    }, (errorMsg) {
-      print('== trans error = $errorMsg');
-      setState(() {
-        errorMsg = 'Failed to create new transaction.';
+
+    if (isEdit) {
+      TransactionController.update(transaction, (transactions) {
+        context.read<TransactionBloc>().add(LoadTransaction(transactions: transactions));
+        Navigator.of(context).pop();
       });
-    });
+    }
+    else {
+      TransactionController.create(transaction, () {
+        context.read<TransactionBloc>().add(AddNewTransaction(transaction: transaction));
+        Navigator.of(context).pop();
+      }, (errorMsg) {
+        print('== trans error = $errorMsg');
+        setState(() {
+          errorMsg = 'Failed to create new transaction.';
+        });
+      });
+    }
   }
 
   void validate(fieldName, value) {
@@ -155,7 +173,9 @@ class _NewTransactionViewState extends State<NewTransactionView> {
                       setState(() { date = selectedDate; });
                       validate('date', date);
                     }),
-                    TransactionNoteInput(noteController),
+                    TransactionNoteInput(noteController, (value) {
+                      validate('note', value);
+                    }),
                   ],
                 )
               ),
@@ -171,9 +191,9 @@ class _NewTransactionViewState extends State<NewTransactionView> {
                   style: ElevatedButton.styleFrom(
                     primary: isValid ? primary : pewter,
                   ),
-                  onPressed: () { isValid == true ? createTransaction() : null; },
+                  onPressed: () { isValid == true ? saveTransaction() : null; },
                   child: Text(
-                    ModalRoute.of(context)?.settings.arguments != null ? 'Update' : 'Create',
+                    isEdit ? 'Update' : 'Create',
                     style: Theme.of(context).textTheme.titleMedium
                   ),
                 ),

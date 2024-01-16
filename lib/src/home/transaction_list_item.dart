@@ -66,6 +66,8 @@ class TransactionListItem extends StatelessWidget {
       );
     }
 
+    // Todo: make the the list item update after editing the transaction
+
     return Slidable(
       // Specify a key if the Slidable is dismissible.
       key: const ValueKey(0),

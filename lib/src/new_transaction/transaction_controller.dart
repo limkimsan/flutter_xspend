@@ -53,6 +53,13 @@ class TransactionController {
     });
   }
 
+  static delete(String id, successCallback) {
+    Transaction.deleteById(id);
+    Future.delayed(const Duration(milliseconds: 100), () {
+      loadTransactions((transactions) => {successCallback?.call(transactions)});
+    });
+  }
+
   static loadTransactions(successCallback, [failureCallback]) async {
     final transactions = await Transaction.getAllByDurationType('month');
     successCallback?.call(transactions);

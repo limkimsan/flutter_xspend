@@ -70,9 +70,16 @@ class Transaction {
     }
   }
 
-  static findById(id) async {
+  static findById(String id) async {
     final isar = await IsarService().getDB();
     return await isar.transactions.filter().idEqualTo(id).findFirst();
+  }
+
+  static void deleteById(String id) async {
+    final isar = await IsarService().getDB();
+    isar.writeTxn(() async {
+      await isar.transactions.filter().idEqualTo(id).deleteAll();
+    });
   }
 
   static getAllOfCurrentUser() async {

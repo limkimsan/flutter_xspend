@@ -3,22 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'currency_type_bottom_sheet.dart';
 
-class CurrencyTypePicker extends StatefulWidget {
+class CurrencyTypePicker extends StatelessWidget {
   const CurrencyTypePicker(this.selectedCurrency, this.updateSelectedCurrency, {super.key});
 
   final String selectedCurrency;
   final void Function(String currency) updateSelectedCurrency;
 
   @override
-  State<CurrencyTypePicker> createState() => _CurrencyTypePickerState();
-}
-
-class _CurrencyTypePickerState extends State<CurrencyTypePicker> {
-  @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        CurrencyTypeBottomSheet(widget.selectedCurrency, widget.updateSelectedCurrency).showBottomSheet(context);
+        CurrencyTypeBottomSheet(selectedCurrency, updateSelectedCurrency).showBottomSheet(context);
       },
       borderRadius: BorderRadius.circular(10),
       child: Container(
@@ -30,7 +25,7 @@ class _CurrencyTypePickerState extends State<CurrencyTypePicker> {
         ),
         child: Row(
           children: [
-            Text(widget.selectedCurrency),
+            Text(selectedCurrency),
             const Icon(Icons.keyboard_arrow_down_outlined, color: Colors.white)
           ],
         ),

@@ -57,7 +57,7 @@ class Transaction {
 
   static update(id, Map<String, dynamic> params) async {
     final isar = await IsarService().getDB();
-    Transaction? transaction = await isar.transactions.get(id);
+    Transaction? transaction = await findById(id);
     if (transaction != null) {
       Map<String, dynamic> newTransaction = transaction.toMap();
       params.forEach((key, value) {
@@ -68,6 +68,18 @@ class Transaction {
         isar.transactions.putSync(formattedParams);
       });
     }
+  }
+
+  static findById(String id) async {
+    final isar = await IsarService().getDB();
+    return await isar.transactions.filter().idEqualTo(id).findFirst();
+  }
+
+  static void deleteById(String id) async {
+    final isar = await IsarService().getDB();
+    isar.writeTxn(() async {
+      await isar.transactions.filter().idEqualTo(id).deleteAll();
+    });
   }
 
   static getAllOfCurrentUser() async {

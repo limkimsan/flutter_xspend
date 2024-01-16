@@ -39,6 +39,27 @@ class TransactionController {
     // }
   }
 
+  static update(Transaction transaction, successCallback) {
+    Transaction.update(transaction.id, {
+      'amount': transaction.amount,
+      'currencyType': transaction.currencyType,
+      'note': transaction.note,
+      'transactionType': transaction.transactionType,
+      'transactionDate': transaction.transactionDate,
+      'category': transaction.category,
+    });
+    Future.delayed(const Duration(milliseconds: 100), () {
+      loadTransactions((transactions) => {successCallback?.call(transactions)});
+    });
+  }
+
+  static delete(String id, successCallback) {
+    Transaction.deleteById(id);
+    Future.delayed(const Duration(milliseconds: 100), () {
+      loadTransactions((transactions) => {successCallback?.call(transactions)});
+    });
+  }
+
   static loadTransactions(successCallback, [failureCallback]) async {
     final transactions = await Transaction.getAllByDurationType('month');
     successCallback?.call(transactions);
@@ -56,5 +77,10 @@ class TransactionController {
       formattedList.add(obj);
     });
     return formattedList;
+  }
+
+  static getTransactionDetail(id, callback) async {
+    final transaction = await Transaction.findById(id);
+    callback?.call(transaction);
   }
 }

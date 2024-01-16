@@ -20,12 +20,12 @@ class TransactionListItem extends StatelessWidget {
     Widget subtitle() {
       return Column(
         children: [
-          const Row(
+          Row(
             children: [
-              Icon(Icons.credit_card, size: 16, color: pewter),
+              const Icon(Icons.credit_card, size: 16, color: pewter),
               Padding(
-                padding: EdgeInsets.only(left: 8),
-                child: Text('USD', style: TextStyle(color: pewter)),
+                padding: const EdgeInsets.only(left: 8),
+                child: Text(item.currencyType, style: const TextStyle(color: pewter)),
               ),
             ],
           ),

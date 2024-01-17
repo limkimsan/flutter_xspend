@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
@@ -7,6 +7,7 @@ import 'package:flutter_xspend/src/login/login_service.dart';
 import 'package:flutter_xspend/src/utils/api_response_util.dart';
 import 'package:flutter_xspend/src/models/user.dart';
 import 'package:flutter_xspend/src/user/user_controller.dart';
+import 'package:flutter_xspend/src/login/login_view.dart';
 
 class LoginController {
   static Future<void> login(email, password, successCallback, failureCallback) async {
@@ -39,5 +40,13 @@ class LoginController {
         failureCallback?.call('User is not existed.');
       }
     }
+  }
+
+  static logout(context) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('TOKEN');
+    final user = await User.currentLoggedIn();
+    User.markAsLoggedOut(user.id);
+    Navigator.pushNamedAndRemoveUntil(context, LoginView.routeName, (route) => false);
   }
 }

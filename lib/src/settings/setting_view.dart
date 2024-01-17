@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/utils/color_util.dart';
+import 'package:flutter_xspend/src/login/login_view.dart';
+import 'package:flutter_xspend/src/login/login_controller.dart';
 
 class SettingView extends StatelessWidget {
   const SettingView({super.key});
@@ -70,7 +73,28 @@ class SettingView extends StatelessWidget {
       ),
       body: Column(
         children: [
-          listItems()
+          Flexible(child: listItems()),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: SizedBox(
+              width: double.infinity,
+              child: OutlinedButton(
+                onPressed: () {
+                  LoginController.logout(context);
+                },
+                child: Text(
+                  'Logout',
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    color: primary
+                  )
+                )
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 6),
+            child: Text('Version ${dotenv.env['APP_VERSION']}', style: const TextStyle(color: grey)),
+          )
         ]
       ),
     );

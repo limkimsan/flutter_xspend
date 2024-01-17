@@ -50,7 +50,7 @@ class User {
 
   static update(id, Map<String, dynamic> params) async {
     final isar = await IsarService().getDB();
-    User? user = await isar.users.get(id);
+    User? user = await isar.users.filter().idEqualTo(id).findFirst();
     if (user != null) {
       Map<String, dynamic> newUser = user.toMap();
       params.forEach((key, value) {

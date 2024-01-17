@@ -35,7 +35,6 @@ class AppRoute {
             return BottomTabView(transactionBloc: transactionBloc);
           default:
             return const LoginView();
-            // return BottomTabView(transactionBloc: transactionBloc);
         }
       },
     );

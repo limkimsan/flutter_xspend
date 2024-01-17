@@ -3,33 +3,57 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/utils/color_util.dart';
-import 'package:flutter_xspend/src/login/login_view.dart';
 import 'package:flutter_xspend/src/login/login_controller.dart';
+import 'base_currency_bottom_sheet.dart';
 
-class SettingView extends StatelessWidget {
+class SettingView extends StatefulWidget {
   const SettingView({super.key});
+
+  @override
+  State<SettingView> createState() => _SettingViewState();
+}
+
+class _SettingViewState extends State<SettingView> {
+  String basedCurrency = 'usd';
+
+  void onPressItem(type) {
+    if (type == 2) {
+      BaseCurrencyBottomSheet(
+        basedCurrency: basedCurrency,
+        updateBasedCurrency: (currency) {
+          setState(() {
+            basedCurrency = currency;
+          });
+        },
+      ).showBottomSheet(context);
+    }
+  }
 
   Widget listItems() {
     final items = [
       {
         'label': 'Profile',
         'icon': Icons.person,
-        'color': lightBlue
+        'color': lightBlue,
+        'type': 0,
       },
       {
         'label': 'Exchange rate',
         'icon': Icons.show_chart_rounded,
-        'color': getColorFromHex('#00f6ff')
+        'color': getColorFromHex('#00f6ff'),
+        'type': 1,
       },
       {
         'label': 'Base currency',
         'icon': Icons.currency_exchange_outlined,
-        'color': lightGreen
+        'color': lightGreen,
+        'type': 2,
       },
       {
         'label': 'Profile',
         'icon': Icons.cleaning_services_outlined,
-        'color': red
+        'color': red,
+        'type': 3,
       },
     ];
 
@@ -38,7 +62,7 @@ class SettingView extends StatelessWidget {
         return Wrap(
           children: [
             ListTile(
-              onTap: () { print('==== tap item =='); },
+              onTap: () { onPressItem(item['type']); },
               contentPadding: const EdgeInsets.only(right: 10, left: 16),
               leading: Icon(item['icon'] as IconData, color: item['color'] as Color),
               title: Text(item['label'].toString(), style: const TextStyle(color: Colors.white)),
@@ -50,7 +74,7 @@ class SettingView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     if (item['label'] == 'Base currency')
-                      const Text('USD', style: TextStyle(color: primary, fontSize: 14, fontWeight: FontWeight.bold)),
+                      Text(basedCurrency.toUpperCase(), style: const TextStyle(color: primary, fontSize: 14, fontWeight: FontWeight.bold)),
 
                     const Icon(Icons.chevron_right_outlined, color: primary, size: 30)
                   ],

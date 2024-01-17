@@ -38,7 +38,7 @@ class _NewTransactionViewState extends State<NewTransactionView> {
   void initState() {
     super.initState();
     setState(() {
-      currencyType = 'KHR';
+      currencyType = 'khr';
     });
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {  // Schedule a callback to execute after the first frame, where context is available:

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/shared/bottom_sheet/bottom_sheet_body.dart';
 import 'package:flutter_xspend/src/constants/transaction_constant.dart';
 
-class CurrencyTypeBottomSheet extends StatefulWidget {
-  const CurrencyTypeBottomSheet(this.selectedCurrency, this.updateSelectedCurrency, {super.key});
+class BaseCurrencyBottomSheet extends StatefulWidget {
+  const BaseCurrencyBottomSheet({super.key, required this.basedCurrency, required this.updateBasedCurrency});
 
-  final String selectedCurrency;
-  final void Function(String currency) updateSelectedCurrency;
+  final String basedCurrency;
+  final void Function(String currency) updateBasedCurrency;
 
   void showBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -19,11 +20,11 @@ class CurrencyTypeBottomSheet extends StatefulWidget {
   }
 
   @override
-  State<CurrencyTypeBottomSheet> createState() => _CurrencyTypeBottomSheetState();
+  State<BaseCurrencyBottomSheet> createState() => _BaseCurrencyBottomSheetState();
 }
 
-class _CurrencyTypeBottomSheetState extends State<CurrencyTypeBottomSheet> {
-  Widget currencyPicker() {
+class _BaseCurrencyBottomSheetState extends State<BaseCurrencyBottomSheet> {
+  Widget currencyPicker(context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -31,8 +32,11 @@ class _CurrencyTypeBottomSheetState extends State<CurrencyTypeBottomSheet> {
           for (int i = 0; i < currencyTypes.length; i++)
             Wrap(children: [
               InkWell(
-                onTap: () {
-                  widget.updateSelectedCurrency(currencyTypes[i]);
+                onTap: () async {
+                  final SharedPreferences prefs = await SharedPreferences.getInstance();
+                  await prefs.setString('BASED_CURRENCY', currencyTypes[i]);
+                  widget.updateBasedCurrency(currencyTypes[i]);
+                  Navigator.of(context).pop();
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -41,13 +45,10 @@ class _CurrencyTypeBottomSheetState extends State<CurrencyTypeBottomSheet> {
                       child: SizedBox(
                         height: 48,
                         width: double.infinity,
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(currencyTypes[i].toUpperCase())
-                        )
+                        child: Align(alignment: Alignment.centerLeft, child: Text(currencyTypes[i].toUpperCase()))
                       ),
                     ),
-                    if (widget.selectedCurrency == currencyTypes[i])
+                    if (widget.basedCurrency == currencyTypes[i])
                       const Icon(Icons.check, color: primary)
                   ],
                 ),
@@ -62,15 +63,13 @@ class _CurrencyTypeBottomSheetState extends State<CurrencyTypeBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    Widget body = BottomSheetBody(
-      title: 'Currency type',
-      titleIcon: const Icon(Icons.payments_outlined, color: Colors.green),
-      body: currencyPicker(),
-    );
-
     return FractionallySizedBox(
       // heightFactor: 0.6,
-      child: body,
+      child: BottomSheetBody(
+        title: 'Base currency',
+        titleIcon: const Icon(Icons.currency_exchange_outlined, color: lightGreen, size: 26),
+        body: currencyPicker(context),
+      ),
     );
   }
 }

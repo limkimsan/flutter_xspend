@@ -5,6 +5,7 @@ import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/utils/color_util.dart';
 import 'package:flutter_xspend/src/login/login_controller.dart';
 import 'base_currency_bottom_sheet.dart';
+import 'exchange_rate_bottom_sheet.dart';
 
 class SettingView extends StatefulWidget {
   const SettingView({super.key});
@@ -17,7 +18,10 @@ class _SettingViewState extends State<SettingView> {
   String basedCurrency = 'usd';
 
   void onPressItem(type) {
-    if (type == 2) {
+    if (type == 1) {
+      const ExchangeRateBottomSheet().showBottomSheet(context);
+    }
+    else if (type == 2) {
       BaseCurrencyBottomSheet(
         basedCurrency: basedCurrency,
         updateBasedCurrency: (currency) {

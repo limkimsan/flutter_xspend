@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'transaction_category_picker.dart';
 import 'currency_type_picker.dart';
@@ -37,11 +38,8 @@ class _NewTransactionViewState extends State<NewTransactionView> {
   @override
   void initState() {
     super.initState();
-    setState(() {
-      currencyType = 'khr';
-    });
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {  // Schedule a callback to execute after the first frame, where context is available:
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {  // Schedule a callback to execute after the first frame, where context is available:
       if (ModalRoute.of(context)?.settings.arguments != null) {
         isEdit = true;
         final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
@@ -56,6 +54,11 @@ class _NewTransactionViewState extends State<NewTransactionView> {
           noteController.text = transaction.note;
         });
       }
+
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      setState(() {
+        currencyType = prefs.getString('BASED_CURRENCY');
+      });
     });
   }
 

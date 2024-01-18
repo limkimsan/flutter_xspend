@@ -11,7 +11,7 @@ import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/models/category.dart';
 import 'package:flutter_xspend/src/models/user.dart';
 import 'package:flutter_xspend/src/models/transaction.dart';
-import 'package:flutter_xspend/src/bloc/transaction_bloc.dart';
+import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
 
 class NewTransactionView extends StatefulWidget {
   const NewTransactionView({super.key});

@@ -9,7 +9,7 @@ import 'package:flutter_xspend/src/sign_up/sign_up_view.dart';
 import 'package:flutter_xspend/src/new_transaction/new_transaction_view.dart';
 import 'package:flutter_xspend/src/isar/isar_service.dart';
 import 'package:flutter_xspend/src/models/user.dart';
-import 'package:flutter_xspend/src/bloc/transaction_bloc.dart';
+import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
 
 class AppRoute {
   final isarService = IsarService();

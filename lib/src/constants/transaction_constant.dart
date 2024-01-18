@@ -8,3 +8,5 @@ final transactionTypes = {
 };
 
 final currencyTypes = ['khr', 'usd'];
+
+const Map<String, int> defaultExchangeRate = { 'khr': 4100, 'usd': 1 };

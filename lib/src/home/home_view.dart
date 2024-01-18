@@ -6,7 +6,7 @@ import 'home_transaction_duration.dart';
 import 'transaction_list.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/new_transaction/new_transaction_view.dart';
-import 'package:flutter_xspend/src/bloc/transaction_bloc.dart';
+import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key, required this.transactionBloc});

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'src/app.dart';
 import 'src/constants/colors.dart';
 import 'src/routes/app_route.dart';
 import 'src/models/category.dart';
+
+import 'src/bloc/exchange_rate/exchange_rate_bloc.dart';
+import 'src/bloc/base_currency/base_currency_bloc.dart';
 
 void main() async {
   String env = 'development';
@@ -14,7 +18,18 @@ void main() async {
   final appRoute = AppRoute();
   final initialRoute = await appRoute.getInitialRoute();
 
-  runApp(MyApp(initialRoute: initialRoute, appRoute: appRoute));
+  ExchangeRateBloc exchangeRateBloc = ExchangeRateBloc();
+  BaseCurrencyBloc baseCurrencyBloc = BaseCurrencyBloc();
+
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: exchangeRateBloc),
+        BlocProvider.value(value: baseCurrencyBloc)
+      ],
+      child: MyApp(initialRoute: initialRoute, appRoute: appRoute)
+    )
+  );
   configLoading();
 }
 

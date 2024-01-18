@@ -1,5 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:collection/collection.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter_xspend/src/utils/currency_util.dart';
 import 'package:flutter_xspend/src/constants/transaction_constant.dart';
@@ -16,7 +17,7 @@ class TransactionHelper {
     final usdAmount = CurrencyUtil.getUSD(amount, transCurrencyType, exchangeRates);
 
     final formattedKhr = NumberFormat.currency(
-      symbol: 'KHR',
+      symbol: 'KHR ',
     ).format(khrAmount);
 
     final formattedUsd = NumberFormat.currency(
@@ -30,10 +31,7 @@ class TransactionHelper {
     return transType == transactionTypes['expense']!['value'] ? '-${currencies[displayCurrencyType]}' : currencies[displayCurrencyType];
   }
 
-  static getFormattedTotal(List transactions, [displayCurrency]) {
-    final baseCurrency = displayCurrency ?? 'usd';
-    // final exchangeRates = await storageService.getItem(EXCHANGE_RATE)
-    final exchangeRates = {'khr': 4100, 'usd': 1};
+  static getFormattedTotal(List transactions, Map<String, int> exchangeRate, String baseCurrency) {
     double khrIncome = 0;
     double usdIncome = 0;
     double khrExpense = 0;
@@ -41,12 +39,12 @@ class TransactionHelper {
 
     for (var transaction in transactions) {
       if (transaction.transactionType == transactionTypes['expense']!['value']) {
-        khrExpense += CurrencyUtil.getKHR(transaction.amount, transaction.currencyType, exchangeRates);
-        usdExpense += CurrencyUtil.getUSD(transaction.amount, transaction.currencyType, exchangeRates);
+        khrExpense += CurrencyUtil.getKHR(transaction.amount, transaction.currencyType, exchangeRate);
+        usdExpense += CurrencyUtil.getUSD(transaction.amount, transaction.currencyType, exchangeRate);
       }
       else if (transaction.transactionType == transactionTypes['income']!['value']) {
-        khrIncome += CurrencyUtil.getKHR(transaction.amount, transaction.currencyType, exchangeRates);
-        usdIncome += CurrencyUtil.getUSD(transaction.amount, transaction.currencyType, exchangeRates);
+        khrIncome += CurrencyUtil.getKHR(transaction.amount, transaction.currencyType, exchangeRate);
+        usdIncome += CurrencyUtil.getUSD(transaction.amount, transaction.currencyType, exchangeRate);
       }
     }
 
@@ -59,7 +57,7 @@ class TransactionHelper {
   static getCalculatedAmountForDisplay(currencyType, income, expense) {
     var result = income - expense;
     final formattedKhr = NumberFormat.currency(
-      symbol: 'KHR',
+      symbol: 'KHR ',
     ).format(result);
     final formattedUsd = NumberFormat.currency(
       symbol: '\$',
@@ -68,12 +66,12 @@ class TransactionHelper {
     return currencyType == "khr" ? formattedKhr : formattedUsd;
   }
 
-  static getGroupedTransactions(transactions) {
+  static getGroupedTransactions(transactions, exchangeRate, baseCurrency) {
     final groupedList = groupBy(transactions, (t) => (t as Transaction).transactionDate);
     final formattedList = [];
     groupedList.forEach((key, value) {
       final obj = {
-        'title': {'date': key.toString(), 'total': getFormattedTotal(value)},
+        'title': {'date': key.toString(), 'total': getFormattedTotal(value, exchangeRate, baseCurrency)},
         'data': value,
       };
       formattedList.add(obj);

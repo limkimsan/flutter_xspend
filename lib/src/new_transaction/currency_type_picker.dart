@@ -25,7 +25,7 @@ class CurrencyTypePicker extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Text(selectedCurrency),
+            Text(selectedCurrency.toUpperCase()),
             const Icon(Icons.keyboard_arrow_down_outlined, color: Colors.white)
           ],
         ),

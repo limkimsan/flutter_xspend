@@ -8,7 +8,11 @@ import 'package:flutter_xspend/src/constants/colors.dart';
 import 'transaction_list_item.dart';
 import 'package:flutter_xspend/src/new_transaction/transaction_controller.dart';
 import 'package:flutter_xspend/src/helpers/transaction_helper.dart';
-import 'package:flutter_xspend/src/bloc/transaction_bloc.dart';
+import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
+import 'package:flutter_xspend/src/bloc/exchange_rate/exchange_rate_bloc.dart';
+import 'package:flutter_xspend/src/bloc/base_currency/base_currency_bloc.dart';
+
+import 'package:flutter_xspend/src/utils/initial_util.dart';
 
 class TransactionList extends StatefulWidget {
   const TransactionList({super.key});
@@ -18,18 +22,38 @@ class TransactionList extends StatefulWidget {
 }
 
 class _TransactionListState extends State<TransactionList> {
+  final transactions = [];
+
   @override
   void initState() {
     super.initState();
     TransactionController.loadTransactions((transactions) {
       context.read<TransactionBloc>().add(LoadTransaction(transactions: transactions));
     });
+    loadExchangeRate();
+  }
+
+  void loadExchangeRate() {
+    InitialUtil.loadCurrencyAndExchangeRate((khrRate, usdRate, basedCurrency) {
+      if (khrRate != null) {
+        context.read<ExchangeRateBloc>().add(UpdateExchangeRate(exchangeRate: {
+          'khr': khrRate as int,
+          'usd': usdRate as int
+        }));
+        if (basedCurrency != null) {
+          context.read<BaseCurrencyBloc>().add(UpdateBaseCurrency(currency: basedCurrency));
+        }
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final state = context.watch<TransactionBloc>().state;
+    final rateState = context.watch<ExchangeRateBloc>().state;
+    final currencyState = context.watch<BaseCurrencyBloc>().state;
     double screenHeight = MediaQuery.of(context).size.height;
+
     if (state.transactions.isEmpty) {
       return SizedBox(
         height: screenHeight / 2,
@@ -70,7 +94,7 @@ class _TransactionListState extends State<TransactionList> {
         const SliverToBoxAdapter(
           child: TransactionLineChart(),
         ),
-        for (final trans in TransactionHelper.getGroupedTransactions(state.transactions)) ...[
+        for (final trans in TransactionHelper.getGroupedTransactions(state.transactions, rateState.exchangeRate, currencyState.currency)) ...[
           SliverStickyHeader(
             header: sectionHeader(trans['title']['date'], trans['title']['total']),
             sliver: SliverList.separated(

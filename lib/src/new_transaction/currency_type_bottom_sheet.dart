@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/shared/bottom_sheet/bottom_sheet_body.dart';
+import 'package:flutter_xspend/src/constants/transaction_constant.dart';
 
 class CurrencyTypeBottomSheet extends StatefulWidget {
   const CurrencyTypeBottomSheet(this.selectedCurrency, this.updateSelectedCurrency, {super.key});
@@ -23,7 +24,6 @@ class CurrencyTypeBottomSheet extends StatefulWidget {
 
 class _CurrencyTypeBottomSheetState extends State<CurrencyTypeBottomSheet> {
   Widget currencyPicker() {
-    final currencyTypes = ['KHR', 'USD'];
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -39,11 +39,13 @@ class _CurrencyTypeBottomSheetState extends State<CurrencyTypeBottomSheet> {
                   children: [
                     Flexible(
                       child: SizedBox(
-                          height: 48,
-                          width: double.infinity,
-                          child: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(currencyTypes[i].toString()))),
+                        height: 48,
+                        width: double.infinity,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(currencyTypes[i].toUpperCase())
+                        )
+                      ),
                     ),
                     if (widget.selectedCurrency == currencyTypes[i])
                       const Icon(Icons.check, color: primary)

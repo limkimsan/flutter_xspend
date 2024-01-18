@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_xspend/src/home/home_view.dart';
-import 'package:flutter_xspend/src/bloc/transaction_bloc.dart';
+import 'package:flutter_xspend/src/settings/setting_view.dart';
+import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
 
 class BottomTabView extends StatefulWidget {
   const BottomTabView({super.key, required this.transactionBloc});
@@ -26,6 +27,9 @@ class _BottomTabViewState extends State<BottomTabView> {
   @override
   Widget build(BuildContext context) {
     Widget activePage = HomeView(transactionBloc: widget.transactionBloc,);
+    if (_selectedIndex == 3) {
+      activePage = const SettingView();
+    }
 
     return Scaffold(
       body: activePage,

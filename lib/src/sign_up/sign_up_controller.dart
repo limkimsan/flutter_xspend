@@ -10,30 +10,45 @@ import 'package:flutter_xspend/src/models/user.dart';
 
 class SignUpController {
   static Future<void> signUp(name, email, password, successCallback, failureCallback) async {
-    if (await InternetConnectionChecker().hasConnection) {
-      try {
-        final response = await SignUpService().register(name, email, password);
-        ApiResponseUtil.handleResponse(response, () async {
-          final SharedPreferences prefs = await SharedPreferences.getInstance();
-          await prefs.setString('TOKEN', jsonDecode(response.body)['access_token']);
-          _createUser(name, email, password);
-          successCallback?.call();
-        }, (errorMsg) {
-          failureCallback?.call('Failed to sign up. Please try again.');
-        });
-      }
-      catch(error) {
-        failureCallback?.call('Failed to sign up new account.');
-      }
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if (!await User.isExisted(email)) {
+      _createUser(name, email, password);
+      const uuid = Uuid();
+      await prefs.setString('TOKEN', uuid.v4());
+      successCallback?.call();
+      successCallback?.call();
+      return;
     }
-    else {
-      if (!await User.isExisted(email)) {
-        _createUser(name, email, password);
-        successCallback?.call();
-        return;
-      }
-      failureCallback?.call('User is already existed.');
-    }
+    failureCallback?.call('User is already existed.');
+
+
+    // if (await InternetConnectionChecker().hasConnection) {
+    //   try {
+    //     final response = await SignUpService().register(name, email, password);
+    //     ApiResponseUtil.handleResponse(response, () async {
+    //       await prefs.setString('TOKEN', jsonDecode(response.body)['access_token']);
+    //       _createUser(name, email, password);
+    //       successCallback?.call();
+    //     }, (errorMsg) {
+    //       failureCallback?.call('Failed to sign up. Please try again.');
+    //     });
+    //   }
+    //   catch(error) {
+    //     failureCallback?.call('Failed to sign up new account.');
+    //   }
+    // }
+    // else {
+    //   if (!await User.isExisted(email)) {
+    //     _createUser(name, email, password);
+    //     const uuid = Uuid();
+    //     await prefs.setString('TOKEN', uuid.v4());
+    //     successCallback?.call();
+    //     successCallback?.call();
+    //     return;
+    //   }
+    //   failureCallback?.call('User is already existed.');
+    // }
   }
 
   static void _createUser(name, email, password) {

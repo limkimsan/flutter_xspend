@@ -65,20 +65,6 @@ class TransactionController {
     successCallback?.call(transactions);
   }
 
-  static getGroupedTransactions() async {
-    final transactions = await Transaction.getAllByDurationType('month');
-    final groupedList = groupBy(transactions, (t) => (t as Transaction).transactionDate);
-    final formattedList = [];
-    groupedList.forEach((key, value) {
-      final obj = {
-        'title': {'date': key.toString(), 'total': TransactionHelper.getFormattedTotal(value)},
-        'data': value,
-      };
-      formattedList.add(obj);
-    });
-    return formattedList;
-  }
-
   static getTransactionDetail(id, callback) async {
     final transaction = await Transaction.findById(id);
     callback?.call(transaction);

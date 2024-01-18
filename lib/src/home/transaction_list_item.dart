@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/models/transaction.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_xspend/src/utils/color_util.dart';
 import 'package:flutter_xspend/src/shared/category_icon.dart';
 import 'package:flutter_xspend/src/constants/transaction_constant.dart';
 import 'package:flutter_xspend/src/helpers/transaction_helper.dart';
+import 'package:flutter_xspend/src/bloc/exchange_rate/exchange_rate_bloc.dart';
 
 class TransactionListItem extends StatelessWidget {
   const TransactionListItem({super.key, required this.item, required this.index, required this.reloadData});
@@ -21,6 +23,7 @@ class TransactionListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final state = context.watch<ExchangeRateBloc>().state;
     Widget subtitle() {
       return Column(
         children: [
@@ -69,10 +72,10 @@ class TransactionListItem extends StatelessWidget {
             Text(
               TransactionHelper.getFormattedAmount(
                 item.transactionType,
-                'usd',
+                currencyTypes[i],
                 item.amount,
                 item.currencyType,
-                {'khr': 4100, 'usd': 1}
+                state.exchangeRate
               ),
               // TransactionHelper.getFormattedAmount(0, 'usd', item.amount, 'usd', {'khr': 4100, 'usd': 1}),
               style: TextStyle(

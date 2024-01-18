@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/utils/color_util.dart';
 import 'package:flutter_xspend/src/login/login_controller.dart';
 import 'base_currency_bottom_sheet.dart';
 import 'exchange_rate_bottom_sheet.dart';
+import 'package:flutter_xspend/src/bloc/base_currency/base_currency_bloc.dart';
 
 class SettingView extends StatefulWidget {
   const SettingView({super.key});
@@ -15,25 +17,16 @@ class SettingView extends StatefulWidget {
 }
 
 class _SettingViewState extends State<SettingView> {
-  String basedCurrency = 'usd';
-
   void onPressItem(type) {
     if (type == 1) {
       const ExchangeRateBottomSheet().showBottomSheet(context);
     }
     else if (type == 2) {
-      BaseCurrencyBottomSheet(
-        basedCurrency: basedCurrency,
-        updateBasedCurrency: (currency) {
-          setState(() {
-            basedCurrency = currency;
-          });
-        },
-      ).showBottomSheet(context);
+      const BaseCurrencyBottomSheet().showBottomSheet(context);
     }
   }
 
-  Widget listItems() {
+  Widget listItems(currency) {
     final items = [
       {
         'label': 'Profile',
@@ -78,7 +71,7 @@ class _SettingViewState extends State<SettingView> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     if (item['label'] == 'Base currency')
-                      Text(basedCurrency.toUpperCase(), style: const TextStyle(color: primary, fontSize: 14, fontWeight: FontWeight.bold)),
+                      Text(currency.toUpperCase(), style: const TextStyle(color: primary, fontSize: 14, fontWeight: FontWeight.bold)),
 
                     const Icon(Icons.chevron_right_outlined, color: primary, size: 30)
                   ],
@@ -94,6 +87,8 @@ class _SettingViewState extends State<SettingView> {
 
   @override
   Widget build(BuildContext context) {
+    final state = context.watch<BaseCurrencyBloc>().state;
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false, // hide the back button
@@ -101,7 +96,7 @@ class _SettingViewState extends State<SettingView> {
       ),
       body: Column(
         children: [
-          Flexible(child: listItems()),
+          Flexible(child: listItems(state.currency)),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: SizedBox(

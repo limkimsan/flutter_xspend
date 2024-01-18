@@ -9,6 +9,7 @@ import 'src/routes/app_route.dart';
 import 'src/models/category.dart';
 
 import 'src/bloc/exchange_rate/exchange_rate_bloc.dart';
+import 'src/bloc/base_currency/base_currency_bloc.dart';
 
 void main() async {
   String env = 'development';
@@ -18,13 +19,16 @@ void main() async {
   final initialRoute = await appRoute.getInitialRoute();
 
   ExchangeRateBloc exchangeRateBloc = ExchangeRateBloc();
+  BaseCurrencyBloc baseCurrencyBloc = BaseCurrencyBloc();
 
   runApp(
-    BlocProvider.value(
-      value: exchangeRateBloc,
+    MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: exchangeRateBloc),
+        BlocProvider.value(value: baseCurrencyBloc)
+      ],
       child: MyApp(initialRoute: initialRoute, appRoute: appRoute)
     )
-    // MyApp(initialRoute: initialRoute, appRoute: appRoute)
   );
   configLoading();
 }

@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_xspend/src/home/transaction_line_chart.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'transaction_list_item.dart';
@@ -11,6 +10,9 @@ import 'package:flutter_xspend/src/new_transaction/transaction_controller.dart';
 import 'package:flutter_xspend/src/helpers/transaction_helper.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
 import 'package:flutter_xspend/src/bloc/exchange_rate/exchange_rate_bloc.dart';
+import 'package:flutter_xspend/src/bloc/base_currency/base_currency_bloc.dart';
+
+import 'package:flutter_xspend/src/utils/initial_util.dart';
 
 class TransactionList extends StatefulWidget {
   const TransactionList({super.key});
@@ -20,6 +22,8 @@ class TransactionList extends StatefulWidget {
 }
 
 class _TransactionListState extends State<TransactionList> {
+  final transactions = [];
+
   @override
   void initState() {
     super.initState();
@@ -29,27 +33,26 @@ class _TransactionListState extends State<TransactionList> {
     loadExchangeRate();
   }
 
-  void loadExchangeRate() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    updateExchangeRate(prefs.getInt('KHR_RATE'), prefs.getInt('USD_RATE'));
-  }
-
-  void updateExchangeRate(khrRate, usdRate) {
-    if (khrRate != null) {
-      context.read<ExchangeRateBloc>().add(UpdateExchangeRate(exchangeRate: {
-        'khr': khrRate as int,
-        'usd': usdRate as int
-      }));
-    }
+  void loadExchangeRate() {
+    InitialUtil.loadCurrencyAndExchangeRate((khrRate, usdRate, basedCurrency) {
+      if (khrRate != null) {
+        context.read<ExchangeRateBloc>().add(UpdateExchangeRate(exchangeRate: {
+          'khr': khrRate as int,
+          'usd': usdRate as int
+        }));
+        if (basedCurrency != null) {
+          context.read<BaseCurrencyBloc>().add(UpdateBaseCurrency(currency: basedCurrency));
+        }
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final state = context.watch<TransactionBloc>().state;
+    final rateState = context.watch<ExchangeRateBloc>().state;
+    final currencyState = context.watch<BaseCurrencyBloc>().state;
     double screenHeight = MediaQuery.of(context).size.height;
-
-    // final rateState = context.watch<ExchangeRateBloc>().state;
-    // print('== exchange rate state = ${rateState.exchangeRate}');
 
     if (state.transactions.isEmpty) {
       return SizedBox(
@@ -91,7 +94,7 @@ class _TransactionListState extends State<TransactionList> {
         const SliverToBoxAdapter(
           child: TransactionLineChart(),
         ),
-        for (final trans in TransactionHelper.getGroupedTransactions(state.transactions)) ...[
+        for (final trans in TransactionHelper.getGroupedTransactions(state.transactions, rateState.exchangeRate, currencyState.currency)) ...[
           SliverStickyHeader(
             header: sectionHeader(trans['title']['date'], trans['title']['total']),
             sliver: SliverList.separated(

@@ -7,10 +7,10 @@ part 'exchange_rate_state.dart';
 
 class ExchangeRateBloc extends Bloc<ExchangeRateEvent, ExchangeRateState> {
   ExchangeRateBloc() : super(ExchangeRateInitialState()) {
-    on<UpdateExchangeRate>(_onLoadExchangeRate);
+    on<UpdateExchangeRate>(_onUpdateExchangeRate);
   }
 
-  void _onLoadExchangeRate(UpdateExchangeRate event, Emitter<ExchangeRateState> emit) {
+  void _onUpdateExchangeRate(UpdateExchangeRate event, Emitter<ExchangeRateState> emit) {
     emit(ExchangeRateLoadedState(newExchangeRate: event.exchangeRate));
   }
 }

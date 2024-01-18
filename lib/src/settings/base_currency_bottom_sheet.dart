@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/shared/bottom_sheet/bottom_sheet_body.dart';
 import 'package:flutter_xspend/src/constants/transaction_constant.dart';
+import 'package:flutter_xspend/src/bloc/base_currency/base_currency_bloc.dart';
 
 class BaseCurrencyBottomSheet extends StatefulWidget {
-  const BaseCurrencyBottomSheet({super.key, required this.basedCurrency, required this.updateBasedCurrency});
-
-  final String basedCurrency;
-  final void Function(String currency) updateBasedCurrency;
+  const BaseCurrencyBottomSheet({super.key});
 
   void showBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -24,7 +23,13 @@ class BaseCurrencyBottomSheet extends StatefulWidget {
 }
 
 class _BaseCurrencyBottomSheetState extends State<BaseCurrencyBottomSheet> {
-  Widget currencyPicker(context) {
+  void updateBaseCurrencyBloc(selectedCurrency) {
+    context.read<BaseCurrencyBloc>().add(UpdateBaseCurrency(currency: selectedCurrency));
+  }
+
+  Widget currencyPicker(ctx) {
+    final state = context.watch<BaseCurrencyBloc>().state;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -35,8 +40,8 @@ class _BaseCurrencyBottomSheetState extends State<BaseCurrencyBottomSheet> {
                 onTap: () async {
                   final SharedPreferences prefs = await SharedPreferences.getInstance();
                   await prefs.setString('BASED_CURRENCY', currencyTypes[i]);
-                  widget.updateBasedCurrency(currencyTypes[i]);
-                  Navigator.of(context).pop();
+                  updateBaseCurrencyBloc(currencyTypes[i]);
+                  Navigator.of(ctx).pop();
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -48,7 +53,8 @@ class _BaseCurrencyBottomSheetState extends State<BaseCurrencyBottomSheet> {
                         child: Align(alignment: Alignment.centerLeft, child: Text(currencyTypes[i].toUpperCase()))
                       ),
                     ),
-                    if (widget.basedCurrency == currencyTypes[i])
+                    // if (widget.basedCurrency == currencyTypes[i])
+                    if (state.currency == currencyTypes[i])
                       const Icon(Icons.check, color: primary)
                   ],
                 ),

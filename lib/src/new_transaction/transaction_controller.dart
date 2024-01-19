@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:collection/collection.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -69,7 +71,14 @@ class TransactionController {
   static loadTransactions(successCallback, [failureCallback]) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String duration = prefs.getString('TRANSACTION_DURATION') ?? 'month';
-    final transactions = await Transaction.getAllByDurationType(duration);
+    List transactions = [];
+    if (duration == 'custom') {
+      Map dateRange = jsonDecode(prefs.getString('DATE_RANGE') as String);
+      transactions = await Transaction.getAllByDurationType(duration, dateRange['start'], dateRange['end']);
+    }
+    else {
+      transactions = await Transaction.getAllByDurationType(duration);
+    }
     successCallback?.call(transactions);
   }
 

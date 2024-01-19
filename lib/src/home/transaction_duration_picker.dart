@@ -5,12 +5,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'transaction_duration_bottom_sheet.dart';
 import 'package:flutter_xspend/src/utils/string_util.dart';
-import 'package:flutter_xspend/src/models/transaction.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
 import 'package:flutter_xspend/src/new_transaction/transaction_controller.dart';
 
 class TransactionDurationPicker extends StatefulWidget {
-  const TransactionDurationPicker({super.key});
+  const TransactionDurationPicker({super.key, required this.onDurationChanged});
+
+  final Function() onDurationChanged;
 
   @override
   State<TransactionDurationPicker> createState() => _TransactionDurationPickerState();
@@ -19,6 +20,19 @@ class TransactionDurationPicker extends StatefulWidget {
 class _TransactionDurationPickerState extends State<TransactionDurationPicker> {
   String selectedDuration = 'month';
 
+  @override
+  void initState() {
+    super.initState();
+    loadSelectedDuration();
+  }
+
+  void loadSelectedDuration() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      selectedDuration = prefs.getString('TRANSACTION_DURATION') ?? 'month';
+    });
+  }
+
   void onDurationChanged(duration) async {
     setState(() {
       selectedDuration = duration;
@@ -26,6 +40,7 @@ class _TransactionDurationPickerState extends State<TransactionDurationPicker> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('TRANSACTION_DURATION', duration);
     reloadTransactionList();
+    widget.onDurationChanged();
   }
 
   void reloadTransactionList() {

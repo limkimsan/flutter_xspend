@@ -91,10 +91,10 @@ class _TransactionListState extends State<TransactionList> {
 
     return CustomScrollView(
       slivers: [
-        const SliverToBoxAdapter(
+        SliverToBoxAdapter(
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 8.0),
-            child: TransactionLineChart(),
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: TransactionLineChart(transactions: state.transactions),
           ),
         ),
         for (final trans in TransactionHelper.getGroupedTransactions(state.transactions, rateState.exchangeRate, currencyState.currency)) ...[

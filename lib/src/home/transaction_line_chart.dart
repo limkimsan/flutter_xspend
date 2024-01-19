@@ -6,7 +6,8 @@ import 'package:flutter_xspend/src/utils/chart_util.dart';
 import 'package:flutter_xspend/src/new_transaction/transaction_controller.dart';
 
 class TransactionLineChart extends StatefulWidget {
-  const TransactionLineChart({super.key});
+  const TransactionLineChart({super.key, required this.transactions});
+  final List transactions;
 
   @override
   State<TransactionLineChart> createState() => _TransactionLineChartState();
@@ -26,6 +27,12 @@ class _TransactionLineChartState extends State<TransactionLineChart> {
   @override
   void initState() {
     super.initState();
+    loadInitState();
+  }
+
+  @override
+  void didUpdateWidget(covariant TransactionLineChart oldWidget) {
+    super.didUpdateWidget(oldWidget);
     loadInitState();
   }
 
@@ -181,18 +188,18 @@ class _TransactionLineChartState extends State<TransactionLineChart> {
           ),
         ),
         AspectRatio(
-              aspectRatio: 1.8,
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  right: 12,
-                  left: 4,
-                  bottom: 16,
-                ),
-                child: LineChart(
-                  mainData(),
-                ),
-              ),
+          aspectRatio: 1.8,
+          child: Padding(
+            padding: const EdgeInsets.only(
+              right: 12,
+              left: 4,
+              bottom: 16,
             ),
+            child: LineChart(
+              mainData(),
+            ),
+          ),
+        ),
       ],
     );
   }

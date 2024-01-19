@@ -1,10 +1,14 @@
 import 'package:collection/collection.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 import 'package:flutter_xspend/src/models/transaction.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'transaction_service.dart';
 import 'package:flutter_xspend/src/utils/api_response_util.dart';
+import 'package:flutter_xspend/src/utils/currency_util.dart';
 import 'package:flutter_xspend/src/helpers/transaction_helper.dart';
+import 'package:flutter_xspend/src/constants/transaction_constant.dart';
 
 class TransactionController {
   static isValid(category, amount, date) {
@@ -68,5 +72,45 @@ class TransactionController {
   static getTransactionDetail(id, callback) async {
     final transaction = await Transaction.findById(id);
     callback?.call(transaction);
+  }
+
+  static getAllMonthlyChartData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    int khrRate = prefs.getInt('KHR_RATE') != null ? prefs.getInt('KHR_RATE') as int : 4100;
+    int usdRate = prefs.getInt('USD_RATE') != null ? prefs.getInt('USD_RATE') as int : 1;
+    Map<String, int> exchangeRate = { 'khr': khrRate, 'usd': usdRate };
+
+    List<FlSpot> monthlyIncomes = [];
+    List<FlSpot> monthlyExpenses = [];
+
+
+    for (int i = 0; i < DateTime.now().month; i++) {
+      double income = 0;
+      double expense = 0;
+      DateTime now = DateTime.now();
+      DateTime startDate = DateTime(now.year, i + 1, 1);
+      DateTime startOfNextMonth = DateTime(now.year, i + 2, 1);
+      DateTime endDate = startOfNextMonth.subtract(const Duration(days: 1));
+
+      final transactions = await Transaction.getAllByDurationType('custom', startDate.toString(), endDate.toString());
+      for (var transaction in transactions) {
+        if (transaction.transactionType == transactionTypes['expense']!['value']) {
+          expense += prefs.getString('BASED_CURRENCY') == 'usd'
+                      ? CurrencyUtil.getUSD(transaction.amount, transaction.currencyType, exchangeRate)
+                      : CurrencyUtil.getKHR(transaction.amount, transaction.currencyType, exchangeRate);
+        }
+        else if (transaction.transactionType == transactionTypes['income']!['value']) {
+          income += prefs.getString('BASED_CURRENCY') == 'usd'
+                      ? CurrencyUtil.getUSD(transaction.amount, transaction.currencyType, exchangeRate)
+                      : CurrencyUtil.getKHR(transaction.amount, transaction.currencyType, exchangeRate);
+        }
+      }
+      monthlyIncomes.add(FlSpot(i.toDouble(), income));
+      monthlyExpenses.add(FlSpot(i.toDouble(), expense));
+    }
+    return {
+      'expense': monthlyExpenses,
+      'income': monthlyIncomes,
+    };
   }
 }

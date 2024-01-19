@@ -27,7 +27,7 @@ class _BottomTabViewState extends State<BottomTabView> {
   @override
   Widget build(BuildContext context) {
     Widget activePage = HomeView(transactionBloc: widget.transactionBloc,);
-    if (_selectedIndex == 3) {
+    if (_selectedIndex == 2) {
       activePage = const SettingView();
     }
 
@@ -39,7 +39,7 @@ class _BottomTabViewState extends State<BottomTabView> {
         currentIndex: _selectedIndex,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.analytics_outlined), label: 'Timeline'),
-          BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet_outlined), label: 'Wallet'),
+          // BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet_outlined), label: 'Wallet'),
           BottomNavigationBarItem(icon: Icon(Icons.assignment_outlined), label: 'Budget'),
           BottomNavigationBarItem(icon: Icon(Icons.settings_outlined), label: 'Settings'),
         ]

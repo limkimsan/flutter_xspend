@@ -3,20 +3,45 @@ import 'package:fl_chart/fl_chart.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/utils/chart_util.dart';
+import 'package:flutter_xspend/src/new_transaction/transaction_controller.dart';
 
 class TransactionLineChart extends StatefulWidget {
-  const TransactionLineChart({super.key});
+  const TransactionLineChart({super.key, required this.transactions});
+  final List transactions;
 
   @override
   State<TransactionLineChart> createState() => _TransactionLineChartState();
 }
 
 class _TransactionLineChartState extends State<TransactionLineChart> {
-
-  List<Color> gradientColors = [
+  Map<String, dynamic> chartData = {};
+  List<Color> incomeGradientColors = [
     primary,
     primary
   ];
+  List<Color> expenseGradientColors = [
+    orange,
+    red
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    loadInitState();
+  }
+
+  @override
+  void didUpdateWidget(covariant TransactionLineChart oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    loadInitState();
+  }
+
+  void loadInitState() async {
+    final data = await TransactionController.getAllMonthlyChartData();
+    setState(() {
+      chartData = data;
+    });
+  }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
@@ -93,10 +118,10 @@ class _TransactionLineChartState extends State<TransactionLineChart> {
       // maxY: 7,
       lineBarsData: [
         LineChartBarData(
-          spots: ChartUtil.getChartData(),
+          spots: chartData['income'] ?? [],
           isCurved: true,
           gradient: LinearGradient(
-            colors: gradientColors,
+            colors: incomeGradientColors,
           ),
           barWidth: 5,
           isStrokeCapRound: true,
@@ -106,9 +131,25 @@ class _TransactionLineChartState extends State<TransactionLineChart> {
           belowBarData: BarAreaData(
             show: true,
             gradient: LinearGradient(
-              colors: gradientColors
-                  .map((color) => color.withOpacity(0.3))
-                  .toList(),
+              colors: incomeGradientColors.map((color) => color.withOpacity(0.3)).toList(),
+            ),
+          ),
+        ),
+        LineChartBarData(
+          spots: chartData['expense'] ?? [],
+          isCurved: true,
+          gradient: LinearGradient(
+            colors: expenseGradientColors,
+          ),
+          barWidth: 5,
+          isStrokeCapRound: true,
+          dotData: const FlDotData(
+            show: false,
+          ),
+          belowBarData: BarAreaData(
+            show: true,
+            gradient: LinearGradient(
+              colors: expenseGradientColors.map((color) => color.withOpacity(0.3)).toList(),
             ),
           ),
         ),
@@ -116,9 +157,37 @@ class _TransactionLineChartState extends State<TransactionLineChart> {
     );
   }
 
+  Widget legend(color, label) {
+    return Row(
+      children: [
+        Container(
+          color: color,
+          margin: const EdgeInsets.only(right: 4, top: 0),
+          child: const SizedBox(
+            width: 10,
+            height: 10,
+          ),
+        ),
+        Text(label)
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              legend(lightGreen, 'Income'),
+              legend(red, 'Expense'),
+            ]
+          ),
+        ),
+        AspectRatio(
           aspectRatio: 1.8,
           child: Padding(
             padding: const EdgeInsets.only(
@@ -130,6 +199,8 @@ class _TransactionLineChartState extends State<TransactionLineChart> {
               mainData(),
             ),
           ),
-        );
+        ),
+      ],
+    );
   }
 }

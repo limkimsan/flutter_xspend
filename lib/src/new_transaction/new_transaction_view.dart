@@ -24,7 +24,7 @@ class NewTransactionView extends StatefulWidget {
 }
 
 class _NewTransactionViewState extends State<NewTransactionView> {
-  String? currencyType;
+  String currencyType = 'khr';
   DateTime? date;
   Category? selectedCategory;
   final amountController = TextEditingController();
@@ -57,7 +57,7 @@ class _NewTransactionViewState extends State<NewTransactionView> {
 
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       setState(() {
-        currencyType = prefs.getString('BASED_CURRENCY');
+        currencyType = prefs.getString('BASED_CURRENCY').toString();
       });
     });
   }
@@ -166,8 +166,9 @@ class _NewTransactionViewState extends State<NewTransactionView> {
                             ),
                           ),
                         ),
-                        CurrencyTypePicker(currencyType!, (type) {
+                        CurrencyTypePicker(currencyType, (type) {
                           setState(() { currencyType = type; });
+                          validate('currency', type);
                           Navigator.of(context).pop();
                         }),
                       ],

@@ -18,7 +18,9 @@ class TransactionController {
   static create(Transaction transaction, successCallback, failureCallback) async {
     // save new transaction in local
     Transaction.create(transaction);
-    successCallback?.call();
+    loadTransactions((transactions) {
+      successCallback?.call(transactions);
+    });
 
     // if (await InternetConnectionChecker().hasConnection) {
     //   try {
@@ -65,7 +67,9 @@ class TransactionController {
   }
 
   static loadTransactions(successCallback, [failureCallback]) async {
-    final transactions = await Transaction.getAllByDurationType('month');
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String duration = prefs.getString('TRANSACTION_DURATION') ?? 'month';
+    final transactions = await Transaction.getAllByDurationType(duration);
     successCallback?.call(transactions);
   }
 

@@ -88,8 +88,9 @@ class _NewTransactionViewState extends State<NewTransactionView> {
       });
     }
     else {
-      TransactionController.create(transaction, () {
-        context.read<TransactionBloc>().add(AddNewTransaction(transaction: transaction));
+      TransactionController.create(transaction, (transactions) {
+        // context.read<TransactionBloc>().add(AddNewTransaction(transaction: transaction));   // for add new transaction to the current transaction state
+        context.read<TransactionBloc>().add(LoadTransaction(transactions: transactions));
         Navigator.of(context).pop();
       }, (errorMsg) {
         print('== trans error = $errorMsg');

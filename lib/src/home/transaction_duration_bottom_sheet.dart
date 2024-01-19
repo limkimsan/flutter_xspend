@@ -33,7 +33,10 @@ class _TransactionDurationBottomSheetState extends State<TransactionDurationBott
             Wrap(
               children: [
                 InkWell(
-                  onTap: () { widget.updateSelectedDuration(durationTypes[i]); },
+                  onTap: () {
+                    widget.updateSelectedDuration(durationTypes[i]);
+                    Navigator.of(context).pop();
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [

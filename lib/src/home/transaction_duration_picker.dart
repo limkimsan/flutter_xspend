@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'transaction_duration_bottom_sheet.dart';
 import 'package:flutter_xspend/src/utils/string_util.dart';
+import 'package:flutter_xspend/src/models/transaction.dart';
+import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
+import 'package:flutter_xspend/src/new_transaction/transaction_controller.dart';
 
 class TransactionDurationPicker extends StatefulWidget {
   const TransactionDurationPicker({super.key});
@@ -14,11 +19,19 @@ class TransactionDurationPicker extends StatefulWidget {
 class _TransactionDurationPickerState extends State<TransactionDurationPicker> {
   String selectedDuration = 'month';
 
-  void onDurationChanged(duration) {
+  void onDurationChanged(duration) async {
     setState(() {
       selectedDuration = duration;
     });
-    Navigator.of(context).pop();
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('TRANSACTION_DURATION', duration);
+    reloadTransactionList();
+  }
+
+  void reloadTransactionList() {
+    TransactionController.loadTransactions((transactions) {
+      context.read<TransactionBloc>().add(LoadTransaction(transactions: transactions));
+    });
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
@@ -26,13 +27,31 @@ class TransactionDurationBottomSheet extends StatefulWidget {
 }
 
 class _TransactionDurationBottomSheetState extends State<TransactionDurationBottomSheet> {
+  DateTime startDate = DateTime.now();
+  DateTime endDate = DateTime.now().add(const Duration(days: 7));
+
+  @override
+  void initState() {
+    super.initState();
+    loadCustomDateRange();
+  }
+
+  void loadCustomDateRange() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    Map dateRange = jsonDecode(prefs.getString('DATE_RANGE') as String);
+    if (dateRange.isNotEmpty) {
+      startDate = DateTime.parse(dateRange['start']);
+      endDate = DateTime.parse(dateRange['end']);
+    }
+  }
+
   void onSelectDuration(duration) async {
     if (duration == 'custom') {
       final DateTimeRange? pickedDate = await showDateRangePicker(
         context: context,
         initialDateRange: DateTimeRange(
-          start: DateTime.now(),
-          end: DateTime.now().add(const Duration(days: 7)),
+          start: startDate,
+          end: endDate,
         ),
         firstDate: DateTime(2020),
         lastDate: DateTime(2025),
@@ -84,7 +103,16 @@ class _TransactionDurationBottomSheetState extends State<TransactionDurationBott
                         child: SizedBox(
                           height: 48,
                           width: double.infinity,
-                          child: Align(alignment: Alignment.centerLeft, child: Text(StringUtil.capitalize(durationTypes[i])))
+                          child: Row(
+                            children: [
+                              Text(StringUtil.capitalize(durationTypes[i])),
+                              if (durationTypes[i] == 'custom')
+                                Text(
+                                  ' (${DateFormat('d MMM y').format(startDate)} - ${DateFormat('d MMM y').format(endDate)})',
+                                  style: const TextStyle(color: pewter, fontSize: 14)
+                                )
+                            ],
+                          ),
                         ),
                       ),
                       if (widget.selectedDuration == durationTypes[i])
@@ -106,8 +134,7 @@ class _TransactionDurationBottomSheetState extends State<TransactionDurationBott
     return FractionallySizedBox(
       child: BottomSheetBody(
         title: 'Base currency',
-        titleIcon: const Icon(Icons.currency_exchange_outlined,
-            color: lightGreen, size: 26),
+        titleIcon: const Icon(Icons.currency_exchange_outlined, color: lightGreen, size: 26),
         body: durationPicker(),
       ),
     );

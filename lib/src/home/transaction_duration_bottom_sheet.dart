@@ -40,8 +40,10 @@ class _TransactionDurationBottomSheetState extends State<TransactionDurationBott
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     Map dateRange = jsonDecode(prefs.getString('DATE_RANGE') as String);
     if (dateRange.isNotEmpty) {
-      startDate = DateTime.parse(dateRange['start']);
-      endDate = DateTime.parse(dateRange['end']);
+      setState(() {
+        startDate = DateTime.parse(dateRange['start']);
+        endDate = DateTime.parse(dateRange['end']);
+      });
     }
   }
 
@@ -76,6 +78,8 @@ class _TransactionDurationBottomSheetState extends State<TransactionDurationBott
       close();
     }
     else {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.remove('DATE_RANGE');
       widget.updateSelectedDuration(duration);
       close();
     }

@@ -1,4 +1,6 @@
-part of 'transaction_bloc.dart';
+import 'package:equatable/equatable.dart';
+
+import 'package:flutter_xspend/src/models/transaction.dart';
 
 class TransactionState extends Equatable {
   const TransactionState({required this.transactions});

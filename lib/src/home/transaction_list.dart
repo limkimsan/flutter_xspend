@@ -11,7 +11,6 @@ import 'package:flutter_xspend/src/helpers/transaction_helper.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
 import 'package:flutter_xspend/src/bloc/exchange_rate/exchange_rate_bloc.dart';
 import 'package:flutter_xspend/src/bloc/base_currency/base_currency_bloc.dart';
-
 import 'package:flutter_xspend/src/utils/initial_util.dart';
 
 class TransactionList extends StatefulWidget {

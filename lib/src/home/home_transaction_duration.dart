@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'transaction_duration_picker.dart';
@@ -11,9 +13,31 @@ class HomeTransactionDuration extends StatefulWidget {
 }
 
 class _HomeTransactionDurationState extends State<HomeTransactionDuration> {
+  String? label;
+
+  @override
+  void initState() {
+    super.initState();
+    loadPrefixLabel();
+  }
+
+  void loadPrefixLabel() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    DateTime now = DateTime.now();
+    setState(() {
+      if (prefs.getString('TRANSACTION_DURATION') == 'year') {
+        label = now.year.toString();
+      } else if (prefs.getString('TRANSACTION_DURATION') == 'custom') {
+        label = 'Custom';
+      }
+      else {
+        label = DateFormat('MMMM').format(now);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-
     Widget monthSwitcherBtn(label, isBackward) {
       return Container(
         padding: EdgeInsets.fromLTRB(isBackward ? 0 : 12, 0, isBackward ? 12 : 0, 0),
@@ -42,11 +66,11 @@ class _HomeTransactionDurationState extends State<HomeTransactionDuration> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: [
-          const Padding(
-            padding: EdgeInsets.only(bottom: 16, top: 4),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16, top: 4),
             child: Text(
-              'October cash flow',
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)
+              '$label cash flow',
+              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600)
             ),
           ),
           Row(
@@ -55,7 +79,7 @@ class _HomeTransactionDurationState extends State<HomeTransactionDuration> {
               InkWell(
                 child: monthSwitcherBtn('23 Oct', true),
               ),
-              const TransactionDurationPicker(),
+              TransactionDurationPicker(onDurationChanged: () { loadPrefixLabel(); },),
               InkWell(
                 child: monthSwitcherBtn('23 Nov', false)
               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/models/transaction.dart';
@@ -49,6 +50,7 @@ class TransactionListItem extends StatelessWidget {
 
     Widget listItem() {
       return ListTile(
+        dense: false,
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         leading: SizedBox(
           height: double.infinity,
@@ -67,23 +69,32 @@ class TransactionListItem extends StatelessWidget {
           style: const TextStyle(color: Colors.white),
         ),
         subtitle: subtitle(),
-        trailing: Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-          for (int i = 0; i < currencyTypes.length; i++)
-            Text(
-              TransactionHelper.getFormattedAmount(
-                item.transactionType,
-                currencyTypes[i],
-                item.amount,
-                item.currencyType,
-                state.exchangeRate
+        trailing: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            for (int i = 0; i < currencyTypes.length; i++)
+              Text(
+                TransactionHelper.getFormattedAmount(
+                  item.transactionType,
+                  currencyTypes[i],
+                  item.amount,
+                  item.currencyType,
+                  state.exchangeRate
+                ),
+                // TransactionHelper.getFormattedAmount(0, 'usd', item.amount, 'usd', {'khr': 4100, 'usd': 1}),
+                style: TextStyle(
+                  color: item.transactionType == 1 ? red : success,
+                  fontSize: i == 0 ? 14 : 13
+                )
               ),
-              // TransactionHelper.getFormattedAmount(0, 'usd', item.amount, 'usd', {'khr': 4100, 'usd': 1}),
-              style: TextStyle(
-                color: item.transactionType == 1 ? red : success,
-                fontSize: i == 0 ? 16 : 14
-              )
+
+            Text(
+              DateFormat('d MMM').format(item.transactionDate).toString(),
+              style: const TextStyle(color: pewter, fontSize: 12),
             ),
-        ]),
+          ]
+        ),
       );
     }
 

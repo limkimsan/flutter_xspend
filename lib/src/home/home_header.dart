@@ -16,8 +16,6 @@ class HomeHeader extends StatefulWidget {
 }
 
 class _HomeHeaderState extends State<HomeHeader> {
-  Map total = {'khr': 0, 'usd': 0};
-  String basedCurrency = 'khr';
   String mainTitle = '';
   String subtitle = '';
   bool isNegative = false;
@@ -32,12 +30,7 @@ class _HomeHeaderState extends State<HomeHeader> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     TransactionController.calculateGrandTotal((result) {
       setState(() {
-        // total = {
-        //   'khr': result['income']['khr'] - result['expense']['khr'],
-        //   'usd': result['income']['usd'] - result['expense']['usd']
-        // };
         isNegative = result['income']['usd'] - result['expense']['usd'] < 0 ? true : false;
-
         if (prefs.getString('BASED_CURRENCY') == 'usd') {
           mainTitle = TransactionHelper.getCalculatedAmountForDisplay('usd', result['income']['usd'], result['expense']['usd']);
           subtitle = TransactionHelper.getCalculatedAmountForDisplay('khr', result['income']['khr'], result['expense']['khr']);
@@ -46,7 +39,6 @@ class _HomeHeaderState extends State<HomeHeader> {
           mainTitle = TransactionHelper.getCalculatedAmountForDisplay('khr', result['income']['khr'], result['expense']['khr']);
           subtitle = TransactionHelper.getCalculatedAmountForDisplay('usd', result['income']['usd'], result['expense']['usd']);
         }
-        basedCurrency = prefs.getString('BASED_CURRENCY') ?? 'khr';
       });
     });
   }

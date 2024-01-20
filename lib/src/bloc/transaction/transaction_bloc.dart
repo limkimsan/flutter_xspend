@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_xspend/src/models/transaction.dart';
 
-part 'transaction_state.dart';
+import 'transaction_state.dart';
+
 part 'transaction_event.dart';
 
 class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {

@@ -1,6 +1,5 @@
 import 'package:intl/intl.dart';
 import 'package:collection/collection.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter_xspend/src/utils/currency_util.dart';
 import 'package:flutter_xspend/src/constants/transaction_constant.dart';

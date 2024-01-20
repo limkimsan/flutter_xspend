@@ -38,8 +38,8 @@ class _TransactionDurationBottomSheetState extends State<TransactionDurationBott
 
   void loadCustomDateRange() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    Map dateRange = jsonDecode(prefs.getString('DATE_RANGE') as String);
-    if (dateRange.isNotEmpty) {
+    if (prefs.getString('DATE_RANGE') != null) {
+      Map dateRange = jsonDecode(prefs.getString('DATE_RANGE') as String);
       setState(() {
         startDate = DateTime.parse(dateRange['start']);
         endDate = DateTime.parse(dateRange['end']);

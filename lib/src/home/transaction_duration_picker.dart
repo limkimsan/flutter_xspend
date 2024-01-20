@@ -11,7 +11,7 @@ import 'package:flutter_xspend/src/new_transaction/transaction_controller.dart';
 class TransactionDurationPicker extends StatefulWidget {
   const TransactionDurationPicker({super.key, required this.onDurationChanged});
 
-  final Function() onDurationChanged;
+  final Function(String selectedDuration) onDurationChanged;
 
   @override
   State<TransactionDurationPicker> createState() => _TransactionDurationPickerState();
@@ -40,7 +40,7 @@ class _TransactionDurationPickerState extends State<TransactionDurationPicker> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('TRANSACTION_DURATION', duration);
     reloadTransactionList();
-    widget.onDurationChanged();
+    widget.onDurationChanged(selectedDuration);
   }
 
   void reloadTransactionList() {

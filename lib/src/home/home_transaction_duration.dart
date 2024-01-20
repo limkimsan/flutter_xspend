@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'transaction_duration_picker.dart';
+import 'package:flutter_xspend/src/utils/datetime_util.dart';
 
 class HomeTransactionDuration extends StatefulWidget {
   const HomeTransactionDuration({super.key});
@@ -14,6 +15,8 @@ class HomeTransactionDuration extends StatefulWidget {
 
 class _HomeTransactionDurationState extends State<HomeTransactionDuration> {
   String? label;
+  DateTime selectedDate = DateTime.now();
+  String durationType = 'month';
 
   @override
   void initState() {
@@ -39,9 +42,14 @@ class _HomeTransactionDurationState extends State<HomeTransactionDuration> {
   @override
   Widget build(BuildContext context) {
     Widget monthSwitcherBtn(label, isBackward) {
+      if (durationType != 'month' || (!isBackward && !DateTimeUtil.ableMoveNextMonth(selectedDate))) {
+        return const SizedBox(width: 98);
+      }
+
       return Container(
         padding: EdgeInsets.fromLTRB(isBackward ? 0 : 12, 0, isBackward ? 12 : 0, 0),
         height: 48,
+        width: 98,
         decoration: BoxDecoration(
           border: Border.all(width: 2.5, color: primary),
           borderRadius: BorderRadius.circular(10),
@@ -51,7 +59,7 @@ class _HomeTransactionDurationState extends State<HomeTransactionDuration> {
             if (isBackward)
               const Icon(Icons.chevron_left, color: primary, size: 28),
             Text(
-              label,
+              DateFormat('MMM yy').format(label),
               style: const TextStyle(color: primary, fontWeight: FontWeight.bold),
             ),
             if (!isBackward)
@@ -61,8 +69,17 @@ class _HomeTransactionDurationState extends State<HomeTransactionDuration> {
       );
     }
 
+    void changeTransMonth(type) {
+      if (type == 'forward' && !DateTimeUtil.ableMoveNextMonth(selectedDate)) {
+        return;
+      }
+      setState(() {
+        selectedDate = DateTimeUtil.switchDateByMonth(type, selectedDate);
+      });
+      print('==== selected date = $selectedDate');
+    }
+
     return Container(
-      // padding: const EdgeInsets.all(16),
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: [
@@ -77,11 +94,22 @@ class _HomeTransactionDurationState extends State<HomeTransactionDuration> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               InkWell(
-                child: monthSwitcherBtn('23 Oct', true),
+                onTap: () {changeTransMonth('backward');},
+                child: monthSwitcherBtn(
+                  DateTimeUtil.switchDateByMonth('backward', selectedDate),
+                  true
+                ),
               ),
-              TransactionDurationPicker(onDurationChanged: () { loadPrefixLabel(); },),
+              TransactionDurationPicker(onDurationChanged: (selectedDuration) {
+                durationType = selectedDuration;
+                loadPrefixLabel();
+              }),
               InkWell(
-                child: monthSwitcherBtn('23 Nov', false)
+                onTap: () {changeTransMonth('forward');},
+                child: monthSwitcherBtn(
+                  DateTimeUtil.switchDateByMonth('forward', selectedDate),
+                  false
+                )
               ),
             ],
           ),

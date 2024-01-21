@@ -47,7 +47,7 @@ class _SettingViewState extends State<SettingView> {
         'type': 2,
       },
       {
-        'label': 'Profile',
+        'label': 'Clean transaction',
         'icon': Icons.cleaning_services_outlined,
         'color': red,
         'type': 3,

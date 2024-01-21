@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'transaction_duration_picker.dart';
+import 'home_controller.dart';
 import 'package:flutter_xspend/src/utils/datetime_util.dart';
+import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
 
 class HomeTransactionDuration extends StatefulWidget {
-  const HomeTransactionDuration({super.key});
+  const HomeTransactionDuration({super.key, required this.focused});
+  final bool focused;
 
   @override
   State<HomeTransactionDuration> createState() => _HomeTransactionDurationState();
@@ -24,13 +28,23 @@ class _HomeTransactionDurationState extends State<HomeTransactionDuration> {
     loadPrefixLabel();
   }
 
+  @override
+  void didUpdateWidget(covariant HomeTransactionDuration oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!widget.focused) {
+      selectedDate = DateTime.now();
+    }
+  }
+
   void loadPrefixLabel() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     DateTime now = DateTime.now();
     setState(() {
+      durationType = prefs.getString('TRANSACTION_DURATION').toString();
       if (prefs.getString('TRANSACTION_DURATION') == 'year') {
         label = now.year.toString();
-      } else if (prefs.getString('TRANSACTION_DURATION') == 'custom') {
+      }
+      else if (prefs.getString('TRANSACTION_DURATION') == 'custom') {
         label = 'Custom';
       }
       else {
@@ -69,14 +83,17 @@ class _HomeTransactionDurationState extends State<HomeTransactionDuration> {
       );
     }
 
-    void changeTransMonth(type) {
+    void changeTransMonth(type) async {
       if (type == 'forward' && !DateTimeUtil.ableMoveNextMonth(selectedDate)) {
         return;
       }
-      setState(() {
-        selectedDate = DateTimeUtil.switchDateByMonth(type, selectedDate);
+      HomeController.switchTransactionMonth(type, selectedDate, (newDate, transactions) {
+        setState(() {
+          selectedDate = newDate;
+          label = DateFormat('MMMM').format(newDate);
+        });
+        context.read<TransactionBloc>().add(LoadTransaction(transactions: transactions));
       });
-      print('==== selected date = $selectedDate');
     }
 
     return Container(

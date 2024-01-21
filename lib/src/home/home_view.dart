@@ -21,6 +21,8 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  bool focused = true;
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
@@ -31,11 +33,11 @@ class _HomeViewState extends State<HomeView> {
           toolbarHeight: 220,
           flexibleSpace: Container(
             decoration: const BoxDecoration(color: background),
-            child: const Column(
+            child: Column(
               children: [
-                HomeHeader(),
-                HomeTransactionDuration(),
-                HomeTotalExpense(),
+                const HomeHeader(),
+                HomeTransactionDuration(focused: focused),
+                const HomeTotalExpense(),
               ],
             ),
           ),
@@ -48,7 +50,12 @@ class _HomeViewState extends State<HomeView> {
             foregroundColor: Colors.white,
             backgroundColor: primary,
             shape: const CircleBorder(),
-            onPressed: () { Navigator.of(context).pushNamed(NewTransactionView.routeName); },
+            onPressed: () {
+              setState(() {
+                focused = false;
+              });
+              Navigator.of(context).pushNamed(NewTransactionView.routeName);
+            },
             child: const Icon(Icons.add, size: 32),
           ),
         ),

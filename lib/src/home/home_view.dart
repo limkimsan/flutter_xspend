@@ -35,7 +35,7 @@ class _HomeViewState extends State<HomeView> {
             decoration: const BoxDecoration(color: background),
             child: Column(
               children: [
-                const HomeHeader(),
+                HomeHeader(selectedDate: selectedDate),
                 HomeTransactionDuration(selectedDate: selectedDate, updateSelectedDate: (date) {
                   setState(() { selectedDate = date; });
                 },),

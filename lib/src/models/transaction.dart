@@ -113,4 +113,13 @@ class Transaction {
     final result = await isar.transactions.filter().transactionDateBetween(startDate, endDate).and().user((q) => q.idEqualTo(user.id)).sortByTransactionDateDesc().findAll();
     return result;
   }
+
+  static getAllByMonth(selectedDate) async {
+    DateTime startOfNextMonth = DateTime(selectedDate.year, selectedDate.month + 1, 1);
+    return await getAllByDurationType(
+                    'custom',
+                    DateTime(selectedDate.year, selectedDate.month, 1).toString(),
+                    startOfNextMonth.subtract(const Duration(days: 1)).toString()
+                  );
+  }
 }

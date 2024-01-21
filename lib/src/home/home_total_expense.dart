@@ -37,16 +37,7 @@ class _HomeTotalExpenseState extends State<HomeTotalExpense> {
   }
 
   void loadTotal([selectedDate]) async {
-    List? transactions;
-    if (selectedDate != null) {
-      DateTime startOfNextMonth = DateTime(widget.selectedDate.year, widget.selectedDate.month + 1, 1);
-      transactions = await Transaction.getAllByDurationType(
-                              'custom',
-                              DateTime(widget.selectedDate.year, widget.selectedDate.month, 1).toString(),
-                              startOfNextMonth.subtract(const Duration(days: 1)).toString()
-                            );
-    }
-
+    List? transactions = selectedDate != null ? await Transaction.getAllByMonth(widget.selectedDate) : null;
     TransactionController.calculateGrandTotal((result) async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       setState(() {

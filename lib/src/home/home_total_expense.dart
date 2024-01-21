@@ -7,9 +7,11 @@ import 'package:flutter_xspend/src/new_transaction/transaction_controller.dart';
 import 'package:flutter_xspend/src/helpers/transaction_helper.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_state.dart';
+import 'package:flutter_xspend/src/models/transaction.dart';
 
 class HomeTotalExpense extends StatefulWidget {
-  const HomeTotalExpense({super.key});
+  const HomeTotalExpense({super.key, required this.selectedDate});
+  final DateTime selectedDate;
 
   @override
   State<HomeTotalExpense> createState() => _HomeTotalExpenseState();
@@ -26,9 +28,27 @@ class _HomeTotalExpenseState extends State<HomeTotalExpense> {
     loadTotal();
   }
 
-  void loadTotal() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    TransactionController.calculateGrandTotal((result) {
+  @override
+  void didUpdateWidget(covariant HomeTotalExpense oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.selectedDate != widget.selectedDate) {
+      loadTotal(widget.selectedDate);
+    }
+  }
+
+  void loadTotal([selectedDate]) async {
+    List? transactions;
+    if (selectedDate != null) {
+      DateTime startOfNextMonth = DateTime(widget.selectedDate.year, widget.selectedDate.month + 1, 1);
+      transactions = await Transaction.getAllByDurationType(
+                              'custom',
+                              DateTime(widget.selectedDate.year, widget.selectedDate.month, 1).toString(),
+                              startOfNextMonth.subtract(const Duration(days: 1)).toString()
+                            );
+    }
+
+    TransactionController.calculateGrandTotal((result) async {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
       setState(() {
         if (prefs.getString('BASED_CURRENCY') == 'usd') {
           mainTitle = TransactionHelper.getCalculatedAmountForDisplay('usd', result['expense']['usd'], 0);
@@ -40,7 +60,7 @@ class _HomeTotalExpenseState extends State<HomeTotalExpense> {
         }
         basedCurrency = prefs.getString('BASED_CURRENCY') ?? 'khr';
       });
-    });
+    }, transactions);
   }
 
   @override

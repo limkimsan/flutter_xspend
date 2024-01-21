@@ -21,7 +21,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  bool focused = true;
+  DateTime selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +36,10 @@ class _HomeViewState extends State<HomeView> {
             child: Column(
               children: [
                 const HomeHeader(),
-                HomeTransactionDuration(focused: focused),
-                const HomeTotalExpense(),
+                HomeTransactionDuration(selectedDate: selectedDate, updateSelectedDate: (date) {
+                  setState(() { selectedDate = date; });
+                },),
+                HomeTotalExpense(selectedDate: selectedDate),
               ],
             ),
           ),
@@ -52,7 +54,7 @@ class _HomeViewState extends State<HomeView> {
             shape: const CircleBorder(),
             onPressed: () {
               setState(() {
-                focused = false;
+                selectedDate = DateTime.now();
               });
               Navigator.of(context).pushNamed(NewTransactionView.routeName);
             },

@@ -108,7 +108,13 @@ class TransactionController {
     };
   }
 
-  static calculateGrandTotal(callback) {
+  static calculateGrandTotal(callback, [trans]) async {
+    if (trans != null) {
+      final total = await calculateTotalExpenseIncome(trans, true);
+      callback?.call({'income': total['income'], 'expense': total['expense']});
+      return;
+    }
+
     loadTransactions((transactions) async {
       final total = await calculateTotalExpenseIncome(transactions, true);
       callback?.call({'income': total['income'], 'expense': total['expense']});

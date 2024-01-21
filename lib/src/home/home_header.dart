@@ -7,9 +7,11 @@ import 'package:flutter_xspend/src/new_transaction/transaction_controller.dart';
 import 'package:flutter_xspend/src/helpers/transaction_helper.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_state.dart';
+import 'package:flutter_xspend/src/models/transaction.dart';
 
 class HomeHeader extends StatefulWidget {
-  const HomeHeader({super.key});
+  const HomeHeader({super.key, required this.selectedDate});
+  final DateTime selectedDate;
 
   @override
   State<HomeHeader> createState() => _HomeHeaderState();
@@ -25,9 +27,18 @@ class _HomeHeaderState extends State<HomeHeader> {
     super.initState();
     loadTotal();
   }
+  
+  @override
+  void didUpdateWidget(covariant HomeHeader oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.selectedDate != widget.selectedDate) {
+      loadTotal(widget.selectedDate);
+    }
+  }
 
-  void loadTotal() async {
+  void loadTotal([selectedDate]) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    List? transactions = selectedDate != null ? await Transaction.getAllByMonth(widget.selectedDate) : null;
     TransactionController.calculateGrandTotal((result) {
       setState(() {
         isNegative = result['income']['usd'] - result['expense']['usd'] < 0 ? true : false;
@@ -40,14 +51,14 @@ class _HomeHeaderState extends State<HomeHeader> {
           subtitle = TransactionHelper.getCalculatedAmountForDisplay('usd', result['income']['usd'], result['expense']['usd']);
         }
       });
-    });
+    }, transactions);
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<TransactionBloc, TransactionState>(
       listener: (context, state) {
-        // Perform actions based on transaction state changes
+        // Perform actions based on transaction state (bloc) changes
         loadTotal();
       },
       child: Center(

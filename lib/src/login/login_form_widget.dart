@@ -49,6 +49,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
         children: [
           const InputLabelWidget('Email'),
           TextFormField(
+            keyboardType: TextInputType.emailAddress,
             decoration: const InputDecoration(
               hintText: 'Enter the email',
             ),

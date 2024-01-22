@@ -82,6 +82,15 @@ class Transaction {
     });
   }
 
+  static deleteByDateRange(startDate, endDate) async {
+    List transactions = await getAllByDurationType('custom', startDate.toString(), endDate.toString());
+    if (transactions.isNotEmpty) {
+      for (var transaction in transactions) {
+        deleteById(transaction.id);
+      }
+    }
+  }
+
   static getAllOfCurrentUser() async {
     final user = await User.currentLoggedIn();
     final isar = await IsarService().getDB();

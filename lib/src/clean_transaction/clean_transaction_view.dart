@@ -4,16 +4,16 @@ import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/models/transaction.dart';
 import 'package:intl/intl.dart';
 
-class CleanTransaction extends StatefulWidget {
-  const CleanTransaction({super.key});
+class CleanTransactionView extends StatefulWidget {
+  const CleanTransactionView({super.key});
 
   static const routeName = '/clean_transaction';
 
   @override
-  State<CleanTransaction> createState() => _CleanTransactionState();
+  State<CleanTransactionView> createState() => _CleanTransactionViewState();
 }
 
-class _CleanTransactionState extends State<CleanTransaction> {
+class _CleanTransactionViewState extends State<CleanTransactionView> {
   DateTime? startDate;
   DateTime? endDate;
 

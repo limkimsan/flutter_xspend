@@ -8,6 +8,7 @@ import 'package:flutter_xspend/src/login/login_view.dart';
 import 'package:flutter_xspend/src/sign_up/sign_up_view.dart';
 import 'package:flutter_xspend/src/new_transaction/new_transaction_view.dart';
 import 'package:flutter_xspend/src/clean_transaction/clean_transaction_view.dart';
+import 'package:flutter_xspend/src/profile/profile_view.dart';
 import 'package:flutter_xspend/src/isar/isar_service.dart';
 import 'package:flutter_xspend/src/models/user.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
@@ -32,8 +33,10 @@ class AppRoute {
               value: transactionBloc,
               child: const NewTransactionView()
             );
-          case CleanTransaction.routeName:
-            return const CleanTransaction();
+          case CleanTransactionView.routeName:
+            return const CleanTransactionView();
+          case ProfileView.routeName:
+            return const ProfileView();
           case BottomTabView.routeName:
             return BottomTabView(transactionBloc: transactionBloc);
           default:

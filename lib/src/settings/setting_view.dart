@@ -9,6 +9,7 @@ import 'base_currency_bottom_sheet.dart';
 import 'exchange_rate_bottom_sheet.dart';
 import 'package:flutter_xspend/src/bloc/base_currency/base_currency_bloc.dart';
 import 'package:flutter_xspend/src/clean_transaction/clean_transaction_view.dart';
+import 'package:flutter_xspend/src/profile/profile_view.dart';
 
 class SettingView extends StatefulWidget {
   const SettingView({super.key});
@@ -26,7 +27,10 @@ class _SettingViewState extends State<SettingView> {
       const BaseCurrencyBottomSheet().showBottomSheet(context);
     }
     else if (type == 3) {
-      Navigator.of(context).pushNamed(CleanTransaction.routeName);
+      Navigator.of(context).pushNamed(CleanTransactionView.routeName);
+    }
+    else {
+      Navigator.of(context).pushNamed(ProfileView.routeName);
     }
   }
 

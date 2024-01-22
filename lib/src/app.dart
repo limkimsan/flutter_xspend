@@ -121,7 +121,7 @@ class MyApp extends StatelessWidget {
           )
         )
       ),
-      darkTheme: ThemeData.dark(),
+      // darkTheme: ThemeData.dark(),
       onGenerateRoute: (RouteSettings routeSettings) {
         return appRoute.onGenerateRoute(routeSettings);
       },

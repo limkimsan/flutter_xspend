@@ -12,7 +12,6 @@ class SignUpView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        // padding: const EdgeInsets.all(64),
         padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 64),
         child: SafeArea(
           child: SingleChildScrollView(

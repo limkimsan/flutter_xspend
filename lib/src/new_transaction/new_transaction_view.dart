@@ -123,6 +123,7 @@ class _NewTransactionViewState extends State<NewTransactionView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Create New Transaction'),
       ),

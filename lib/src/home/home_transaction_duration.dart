@@ -32,7 +32,10 @@ class _HomeTransactionDurationState extends State<HomeTransactionDuration> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     DateTime now = DateTime.now();
     setState(() {
-      durationType = prefs.getString('TRANSACTION_DURATION').toString();
+      if (prefs.getString('TRANSACTION_DURATION') != null) {
+        durationType = prefs.getString('TRANSACTION_DURATION').toString();
+      }
+
       if (prefs.getString('TRANSACTION_DURATION') == 'year') {
         label = now.year.toString();
       }
@@ -48,6 +51,9 @@ class _HomeTransactionDurationState extends State<HomeTransactionDuration> {
   @override
   Widget build(BuildContext context) {
     Widget monthSwitcherBtn(label, isBackward) {
+      print('+++ duration type $durationType');
+      print('=== is able move = ${DateTimeUtil.ableMoveNextMonth(widget.selectedDate)}');
+
       if (durationType != 'month' || (!isBackward && !DateTimeUtil.ableMoveNextMonth(widget.selectedDate))) {
         return const SizedBox(width: 98);
       }

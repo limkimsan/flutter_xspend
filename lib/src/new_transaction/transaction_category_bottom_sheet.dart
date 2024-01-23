@@ -75,37 +75,34 @@ class _TransactionCategoryBottomSheetState extends State<TransactionCategoryBott
   }
 
   Widget categoryItem(category) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 28),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          InkWell(
-            onTap: () {
-              widget.updateSelectedValue(category);
-            },
-            child: Container(
-              height: 56,
-              width: 56,
-              margin: const EdgeInsets.only(bottom: 4),
-              decoration: BoxDecoration(
-                color: getColorFromHex(category.bgColor),
-                borderRadius: BorderRadius.circular(56)
-              ),
-              child: CategoryIcon(type: category.iconType, name: category.icon, color: getColorFromHex(category.iconColor)),
-            ),
-          ),
-          SizedBox(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        InkWell(
+          onTap: () {
+            widget.updateSelectedValue(category);
+          },
+          child: Container(
+            height: 56,
             width: 56,
-            child: Text(
-              category.name,
-              style: const TextStyle(fontSize: 12, overflow: TextOverflow.ellipsis),
-              maxLines: 2,
-              textAlign: TextAlign.center,
+            margin: const EdgeInsets.only(bottom: 4),
+            decoration: BoxDecoration(
+              color: getColorFromHex(category.bgColor),
+              borderRadius: BorderRadius.circular(56)
             ),
+            child: CategoryIcon(type: category.iconType, name: category.icon, color: getColorFromHex(category.iconColor)),
           ),
-        ],
-      ),
+        ),
+        SizedBox(
+          width: double.infinity,
+          child: Text(
+            category.name,
+            style: const TextStyle(fontSize: 12, overflow: TextOverflow.ellipsis),
+            maxLines: 2,
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ],
     );
   }
 
@@ -135,19 +132,18 @@ class _TransactionCategoryBottomSheetState extends State<TransactionCategoryBott
             ),
             Flexible(     // make the its height fill the rest of its parent widget
               child: SizedBox(
-                child: CustomScrollView(
-                  slivers: [
-                    SliverToBoxAdapter(
-                      child: Wrap(
-                        spacing: 45,
-                        children: [
-                          for (int i = 0; i < categories.length; i++)
-                            categoryItem(categories[i]),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    childAspectRatio: 0.8,
+                    crossAxisCount: 4, // 4 items per row
+                    crossAxisSpacing: 8, // Horizontal spacing between items
+                    mainAxisSpacing: 4, // Vertical spacing between items
+                  ),
+                  itemCount: categories.length, // Total number of items
+                  itemBuilder: (context, index) {
+                    return categoryItem(categories[index]);
+                  },
+                )
               ),
             ),
           ],

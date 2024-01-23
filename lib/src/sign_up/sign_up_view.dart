@@ -12,38 +12,40 @@ class SignUpView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(64),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'Sign Up',
-                  style: Theme.of(context).textTheme.headlineLarge,
-                ),
-              ),
-              const SizedBox(height: 40),
-              const SignUpFormWidget(),
-              const SizedBox(height: 40),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Already has an account?',
-                    style: TextStyle(color: Colors.white),
+        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 64),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Sign Up',
+                    style: Theme.of(context).textTheme.headlineLarge,
                   ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushNamedAndRemoveUntil(context, LoginView.routeName, (route) => false);
-                    },
-                    child: const Text('Login'),
-                  )
-                ],
-              )
-            ],
+                ),
+                const SizedBox(height: 40),
+                const SignUpFormWidget(),
+                const SizedBox(height: 40),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Already has an account?',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushNamedAndRemoveUntil(context, LoginView.routeName, (route) => false);
+                      },
+                      child: const Text('Login'),
+                    )
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),

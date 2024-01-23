@@ -68,6 +68,7 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
           const SizedBox(height: 24),
           const InputLabelWidget('Your email'),
           TextFormField(
+            keyboardType: TextInputType.emailAddress,
             decoration: const InputDecoration(
               hintText: 'Enter your email',
             ),

@@ -19,6 +19,7 @@ dependencies:
   flutter_bloc: ^8.1.3
   flutter_dotenv: ^5.1.0
   flutter_easyloading: ^3.0.5
+  flutter_launcher_icons: ^0.13.1
   flutter_localizations:
     sdk: flutter
   flutter_slidable: ^3.0.1
@@ -40,6 +41,12 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   isar_generator: ^3.1.0+1
   build_runner: ^2.4.7
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: false
+  image_path: "assets/images/xpense-icon.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
 
 flutter:
   uses-material-design: true

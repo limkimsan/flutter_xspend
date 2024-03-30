@@ -14,6 +14,7 @@ import 'package:flutter_xspend/src/models/category.dart';
 import 'package:flutter_xspend/src/models/user.dart';
 import 'package:flutter_xspend/src/models/transaction.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
+import 'package:flutter_xspend/src/utils/currency_util.dart';
 
 class NewTransactionView extends StatefulWidget {
   const NewTransactionView({super.key});
@@ -53,7 +54,7 @@ class _NewTransactionViewState extends State<NewTransactionView> {
             selectedCategory = transaction.category.value;
             amount = transaction.amount.toString();
           });
-          amountController.text = transaction.amount.toString();
+          amountController.text = CurrencyUtil.formatNumber(transaction.amount.toString());
           noteController.text = transaction.note;
         });
       }

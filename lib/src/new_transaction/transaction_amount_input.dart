@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
+import 'package:flutter_xspend/src/utils/currency_util.dart';
 
 class TransactionAmountInput extends StatelessWidget {
   const TransactionAmountInput({super.key, required this.controller, required this.onChange});
@@ -9,19 +9,14 @@ class TransactionAmountInput extends StatelessWidget {
   final TextEditingController controller;
   final Function(String value) onChange;
 
-  static const _locale = 'en';
-  String _formatNumber(String s) => NumberFormat.decimalPattern(_locale).format(int.parse(s)).replaceAll(",", " ");  // Group the number by space
-
   void onAmountChange(value) {
     if (value.isNotEmpty && !value.contains('.')) {
-      String newText = _formatNumber(value.replaceAll(' ', ''));
+      String newText = CurrencyUtil.formatNumber(value.replaceAll(' ', ''));
       controller.value = TextEditingValue(
         text: newText,
         selection: TextSelection.collapsed(offset: newText.length),
       );
     }
-    // validate('amount', value);
-
     onChange(controller.text.replaceAll(' ', ''));
   }
 

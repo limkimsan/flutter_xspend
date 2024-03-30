@@ -15,6 +15,7 @@ import 'package:flutter_xspend/src/models/user.dart';
 import 'package:flutter_xspend/src/models/transaction.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
 import 'package:flutter_xspend/src/utils/currency_util.dart';
+import 'package:flutter_xspend/src/utils/datetime_util.dart';
 
 class NewTransactionView extends StatefulWidget {
   const NewTransactionView({super.key});
@@ -37,6 +38,7 @@ class _NewTransactionViewState extends State<NewTransactionView> {
   bool isEdit = false;
   String? selectedTransactionId;
   bool isSending = false;
+  DateTime? defaultDate;
 
   @override
   void initState() {
@@ -54,6 +56,7 @@ class _NewTransactionViewState extends State<NewTransactionView> {
             selectedCategory = transaction.category.value;
             amount = transaction.amount.toString();
           });
+          defaultDate = transaction.transactionDate;
           amountController.text = CurrencyUtil.formatNumber(transaction.amount.toString());
           noteController.text = transaction.note;
         });
@@ -74,14 +77,13 @@ class _NewTransactionViewState extends State<NewTransactionView> {
     isSending = true;
     setState(() { errorMsg = ''; });
     const uuid = Uuid();
-    DateTime tDate = date!.copyWith(hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
     final transaction = Transaction()
                           ..id = isEdit ? selectedTransactionId : uuid.v4()
                           ..amount = double.parse(amount)
                           ..currencyType = currencyType
                           ..note = noteController.text
                           ..transactionType = selectedCategory?.transactionType
-                          ..transactionDate = tDate
+                          ..transactionDate = DateTimeUtil.isSameDate(date, defaultDate) ? defaultDate : date
                           ..synced = false
                           ..category.value = selectedCategory
                           ..user.value = await User.currentLoggedIn();

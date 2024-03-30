@@ -35,4 +35,10 @@ class DateTimeUtil {
     }
     return true;
   }
+
+  static isSameDate(DateTime? firstDate, DateTime? secDate) {
+    if (firstDate == null || secDate == null) return false;
+
+    return DateTime(firstDate.year, firstDate.month, firstDate.day).isAtSameMomentAs(DateTime(secDate.year, secDate.month, secDate.day));
+  }
 }

@@ -8,11 +8,13 @@ import 'currency_type_picker.dart';
 import 'transaction_date_picker.dart';
 import 'transaction_note_input.dart';
 import 'transaction_controller.dart';
+import 'transaction_amount_input.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/models/category.dart';
 import 'package:flutter_xspend/src/models/user.dart';
 import 'package:flutter_xspend/src/models/transaction.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
+import 'package:flutter_xspend/src/utils/currency_util.dart';
 
 class NewTransactionView extends StatefulWidget {
   const NewTransactionView({super.key});
@@ -27,6 +29,7 @@ class _NewTransactionViewState extends State<NewTransactionView> {
   String currencyType = 'khr';
   DateTime? date;
   Category? selectedCategory;
+  String amount = '';
   final amountController = TextEditingController();
   final noteController = TextEditingController();
   bool isValid = false;
@@ -49,8 +52,9 @@ class _NewTransactionViewState extends State<NewTransactionView> {
             currencyType = transaction.currencyType;
             date = transaction.transactionDate;
             selectedCategory = transaction.category.value;
+            amount = transaction.amount.toString();
           });
-          amountController.text = transaction.amount.toString();
+          amountController.text = CurrencyUtil.formatNumber(transaction.amount.toString());
           noteController.text = transaction.note;
         });
       }
@@ -66,13 +70,14 @@ class _NewTransactionViewState extends State<NewTransactionView> {
     if (isSending) {
       return;
     }
+
     isSending = true;
     setState(() { errorMsg = ''; });
     const uuid = Uuid();
     DateTime tDate = date!.copyWith(hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
     final transaction = Transaction()
                           ..id = isEdit ? selectedTransactionId : uuid.v4()
-                          ..amount = double.parse(amountController.text)
+                          ..amount = double.parse(amount)
                           ..currencyType = currencyType
                           ..note = noteController.text
                           ..transactionType = selectedCategory?.transactionType
@@ -105,19 +110,24 @@ class _NewTransactionViewState extends State<NewTransactionView> {
     switch (fieldName) {
       case 'category':
         setState(() {
-          isValid = TransactionController.isValid(value, amountController.text, date);
+          isValid = TransactionController.isValid(value, amount, date);
         });
         break;
       case 'date':
         setState(() {
-          isValid = TransactionController.isValid(selectedCategory, amountController.text, value);
+          isValid = TransactionController.isValid(selectedCategory, amount, value);
         });
         break;
       default:
         setState(() {
-          isValid = TransactionController.isValid(selectedCategory, amountController.text, date);
+          isValid = TransactionController.isValid(selectedCategory, amount, date);
         });
     }
+  }
+
+  void onAmountChange(value) {
+    amount = value;
+    validate('amount', value);
   }
 
   @override
@@ -145,28 +155,9 @@ class _NewTransactionViewState extends State<NewTransactionView> {
                           validate('category', category);
                           Navigator.of(context).pop();
                         }),
-                        Flexible(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: TextField(
-                              controller: amountController,
-                              keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                              onChanged: (value) => validate('amount', value),
-                              decoration: InputDecoration(
-                                hintText: 'Transaction amount',
-                                hintStyle: const TextStyle(color: pewter, fontSize: 15),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: const BorderSide(color: primary, width: 1.5),
-                                ),
-                                filled: false,
-                              ),
-                              style: const TextStyle(color: pewter),
-                              onTapOutside: (event) {
-                                FocusScope.of(context).unfocus();
-                              },
-                            ),
-                          ),
+                        TransactionAmountInput(
+                          controller: amountController,
+                          onChange: onAmountChange
                         ),
                         CurrencyTypePicker(currencyType, (type) {
                           setState(() { currencyType = type; });

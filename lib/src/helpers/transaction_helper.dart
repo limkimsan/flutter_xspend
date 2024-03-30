@@ -66,7 +66,7 @@ class TransactionHelper {
   }
 
   static getGroupedTransactions(transactions, exchangeRate, baseCurrency) {
-    final groupedList = groupBy(transactions, (t) => (t as Transaction).transactionDate);
+    final groupedList = groupBy(transactions, (t) => (t as Transaction).transactionDate?.toIso8601String().split('T')[0]);   // group the transaction by the the date only (exclude the time)
     final formattedList = [];
     groupedList.forEach((key, value) {
       final obj = {

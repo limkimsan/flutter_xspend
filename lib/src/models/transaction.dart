@@ -1,4 +1,3 @@
-import 'package:intl/intl.dart';
 import 'package:flutter_xspend/src/isar/isar_service.dart';
 import 'package:isar/isar.dart';
 
@@ -120,6 +119,7 @@ class Transaction {
     final user = await User.currentLoggedIn();
     final isar = await IsarService().getDB();
     final result = await isar.transactions.filter().transactionDateBetween(startDate, endDate).and().user((q) => q.idEqualTo(user.id)).sortByTransactionDateDesc().findAll();
+    // print('== result = ${result.first.toMap()}');
     return result;
   }
 

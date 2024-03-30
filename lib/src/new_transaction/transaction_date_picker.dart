@@ -17,7 +17,19 @@ class TransactionDatePicker extends StatelessWidget {
       lastDate: DateTime(2025),
     );
     if (pickedDate != null && pickedDate != selectedDate) {
-      updateSelectedDate(pickedDate);
+      final now = DateTime.now();
+      final selectedDateTime = DateTime(
+        pickedDate.year,
+        pickedDate.month,
+        pickedDate.day,
+        now.hour,
+        now.minute,
+        now.second,
+        now.millisecond,
+        now.microsecond
+      );
+
+      updateSelectedDate(selectedDateTime);
     }
   }
 

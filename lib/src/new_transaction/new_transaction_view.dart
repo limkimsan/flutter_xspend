@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,6 +29,8 @@ class _NewTransactionViewState extends State<NewTransactionView> {
   DateTime? date;
   Category? selectedCategory;
   final amountController = TextEditingController();
+  static const _locale = 'en';
+  String _formatNumber(String s) => NumberFormat.decimalPattern(_locale).format(int.parse(s)).replaceAll(",", " ");  // Group the number by space
   final noteController = TextEditingController();
   bool isValid = false;
   String errorMsg = '';
@@ -62,17 +65,22 @@ class _NewTransactionViewState extends State<NewTransactionView> {
     });
   }
 
+  String getAmount() {
+    return amountController.text.replaceAll(' ', '');
+  }
+
   void saveTransaction() async {
     if (isSending) {
       return;
     }
+
     isSending = true;
     setState(() { errorMsg = ''; });
     const uuid = Uuid();
     DateTime tDate = date!.copyWith(hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
     final transaction = Transaction()
                           ..id = isEdit ? selectedTransactionId : uuid.v4()
-                          ..amount = double.parse(amountController.text)
+                          ..amount = double.parse(getAmount())
                           ..currencyType = currencyType
                           ..note = noteController.text
                           ..transactionType = selectedCategory?.transactionType
@@ -105,19 +113,30 @@ class _NewTransactionViewState extends State<NewTransactionView> {
     switch (fieldName) {
       case 'category':
         setState(() {
-          isValid = TransactionController.isValid(value, amountController.text, date);
+          isValid = TransactionController.isValid(value, getAmount(), date);
         });
         break;
       case 'date':
         setState(() {
-          isValid = TransactionController.isValid(selectedCategory, amountController.text, value);
+          isValid = TransactionController.isValid(selectedCategory, getAmount(), value);
         });
         break;
       default:
         setState(() {
-          isValid = TransactionController.isValid(selectedCategory, amountController.text, date);
+          isValid = TransactionController.isValid(selectedCategory, getAmount(), date);
         });
     }
+  }
+
+  void onAmountChange(value) {
+    if (value.isNotEmpty && !value.contains('.')) {
+      String newText = _formatNumber(value.replaceAll(' ', ''));
+      amountController.value = TextEditingValue(
+        text: newText,
+        selection: TextSelection.collapsed(offset: newText.length),
+      );
+    }
+    validate('amount', value);
   }
 
   @override
@@ -151,7 +170,7 @@ class _NewTransactionViewState extends State<NewTransactionView> {
                             child: TextField(
                               controller: amountController,
                               keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                              onChanged: (value) => validate('amount', value),
+                              onChanged: (value) => onAmountChange(value),
                               decoration: InputDecoration(
                                 hintText: 'Transaction amount',
                                 hintStyle: const TextStyle(color: pewter, fontSize: 15),

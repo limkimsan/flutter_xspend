@@ -51,8 +51,8 @@ class _HomeTransactionDurationState extends State<HomeTransactionDuration> {
   @override
   Widget build(BuildContext context) {
     Widget monthSwitcherBtn(label, isBackward) {
-      print('+++ duration type $durationType');
-      print('=== is able move = ${DateTimeUtil.ableMoveNextMonth(widget.selectedDate)}');
+      // print('+++ duration type $durationType');
+      // print('=== is able move = ${DateTimeUtil.ableMoveNextMonth(widget.selectedDate)}');
 
       if (durationType != 'month' || (!isBackward && !DateTimeUtil.ableMoveNextMonth(widget.selectedDate))) {
         return const SizedBox(width: 98);

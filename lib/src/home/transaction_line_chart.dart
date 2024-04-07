@@ -175,6 +175,8 @@ class _TransactionLineChartState extends State<TransactionLineChart> {
 
   @override
   Widget build(BuildContext context) {
+    print('== chart data = $chartData');
+
     return Column(
       children: [
         Padding(

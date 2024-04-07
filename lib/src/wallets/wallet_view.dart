@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/wallets/wallet_header.dart';
+import 'package:flutter_xspend/src/wallets/wallet_line_chart.dart';
 
 class WalletView extends StatelessWidget {
   const WalletView({super.key});
@@ -17,7 +18,25 @@ class WalletView extends StatelessWidget {
           child: const WalletHeader(),
         ),
       ),
-      body: const Text('Wallet body'),
+      body: Column(
+        children: [
+          const WalletLineChart(),
+          const SizedBox(height: 46),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: SizedBox(
+              width: double.infinity,
+              child: OutlinedButton(
+                onPressed: () {},
+                child: Text(
+                  'View balance detail',
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(color: primary),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

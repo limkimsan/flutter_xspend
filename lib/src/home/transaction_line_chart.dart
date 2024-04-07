@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
-import 'package:flutter_xspend/src/utils/chart_util.dart';
 import 'package:flutter_xspend/src/new_transaction/transaction_controller.dart';
+import 'package:flutter_xspend/src/shared/line_chart/line_chart_left_title.dart';
+import 'package:flutter_xspend/src/shared/line_chart/line_chart_bottom_title.dart';
 
 class TransactionLineChart extends StatefulWidget {
   const TransactionLineChart({super.key, required this.transactions});
@@ -43,27 +44,6 @@ class _TransactionLineChartState extends State<TransactionLineChart> {
     });
   }
 
-  Widget leftTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.bold,
-      fontSize: 11,
-    );
-    return Text(ChartUtil.getLeftTitle(value), style: style, textAlign: TextAlign.left);
-  }
-
-  Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.bold,
-      fontSize: 12,
-    );
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      child: Text(ChartUtil.getMonthLabels(value.toInt()), style: style),
-    );
-  }
-
   LineChartData mainData() {
     return LineChartData(
       gridData: FlGridData(
@@ -96,14 +76,14 @@ class _TransactionLineChartState extends State<TransactionLineChart> {
           sideTitles: SideTitles(
             showTitles: true,
             interval: 1,
-            getTitlesWidget: bottomTitleWidgets,
+            getTitlesWidget: (value, meta) => LineChartBottomTitle(value: value, meta: meta),
           ),
         ),
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
             // interval: 100,
-            getTitlesWidget: leftTitleWidgets,
+            getTitlesWidget: (value, meta) => LineChartLeftTitle(value: value, meta: meta),
             reservedSize: 42,
           ),
         ),

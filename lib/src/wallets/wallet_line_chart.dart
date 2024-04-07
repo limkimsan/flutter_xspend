@@ -3,7 +3,6 @@ import 'package:fl_chart/fl_chart.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/shared/line_chart/line_chart_left_title.dart';
-import 'package:flutter_xspend/src/utils/chart_util.dart';
 import 'package:flutter_xspend/src/shared/line_chart/line_chart_bottom_title.dart';
 import 'package:flutter_xspend/src/wallets/wallet_controller.dart';
 

@@ -9,6 +9,7 @@ import 'package:flutter_xspend/src/sign_up/sign_up_view.dart';
 import 'package:flutter_xspend/src/new_transaction/new_transaction_view.dart';
 import 'package:flutter_xspend/src/clean_transaction/clean_transaction_view.dart';
 import 'package:flutter_xspend/src/profile/profile_view.dart';
+import 'package:flutter_xspend/src/wallet_details/wallet_detail_view.dart';
 import 'package:flutter_xspend/src/isar/isar_service.dart';
 import 'package:flutter_xspend/src/models/user.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
@@ -37,6 +38,8 @@ class AppRoute {
             return const CleanTransactionView();
           case ProfileView.routeName:
             return const ProfileView();
+          case WalletDetailView.routeName:
+            return const WalletDetailView();
           case BottomTabView.routeName:
             return BottomTabView(transactionBloc: transactionBloc);
           default:

@@ -39,7 +39,10 @@ class AppRoute {
           case ProfileView.routeName:
             return const ProfileView();
           case WalletDetailView.routeName:
-            return const WalletDetailView();
+            return BlocProvider.value(
+              value: transactionBloc,
+              child: const WalletDetailView()
+            );
           case BottomTabView.routeName:
             return BottomTabView(transactionBloc: transactionBloc);
           default:

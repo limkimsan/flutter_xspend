@@ -6,12 +6,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/constants/font_size.dart';
-import 'package:flutter_xspend/src/bloc/exchange_rate/exchange_rate_bloc.dart';
-import 'package:flutter_xspend/src/models/transaction.dart';
+import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
+import 'package:flutter_xspend/src/bloc/transaction/transaction_state.dart';
 import 'package:flutter_xspend/src/helpers/transaction_helper.dart';
 
 class WalletDetailSummaryHeader extends StatefulWidget {
-  const WalletDetailSummaryHeader({super.key});
+  const WalletDetailSummaryHeader({super.key, required this.selectedDate});
+
+  final DateTime selectedDate;
 
   @override
   State<WalletDetailSummaryHeader> createState() => _WalletDetailSummaryHeaderState();
@@ -23,14 +25,24 @@ class _WalletDetailSummaryHeaderState extends State<WalletDetailSummaryHeader> {
   String khrCashflow = '';
   String usdCashflow = '';
   String basedCurrency = 'khr';
+  bool isNegative = false;
 
   @override
   void initState() {
     super.initState();
-    loadBalanceAndCashflow();
+    loadBalance();
+    loadCashflow();
   }
 
-  void loadBalanceAndCashflow() async {
+  @override
+  void didUpdateWidget(covariant WalletDetailSummaryHeader oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.selectedDate != widget.selectedDate) {
+      loadCashflow(widget.selectedDate);
+    }
+  }
+
+  void loadBalance() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     // ignore: use_build_context_synchronously
     final state = context.read<ExchangeRateBloc>().state;
@@ -39,6 +51,17 @@ class _WalletDetailSummaryHeaderState extends State<WalletDetailSummaryHeader> {
     setState(() {
       khrBalance = TransactionHelper.getFormattedTotal(transactions, state.exchangeRate, 'khr');
       usdBalance = TransactionHelper.getFormattedTotal(transactions, state.exchangeRate, 'usd');
+    });
+  }
+
+  void loadCashflow([selectedDate]) async {
+    List<Transaction> transactions = selectedDate != null ? await Transaction.getAllByMonth(widget.selectedDate) : [];
+    TransactionHelper(transactions: transactions).calculateTransactionsGrandTotal((result) {
+      setState(() {
+        isNegative = result['income']['usd'] - result['expense']['usd'] < 0 ? true : false;
+        usdCashflow = TransactionHelper.getCalculatedAmountForDisplay('usd', result['income']['usd'], result['expense']['usd']);
+        khrCashflow = TransactionHelper.getCalculatedAmountForDisplay('khr', result['income']['khr'], result['expense']['khr']);
+      });
     });
   }
 
@@ -54,26 +77,31 @@ class _WalletDetailSummaryHeaderState extends State<WalletDetailSummaryHeader> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        summaryLabel('Wallet Balance', khrBalance, usdBalance),
-        Container(
-          width: 0.5,
-          height: 70,
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.white,
-              width: 0.5
-            )
+    return BlocListener<TransactionBloc, TransactionState>(
+      listener: (context, state) {
+        loadCashflow();
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          summaryLabel('Wallet Balance', khrBalance, usdBalance),
+          Container(
+            width: 0.5,
+            height: 70,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.white,
+                width: 0.5
+              )
+            ),
+            child: const SizedBox(
+              width: double.infinity,
+              height: double.infinity,
+            ),
           ),
-          child: const SizedBox(
-            width: double.infinity,
-            height: double.infinity,
-          ),
-        ),
-        summaryLabel('Monthly Cashflow', 'KHR 10000000000', '100000000'),
-      ],
+          summaryLabel('Cashflow', khrCashflow, usdCashflow),
+        ],
+      ),
     );
   }
 }

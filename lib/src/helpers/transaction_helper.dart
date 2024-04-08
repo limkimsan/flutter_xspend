@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter_xspend/src/utils/currency_util.dart';
 import 'package:flutter_xspend/src/constants/transaction_constant.dart';
 import 'package:flutter_xspend/src/models/transaction.dart';
+import 'package:flutter_xspend/src/utils/currency_util.dart';
 
 class TransactionHelper {
   // transType: the type of the transaction (0 = expense, 1 = income)
@@ -15,9 +16,11 @@ class TransactionHelper {
     final khrAmount = CurrencyUtil.getKHR(amount, transCurrencyType, exchangeRates);
     final usdAmount = CurrencyUtil.getUSD(amount, transCurrencyType, exchangeRates);
 
-    final formattedKhr = NumberFormat.currency(
-      symbol: 'KHR ',
-    ).format(khrAmount);
+    // final formattedKhr = NumberFormat.currency(
+    //   symbol: 'KHR ',
+    // ).format(khrAmount);
+
+    final formattedKhr = CurrencyUtil.getCurrencyFormat(khrAmount, 'khr');
 
     final formattedUsd = NumberFormat.currency(
       symbol: '\$',

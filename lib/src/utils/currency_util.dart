@@ -11,4 +11,16 @@ class CurrencyUtil {
   }
 
   static formatNumber(String value) => NumberFormat.decimalPattern('en').format(double.parse(value)).replaceAll(",", " ");  // Group the number by space
+
+  static getCurrencyFormat(value, currencyType) {
+    if (currencyType == 'khr') {
+      return  NumberFormat.currency(
+        symbol: 'KHR ',
+      ).format(value);
+    }
+
+    return NumberFormat.currency(
+      symbol: '\$',
+    ).format(value);
+  }
 }

@@ -4,7 +4,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter_xspend/src/utils/currency_util.dart';
 import 'package:flutter_xspend/src/constants/transaction_constant.dart';
 import 'package:flutter_xspend/src/models/transaction.dart';
-import 'package:flutter_xspend/src/utils/currency_util.dart';
 
 class TransactionHelper {
   // transType: the type of the transaction (0 = expense, 1 = income)
@@ -15,16 +14,8 @@ class TransactionHelper {
   static getFormattedAmount(transType, displayCurrencyType, amount, transCurrencyType, exchangeRates) {
     final khrAmount = CurrencyUtil.getKHR(amount, transCurrencyType, exchangeRates);
     final usdAmount = CurrencyUtil.getUSD(amount, transCurrencyType, exchangeRates);
-
-    // final formattedKhr = NumberFormat.currency(
-    //   symbol: 'KHR ',
-    // ).format(khrAmount);
-
     final formattedKhr = CurrencyUtil.getCurrencyFormat(khrAmount, 'khr');
-
-    final formattedUsd = NumberFormat.currency(
-      symbol: '\$',
-    ).format(usdAmount);
+    final formattedUsd = CurrencyUtil.getCurrencyFormat(usdAmount, 'usd');
 
     final currencies = {
       'khr': formattedKhr,
@@ -58,13 +49,8 @@ class TransactionHelper {
 
   static getCalculatedAmountForDisplay(currencyType, income, expense) {
     var result = income - expense;
-    final formattedKhr = NumberFormat.currency(
-      symbol: 'KHR ',
-    ).format(result);
-    final formattedUsd = NumberFormat.currency(
-      symbol: '\$',
-    ).format(result);
-
+    final formattedKhr = CurrencyUtil.getCurrencyFormat(result, 'khr');
+    final formattedUsd = CurrencyUtil.getCurrencyFormat(result, 'usd');
     return currencyType == "khr" ? formattedKhr : formattedUsd;
   }
 

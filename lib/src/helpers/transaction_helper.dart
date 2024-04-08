@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:collection/collection.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 import 'package:flutter_xspend/src/utils/currency_util.dart';
+import 'package:flutter_xspend/src/utils/datetime_util.dart';
 import 'package:flutter_xspend/src/constants/transaction_constant.dart';
 import 'package:flutter_xspend/src/models/transaction.dart';
 
@@ -81,8 +83,7 @@ class TransactionHelper {
     List transactions = [];
     if (duration == 'custom') {
       Map dateRange = jsonDecode(prefs.getString('DATE_RANGE') as String);
-      transactions = await Transaction.getAllByDurationType(
-          duration, dateRange['start'], dateRange['end']);
+      transactions = await Transaction.getAllByDurationType(duration, dateRange['start'], dateRange['end']);
     } else {
       transactions = await Transaction.getAllByDurationType(duration);
     }
@@ -119,6 +120,24 @@ class TransactionHelper {
     return {
       'income': prefs.getString('BASED_CURRENCY') == 'usd' ? usdIncome : khrIncome,
       'expense': prefs.getString('BASED_CURRENCY') == 'usd' ? usdExpense : khrExpense
+    };
+  }
+
+  static getAllMonthlyChartData() async {
+    List<FlSpot> monthlyIncomes = [];
+    List<FlSpot> monthlyExpenses = [];
+
+    for (int i = 0; i < DateTime.now().month; i++) {
+      DateTime startDate = DateTimeUtil.getStartOfMonth(i + 1);
+      DateTime endDate = DateTimeUtil.getEndOfMonth(i + 1);
+      final transactions = await Transaction.getAllByDurationType('custom', startDate.toString(), endDate.toString());
+      final total = await TransactionHelper(transactions: transactions).calculateTotalExpenseIncome();
+      monthlyIncomes.add(FlSpot(i.toDouble(), total['income']));
+      monthlyExpenses.add(FlSpot(i.toDouble(), total['expense']));
+    }
+    return {
+      'expense': monthlyExpenses,
+      'income': monthlyIncomes,
     };
   }
 

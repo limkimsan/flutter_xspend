@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_xspend/src/wallet_details/wallet_detail_summary_header.dart';
 import 'package:flutter_xspend/src/shared/transaction_duration_switcher/transaction_duration_switcher.dart';
-import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
 
 class WalletDetailView extends StatefulWidget {
   const WalletDetailView({super.key});

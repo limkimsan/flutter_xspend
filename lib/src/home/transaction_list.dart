@@ -6,7 +6,6 @@ import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'transaction_list_item.dart';
-import 'package:flutter_xspend/src/new_transaction/transaction_controller.dart';
 import 'package:flutter_xspend/src/helpers/transaction_helper.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
 import 'package:flutter_xspend/src/bloc/exchange_rate/exchange_rate_bloc.dart';
@@ -26,7 +25,7 @@ class _TransactionListState extends State<TransactionList> {
   @override
   void initState() {
     super.initState();
-    TransactionController.loadTransactions((transactions) {
+    TransactionHelper.loadTransactions((transactions) {
       context.read<TransactionBloc>().add(LoadTransaction(transactions: transactions));
     });
     loadExchangeRate();

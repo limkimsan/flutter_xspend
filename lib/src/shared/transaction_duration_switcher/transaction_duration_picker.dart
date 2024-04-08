@@ -6,7 +6,7 @@ import 'package:flutter_xspend/src/constants/colors.dart';
 import 'transaction_duration_bottom_sheet.dart';
 import 'package:flutter_xspend/src/utils/string_util.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
-import 'package:flutter_xspend/src/new_transaction/transaction_controller.dart';
+import 'package:flutter_xspend/src/helpers/transaction_helper.dart';
 
 class TransactionDurationPicker extends StatefulWidget {
   const TransactionDurationPicker({super.key, required this.onDurationChanged});
@@ -44,7 +44,7 @@ class _TransactionDurationPickerState extends State<TransactionDurationPicker> {
   }
 
   void reloadTransactionList() {
-    TransactionController.loadTransactions((transactions) {
+    TransactionHelper.loadTransactions((transactions) {
       context.read<TransactionBloc>().add(LoadTransaction(transactions: transactions));
     });
   }

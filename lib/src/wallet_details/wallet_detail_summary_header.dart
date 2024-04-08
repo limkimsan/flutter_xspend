@@ -65,12 +65,15 @@ class _WalletDetailSummaryHeaderState extends State<WalletDetailSummaryHeader> {
     });
   }
 
-  Widget summaryLabel(title, khrValue, usdValue) {
+  Widget summaryLabel(title, khrValue, usdValue, [hasNegative = false]) {
+    Color mainLabelColor = (hasNegative && isNegative) ? red : lightGreen;
+    Color subLabelColor = (hasNegative && isNegative) ? red : pewter;
+
     return Column(
       children: [
         Text(title, style: const TextStyle(color: pewter)),
-        Text(basedCurrency == 'khr' ? khrValue : usdValue, style: TextStyle(color: lightGreen, fontWeight: FontWeight.bold, fontSize: mdHeader)),
-        Text(basedCurrency == 'khr' ? usdValue : khrValue, style: TextStyle(color: pewter, fontSize: smHeader)),
+        Text(basedCurrency == 'khr' ? khrValue : usdValue, style: TextStyle(color: mainLabelColor, fontWeight: FontWeight.bold, fontSize: mdHeader)),
+        Text(basedCurrency == 'khr' ? usdValue : khrValue, style: TextStyle(color: subLabelColor, fontSize: smHeader)),
       ],
     );
   }
@@ -99,7 +102,7 @@ class _WalletDetailSummaryHeaderState extends State<WalletDetailSummaryHeader> {
               height: double.infinity,
             ),
           ),
-          summaryLabel('Cashflow', khrCashflow, usdCashflow),
+          summaryLabel('Cashflow', khrCashflow, usdCashflow, true),
         ],
       ),
     );

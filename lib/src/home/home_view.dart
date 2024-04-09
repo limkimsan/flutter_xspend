@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'home_header.dart';
 import 'home_total_expense.dart';
-import 'transaction_list.dart';
+import 'package:flutter_xspend/src/shared/transaction_list/transaction_list.dart';
 import 'package:flutter_xspend/src/shared/transaction_duration_switcher/transaction_duration_switcher.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/new_transaction/new_transaction_view.dart';
@@ -44,7 +44,7 @@ class _HomeViewState extends State<HomeView> {
             ),
           ),
         ),
-        body: const TransactionList(),
+        body: const TransactionList(hasLineChart: true, isSlideable: true),
         floatingActionButton: SizedBox(
           height: 56,
           width: 56,

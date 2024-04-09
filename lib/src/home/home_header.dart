@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
-import 'package:flutter_xspend/src/new_transaction/transaction_controller.dart';
 import 'package:flutter_xspend/src/helpers/transaction_helper.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_state.dart';
@@ -38,8 +37,8 @@ class _HomeHeaderState extends State<HomeHeader> {
 
   void loadTotal([selectedDate]) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    List? transactions = selectedDate != null ? await Transaction.getAllByMonth(widget.selectedDate) : null;
-    TransactionController.calculateGrandTotal((result) {
+    List<Transaction> transactions = selectedDate != null ? await Transaction.getAllByMonth(widget.selectedDate) : [];
+    TransactionHelper(transactions: transactions).calculateTransactionsGrandTotal((result) {
       setState(() {
         isNegative = result['income']['usd'] - result['expense']['usd'] < 0 ? true : false;
         if (prefs.getString('BASED_CURRENCY') == 'usd') {
@@ -51,7 +50,7 @@ class _HomeHeaderState extends State<HomeHeader> {
           subtitle = TransactionHelper.getCalculatedAmountForDisplay('usd', result['income']['usd'], result['expense']['usd']);
         }
       });
-    }, transactions);
+    });
   }
 
   @override

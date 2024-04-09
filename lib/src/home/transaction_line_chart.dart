@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
-import 'package:flutter_xspend/src/new_transaction/transaction_controller.dart';
+import 'package:flutter_xspend/src/helpers/transaction_helper.dart';
 import 'package:flutter_xspend/src/shared/line_chart/line_chart_left_title.dart';
 import 'package:flutter_xspend/src/shared/line_chart/line_chart_bottom_title.dart';
 
@@ -38,7 +38,7 @@ class _TransactionLineChartState extends State<TransactionLineChart> {
   }
 
   void loadInitState() async {
-    final data = await TransactionController.getAllMonthlyChartData();
+    final data = await TransactionHelper.getAllMonthlyChartData();
     setState(() {
       chartData = data;
     });

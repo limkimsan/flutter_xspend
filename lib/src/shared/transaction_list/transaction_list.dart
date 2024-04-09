@@ -1,20 +1,25 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_xspend/src/home/transaction_line_chart.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
+import 'transaction_list_section_header.dart';
 import 'transaction_list_item.dart';
-import 'package:flutter_xspend/src/new_transaction/transaction_controller.dart';
+import 'package:flutter_xspend/src/home/transaction_line_chart.dart';
 import 'package:flutter_xspend/src/helpers/transaction_helper.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
 import 'package:flutter_xspend/src/bloc/exchange_rate/exchange_rate_bloc.dart';
 import 'package:flutter_xspend/src/bloc/base_currency/base_currency_bloc.dart';
 import 'package:flutter_xspend/src/utils/initial_util.dart';
+import 'package:flutter_xspend/src/constants/font_size.dart';
 
 class TransactionList extends StatefulWidget {
-  const TransactionList({super.key});
+  const TransactionList({super.key, required this.hasLineChart, required this.isSlideable});
+
+  final bool hasLineChart;
+  final bool isSlideable;
+  // final Widget? lineChart;
 
   @override
   State<TransactionList> createState() => _TransactionListState();
@@ -26,7 +31,7 @@ class _TransactionListState extends State<TransactionList> {
   @override
   void initState() {
     super.initState();
-    TransactionController.loadTransactions((transactions) {
+    TransactionHelper.loadTransactions((transactions) {
       context.read<TransactionBloc>().add(LoadTransaction(transactions: transactions));
     });
     loadExchangeRate();
@@ -57,65 +62,44 @@ class _TransactionListState extends State<TransactionList> {
       return SizedBox(
         height: screenHeight / 2,
         width: double.infinity,
-        child: const Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.receipt_long_outlined, size: 80, color: grey),
-            Text('No transaction', style: TextStyle(color: grey, fontSize: 16)),
+            const Icon(Icons.receipt_long_outlined, size: 80, color: grey),
+            Text('No transaction', style: TextStyle(color: grey, fontSize: mdFontSize)),
           ],
         ),
-      );
-    }
-
-    Widget sectionHeader(transactionDate, total) {
-      return Container(
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        height: 30,
-        width: double.infinity,
-        decoration: const BoxDecoration(
-          color: lightBlack
-        ),
-        child: Row(
-          children: [
-            Expanded(child: Text(
-              DateFormat.yMMMd().format(DateTime.parse(transactionDate)),
-              style: const TextStyle(color: pewter)
-            )),
-            Text('$total', style: const TextStyle(color: pewter)),
-          ],
-        )
       );
     }
 
     return CustomScrollView(
       slivers: [
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: TransactionLineChart(transactions: state.transactions),
+        if (widget.hasLineChart)
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: TransactionLineChart(transactions: state.transactions)
+            ),
           ),
-        ),
+
         for (final trans in TransactionHelper.getGroupedTransactions(state.transactions, rateState.exchangeRate, currencyState.currency)) ...[
           SliverStickyHeader(
-            header: sectionHeader(trans['title']['date'], trans['title']['total']),
+            header: TransactionListSectionHeader(transactionDate: trans['title']['date'], total: trans['title']['total']),
             sliver: SliverList.separated(
-              separatorBuilder: (context, index) => const Divider(color: grey, height: 1),
               itemCount: trans['data'].length,
-              itemBuilder: (context, index) => TransactionListItem(item: trans['data'][index], index: index, reloadData: (transactions) {
-                context.read<TransactionBloc>().add(LoadTransaction(transactions: transactions));
-              }),
+              itemBuilder: (context, index) => TransactionListItem(
+                item: trans['data'][index],
+                index: index,
+                isSlidable: widget.isSlideable,
+                reloadData: (transactions) {
+                  context.read<TransactionBloc>().add(LoadTransaction(transactions: transactions));
+                }
+              ),
+              separatorBuilder: (context, index) => const Divider(color: grey, height: 1)
             ),
-            // List without divider
-            // sliver: SliverList(
-            //   delegate: SliverChildBuilderDelegate(
-            //     (context, index) => TransactionListItem(item: trans['data'][index], index: index),
-            //     childCount: trans['data'].length,
-            //   ),
-            // ),
-          ),
+          )
         ],
-        const SliverPadding(padding: EdgeInsets.only(bottom: 62))
+        const SliverPadding(padding: EdgeInsets.only(bottom: 62)),
       ],
     );
   }

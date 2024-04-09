@@ -73,8 +73,8 @@ class _TransactionDurationBottomSheetState extends State<TransactionDurationBott
       if (pickedDate != null) {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('DATE_RANGE', jsonEncode({'start': pickedDate.start.toString(), 'end': pickedDate.end.toString()}));
+        widget.updateSelectedDuration(duration);
       }
-      widget.updateSelectedDuration(duration);
       close();
     }
     else {

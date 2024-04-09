@@ -5,20 +5,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'transaction_duration_picker.dart';
-import 'home_controller.dart';
+import 'transaction_duration_controller.dart';
 import 'package:flutter_xspend/src/utils/datetime_util.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
 
-class HomeTransactionDuration extends StatefulWidget {
-  const HomeTransactionDuration({super.key, required this.selectedDate, required this.updateSelectedDate});
+class TransactionDurationSwitcher extends StatefulWidget {
+  const TransactionDurationSwitcher({super.key, required this.selectedDate, required this.updateSelectedDate});
   final DateTime selectedDate;
   final void Function(DateTime date) updateSelectedDate;
 
   @override
-  State<HomeTransactionDuration> createState() => _HomeTransactionDurationState();
+  State<TransactionDurationSwitcher> createState() => _TransactionDurationSwitcherState();
 }
 
-class _HomeTransactionDurationState extends State<HomeTransactionDuration> {
+class _TransactionDurationSwitcherState extends State<TransactionDurationSwitcher> {
   String? label;
   String durationType = 'month';
 
@@ -38,11 +38,9 @@ class _HomeTransactionDurationState extends State<HomeTransactionDuration> {
 
       if (prefs.getString('TRANSACTION_DURATION') == 'year') {
         label = now.year.toString();
-      }
-      else if (prefs.getString('TRANSACTION_DURATION') == 'custom') {
+      } else if (prefs.getString('TRANSACTION_DURATION') == 'custom') {
         label = 'Custom';
-      }
-      else {
+      } else {
         label = DateFormat('MMMM').format(now);
       }
     });
@@ -51,9 +49,6 @@ class _HomeTransactionDurationState extends State<HomeTransactionDuration> {
   @override
   Widget build(BuildContext context) {
     Widget monthSwitcherBtn(label, isBackward) {
-      // print('+++ duration type $durationType');
-      // print('=== is able move = ${DateTimeUtil.ableMoveNextMonth(widget.selectedDate)}');
-
       if (durationType != 'month' || (!isBackward && !DateTimeUtil.ableMoveNextMonth(widget.selectedDate))) {
         return const SizedBox(width: 98);
       }
@@ -72,7 +67,7 @@ class _HomeTransactionDurationState extends State<HomeTransactionDuration> {
               const Icon(Icons.chevron_left, color: primary, size: 28),
             Text(
               DateFormat('MMM yy').format(label),
-              style: const TextStyle(color: primary, fontWeight: FontWeight.bold),
+              style: const TextStyle(color: primary, fontWeight: FontWeight.bold)
             ),
             if (!isBackward)
               const Icon(Icons.chevron_right, color: primary, size: 28),
@@ -85,7 +80,7 @@ class _HomeTransactionDurationState extends State<HomeTransactionDuration> {
       if (type == 'forward' && !DateTimeUtil.ableMoveNextMonth(widget.selectedDate)) {
         return;
       }
-      HomeController.switchTransactionMonth(type, widget.selectedDate, (newDate, transactions) {
+      TransactionDurationController.switchTransactionMonth(type, widget.selectedDate, (newDate, transactions) {
         setState(() {
           label = DateFormat('MMMM').format(newDate);
         });
@@ -109,7 +104,7 @@ class _HomeTransactionDurationState extends State<HomeTransactionDuration> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               InkWell(
-                onTap: () {changeTransMonth('backward');},
+                onTap: () { changeTransMonth('backward'); },
                 child: monthSwitcherBtn(
                   DateTimeUtil.switchDateByMonth('backward', widget.selectedDate),
                   true
@@ -120,7 +115,7 @@ class _HomeTransactionDurationState extends State<HomeTransactionDuration> {
                 loadPrefixLabel();
               }),
               InkWell(
-                onTap: () {changeTransMonth('forward');},
+                onTap: () { changeTransMonth('forward'); },
                 child: monthSwitcherBtn(
                   DateTimeUtil.switchDateByMonth('forward', widget.selectedDate),
                   false

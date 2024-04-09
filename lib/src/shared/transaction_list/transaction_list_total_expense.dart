@@ -3,21 +3,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
-import 'package:flutter_xspend/src/new_transaction/transaction_controller.dart';
 import 'package:flutter_xspend/src/helpers/transaction_helper.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_state.dart';
 import 'package:flutter_xspend/src/models/transaction.dart';
 
-class HomeTotalExpense extends StatefulWidget {
-  const HomeTotalExpense({super.key, required this.selectedDate});
+class TransactionListTotalExpense extends StatefulWidget {
+  const TransactionListTotalExpense({super.key, required this.selectedDate});
+
   final DateTime selectedDate;
 
   @override
-  State<HomeTotalExpense> createState() => _HomeTotalExpenseState();
+  State<TransactionListTotalExpense> createState() => _TransactionListTotalExpenseState();
 }
 
-class _HomeTotalExpenseState extends State<HomeTotalExpense> {
+class _TransactionListTotalExpenseState extends State<TransactionListTotalExpense> {
   String basedCurrency = 'khr';
   String mainTitle = '';
   String subtitle = '';
@@ -29,7 +29,7 @@ class _HomeTotalExpenseState extends State<HomeTotalExpense> {
   }
 
   @override
-  void didUpdateWidget(covariant HomeTotalExpense oldWidget) {
+  void didUpdateWidget(covariant TransactionListTotalExpense oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.selectedDate != widget.selectedDate) {
       loadTotal(widget.selectedDate);
@@ -37,8 +37,8 @@ class _HomeTotalExpenseState extends State<HomeTotalExpense> {
   }
 
   void loadTotal([selectedDate]) async {
-    List? transactions = selectedDate != null ? await Transaction.getAllByMonth(widget.selectedDate) : null;
-    TransactionController.calculateGrandTotal((result) async {
+    List<Transaction> transactions = selectedDate != null ? await Transaction.getAllByMonth(widget.selectedDate) : [];
+    TransactionHelper(transactions: transactions).calculateTransactionsGrandTotal((result) async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       setState(() {
         if (prefs.getString('BASED_CURRENCY') == 'usd') {
@@ -51,7 +51,7 @@ class _HomeTotalExpenseState extends State<HomeTotalExpense> {
         }
         basedCurrency = prefs.getString('BASED_CURRENCY') ?? 'khr';
       });
-    }, transactions);
+    });
   }
 
   @override

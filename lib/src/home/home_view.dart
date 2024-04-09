@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'home_header.dart';
-import 'home_total_expense.dart';
 import 'package:flutter_xspend/src/shared/transaction_list/transaction_list.dart';
 import 'package:flutter_xspend/src/shared/transaction_duration_switcher/transaction_duration_switcher.dart';
+import 'package:flutter_xspend/src/shared/transaction_list/transaction_list_total_expense.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/new_transaction/new_transaction_view.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
@@ -39,7 +39,7 @@ class _HomeViewState extends State<HomeView> {
                 TransactionDurationSwitcher(selectedDate: selectedDate, updateSelectedDate: (date) {
                   setState(() { selectedDate = date; });
                 },),
-                HomeTotalExpense(selectedDate: selectedDate),
+                TransactionListTotalExpense(selectedDate: selectedDate),
               ],
             ),
           ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_xspend/src/wallet_details/wallet_detail_summary_header.dart';
 import 'package:flutter_xspend/src/shared/transaction_duration_switcher/transaction_duration_switcher.dart';
 import 'package:flutter_xspend/src/shared/transaction_list/transaction_list.dart';
+import 'package:flutter_xspend/src/shared/transaction_list/transaction_list_total_expense.dart';
 
 class WalletDetailView extends StatefulWidget {
   const WalletDetailView({super.key});
@@ -32,6 +33,8 @@ class _WalletDetailViewState extends State<WalletDetailView> {
             TransactionDurationSwitcher(selectedDate: selectedDate, updateSelectedDate: (date) {
               setState(() { selectedDate = date; });
             }),
+            TransactionListTotalExpense(selectedDate: selectedDate),
+            const SizedBox(height: 12),
             const Expanded(
               child: TransactionList(hasLineChart: false, isSlideable: false),
             ),

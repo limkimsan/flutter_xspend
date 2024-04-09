@@ -8,15 +8,16 @@ import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_state.dart';
 import 'package:flutter_xspend/src/models/transaction.dart';
 
-class HomeTotalExpense extends StatefulWidget {
-  const HomeTotalExpense({super.key, required this.selectedDate});
+class TransactionListTotalExpense extends StatefulWidget {
+  const TransactionListTotalExpense({super.key, required this.selectedDate});
+
   final DateTime selectedDate;
 
   @override
-  State<HomeTotalExpense> createState() => _HomeTotalExpenseState();
+  State<TransactionListTotalExpense> createState() => _TransactionListTotalExpenseState();
 }
 
-class _HomeTotalExpenseState extends State<HomeTotalExpense> {
+class _TransactionListTotalExpenseState extends State<TransactionListTotalExpense> {
   String basedCurrency = 'khr';
   String mainTitle = '';
   String subtitle = '';
@@ -28,7 +29,7 @@ class _HomeTotalExpenseState extends State<HomeTotalExpense> {
   }
 
   @override
-  void didUpdateWidget(covariant HomeTotalExpense oldWidget) {
+  void didUpdateWidget(covariant TransactionListTotalExpense oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.selectedDate != widget.selectedDate) {
       loadTotal(widget.selectedDate);

@@ -3,11 +3,11 @@
   "@appTitle": {
     "description": "The title of the application"
   },
-  "helloWorld": "Hello World!",
+  "helloWorld": "សួស្ដី!",
   "@helloWorld": {
     "description": "The conventional newborn programmer greeting"
   },
-  "hello": "Hello {userName}",
+  "hello": "សួស្ដី {userName}",
   "@hello": {
     "description": "A message with a single parameter",
     "placeholders": {

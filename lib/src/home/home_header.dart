@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/helpers/transaction_helper.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_state.dart';
 import 'package:flutter_xspend/src/models/transaction.dart';
+
+import 'package:flutter_xspend/src/localization/localization_constants.dart';
 
 class HomeHeader extends StatefulWidget {
   const HomeHeader({super.key, required this.selectedDate});
@@ -65,7 +68,10 @@ class _HomeHeaderState extends State<HomeHeader> {
           child: Column(
             children: [
               Text(
-                mainTitle,
+                getTranslated(context, 'helloWorld'),
+                // MainLocalization.of(context).getTranslatedValue('hello'),
+                // AppLocalizations.of(context)!.hello('Jonh'),
+                // mainTitle,
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   color: isNegative ? red : yellow
                 ),

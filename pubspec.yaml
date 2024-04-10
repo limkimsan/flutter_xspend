@@ -57,5 +57,7 @@ flutter:
   assets:
     # Add assets from the images directory to the application.
     - assets/images/
+    - lib/src/localization/app_en.arb
+    - lib/src/localization/app_km.arb
     - .env.development
     - .env.production

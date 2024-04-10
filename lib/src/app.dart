@@ -6,11 +6,31 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'routes/app_route.dart';
 import 'constants/colors.dart';
 
+import 'localization/main_localization.dart';
+
 /// The Widget that configures your application.
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key, required this.initialRoute, required this.appRoute});
   final String initialRoute;
   final AppRoute appRoute;
+
+  static void setLocale(BuildContext context, Locale locale) {
+    _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
+    state?.setLocale(locale);
+  }
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Locale _locale = const Locale('en', 'US');
+
+  void setLocale(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,21 +51,34 @@ class MyApp extends StatelessWidget {
       // allows descendant Widgets to display the correct translations
       // depending on the user's locale.
       localizationsDelegates: const [
-        AppLocalizations.delegate,
+        MainLocalization.delegate,
+        // AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
+      locale: _locale,
       supportedLocales: const [
-        Locale('en', ''), // English, no country code
+        Locale('en', 'US'), // English, no country code
+        Locale('km', 'KM'),
       ],
+      localeResolutionCallback:(locale, supportedLocales) {
+        for (var supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale?.languageCode) {
+            return locale;
+          }
+        }
+
+        return supportedLocales.first;
+      },
 
       // Use AppLocalizations to configure the correct application title
       // depending on the user's locale.
       //
       // The appTitle is defined in .arb files found in the localization
       // directory.
-      onGenerateTitle: (BuildContext context) => AppLocalizations.of(context)!.appTitle,
+      // onGenerateTitle: (BuildContext context) => AppLocalizations.of(context)!.appTitle,
+      onGenerateTitle: (BuildContext context) => MainLocalization.of(context).getTranslatedValue('appTitle'),
       color: Colors.white,    // set the background color of the app icon in app switcher (Android)
       // Define a light and dark color theme. Then, read the user's
       // preferred ThemeMode (light, dark, or system default) from the
@@ -123,9 +156,9 @@ class MyApp extends StatelessWidget {
       ),
       // darkTheme: ThemeData.dark(),
       onGenerateRoute: (RouteSettings routeSettings) {
-        return appRoute.onGenerateRoute(routeSettings);
+        return widget.appRoute.onGenerateRoute(routeSettings);
       },
-      initialRoute: initialRoute,
+      initialRoute: widget.initialRoute,
       builder: EasyLoading.init()
     );
   }

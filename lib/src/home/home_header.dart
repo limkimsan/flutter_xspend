@@ -69,10 +69,8 @@ class _HomeHeaderState extends State<HomeHeader> {
             children: [
               Text(
                 // LocalizationService.translate(context, 'helloWorld'),
-                // MainLocalization.of(context).getTranslatedValue('hello'),
-                // MainLocalization.of(context).appTitle,
-                AppLocalizations.of(context)!.hello('Jonh'),
-                // mainTitle,
+                // AppLocalizations.of(context)!.hello('Jonh'),
+                mainTitle,
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   color: isNegative ? red : yellow
                 ),

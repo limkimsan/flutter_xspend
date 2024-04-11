@@ -1,47 +1,50 @@
-import 'dart:convert';
+// An alternative class for the app's localized resources (this approach cannout use localization with placeholder, pluralized, etc)
 
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+//=========
+// import 'dart:convert';
 
-class MainLocalization {
-  MainLocalization(this.locale);
+// import 'package:flutter/material.dart';
+// import 'package:flutter/services.dart';
 
-  final Locale locale; 
+// class MainLocalization {
+//   MainLocalization(this.locale);
 
-  static MainLocalization of(BuildContext context) {
-    return Localizations.of(context, MainLocalization);
-  }
+//   final Locale locale; 
 
-  Map<String, String> _localizedValues = {};
+//   static MainLocalization of(BuildContext context) {
+//     return Localizations.of(context, MainLocalization);
+//   }
 
-  Future load() async {
-    String jsonStringValues = await rootBundle.loadString('lib/src/localization/app_${locale.languageCode}.arb');
-    Map<String, dynamic> mappedJson = json.decode(jsonStringValues);
-    _localizedValues = mappedJson.map((key, value) => MapEntry(key, value.toString()));
-  }
+//   Map<String, String> _localizedValues = {};
 
-  String getTranslatedValue(key) {
-    return _localizedValues[key].toString();
-  }
+//   Future load() async {
+//     String jsonStringValues = await rootBundle.loadString('lib/src/localization/app_${locale.languageCode}.arb');
+//     Map<String, dynamic> mappedJson = json.decode(jsonStringValues);
+//     _localizedValues = mappedJson.map((key, value) => MapEntry(key, value.toString()));
+//   }
 
-  static const LocalizationsDelegate<MainLocalization> delegate = _MainLocalizationDelegate();
-}
+//   String getTranslatedValue(key) {
+//     return _localizedValues[key].toString();
+//   }
 
-class _MainLocalizationDelegate extends LocalizationsDelegate<MainLocalization> {
-  const _MainLocalizationDelegate();
+//   static const LocalizationsDelegate<MainLocalization> delegate = _MainLocalizationDelegate();
+// }
 
-  @override
-  bool isSupported(Locale locale) {
-    return ['en', 'km'].contains(locale.languageCode);
-  }
+// class _MainLocalizationDelegate extends LocalizationsDelegate<MainLocalization> {
+//   const _MainLocalizationDelegate();
 
-  @override
-  Future<MainLocalization> load(Locale locale) async {
-    MainLocalization localization = MainLocalization(locale);
-    await localization.load();
-    return localization;
-  }
+//   @override
+//   bool isSupported(Locale locale) {
+//     return ['en', 'km'].contains(locale.languageCode);
+//   }
 
-  @override
-  bool shouldReload(_MainLocalizationDelegate old) => false;
-}
+//   @override
+//   Future<MainLocalization> load(Locale locale) async {
+//     MainLocalization mainLocalization = MainLocalization(locale);
+//     await mainLocalization.load();
+//     return mainLocalization;
+//   }
+
+//   @override
+//   bool shouldReload(_MainLocalizationDelegate old) => false;
+// }

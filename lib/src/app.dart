@@ -5,8 +5,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'routes/app_route.dart';
 import 'constants/colors.dart';
-
-import 'localization/main_localization.dart';
+import 'constants/languages.dart';
+// import 'localization/main_localization.dart';
+import 'localization/localization_service.dart';
 
 /// The Widget that configures your application.
 class MyApp extends StatefulWidget {
@@ -24,13 +25,33 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Locale _locale = const Locale('en', 'US');
+  Locale _locale = localizations['en']!;
 
   void setLocale(Locale locale) {
     setState(() {
       _locale = locale;
     });
   }
+
+  @override
+  void initState() {
+    super.initState();
+    LocalizationService.getLocale()
+      .then((locale) {
+        setLocale(locale);
+      });
+  }
+
+  // didChangeDependenices is called whenever a dependency of the state object changes
+  // It is safe to use context here as dependencies are loaded
+  // @override
+  // void didChangeDependencies() {
+  //   LocalizationService.getLocale()
+  //     .then((locale) {
+  //       setLocale(locale);
+  //     });
+  //   super.didChangeDependencies();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -51,13 +72,13 @@ class _MyAppState extends State<MyApp> {
       // allows descendant Widgets to display the correct translations
       // depending on the user's locale.
       localizationsDelegates: const [
-        MainLocalization.delegate,
-        // AppLocalizations.delegate,
+        // MainLocalization.delegate,
+        AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      locale: _locale,
+      locale: _locale,   // set the locale of the app
       supportedLocales: const [
         Locale('en', 'US'), // English, no country code
         Locale('km', 'KM'),
@@ -77,8 +98,7 @@ class _MyAppState extends State<MyApp> {
       //
       // The appTitle is defined in .arb files found in the localization
       // directory.
-      // onGenerateTitle: (BuildContext context) => AppLocalizations.of(context)!.appTitle,
-      onGenerateTitle: (BuildContext context) => MainLocalization.of(context).getTranslatedValue('appTitle'),
+      onGenerateTitle: (BuildContext context) => AppLocalizations.of(context)!.appTitle,
       color: Colors.white,    // set the background color of the app icon in app switcher (Android)
       // Define a light and dark color theme. Then, read the user's
       // preferred ThemeMode (light, dark, or system default) from the

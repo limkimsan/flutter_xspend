@@ -1,9 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_xspend/src/app.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
-import 'package:flutter_xspend/src/constants/languages.dart';
 import 'package:flutter_xspend/src/shared/bottom_sheet/bottom_sheet_body.dart';
+import 'package:flutter_xspend/src/localization/localization_service.dart';
 
 class LanguageBottomSheet extends StatefulWidget {
   const LanguageBottomSheet({super.key});
@@ -26,8 +28,9 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
     {'label': 'Khmer', 'code': 'km', 'country': 'KM'}
   ];
 
-  void onSelectLanguage(languageCode) {
-    MyApp.setLocale(context, localizations[languageCode]!);
+  void onSelectLanguage(languageCode) async {
+    Locale temp = await LocalizationService.setLocale(languageCode);
+    MyApp.setLocale(context, temp);
     Navigator.of(context).pop();
   }
 

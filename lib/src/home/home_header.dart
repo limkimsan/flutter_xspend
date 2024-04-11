@@ -8,8 +8,8 @@ import 'package:flutter_xspend/src/helpers/transaction_helper.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_state.dart';
 import 'package:flutter_xspend/src/models/transaction.dart';
-
-import 'package:flutter_xspend/src/localization/localization_constants.dart';
+// import 'package:flutter_xspend/src/localization/localization_service.dart';
+// import 'package:flutter_xspend/src/localization/main_localization.dart';
 
 class HomeHeader extends StatefulWidget {
   const HomeHeader({super.key, required this.selectedDate});
@@ -68,9 +68,10 @@ class _HomeHeaderState extends State<HomeHeader> {
           child: Column(
             children: [
               Text(
-                getTranslated(context, 'helloWorld'),
+                // LocalizationService.translate(context, 'helloWorld'),
                 // MainLocalization.of(context).getTranslatedValue('hello'),
-                // AppLocalizations.of(context)!.hello('Jonh'),
+                // MainLocalization.of(context).appTitle,
+                AppLocalizations.of(context)!.hello('Jonh'),
                 // mainTitle,
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                   color: isNegative ? red : yellow

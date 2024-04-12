@@ -68,9 +68,9 @@ class _TransactionListTotalExpenseState extends State<TransactionListTotalExpens
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(AppLocalizations.of(context)!.totalExpense, style: const TextStyle(color: grey)),
-              Text('- $mainTitle', style: const TextStyle(color: red)),
-              Text('- $subtitle', style: const TextStyle(color: red)),
+              Expanded(child: Text(AppLocalizations.of(context)!.totalExpense, style: const TextStyle(color: grey))),
+              Expanded(child: Text('- $mainTitle', style: const TextStyle(color: red))),
+              Expanded(child: Text('- $subtitle', style: const TextStyle(color: red))),
             ],
           ),
         ),

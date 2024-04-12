@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'transaction_category_picker.dart';
 import 'currency_type_picker.dart';
@@ -137,7 +138,7 @@ class _NewTransactionViewState extends State<NewTransactionView> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text('Create New Transaction'),
+        title: Text(AppLocalizations.of(context)!.createNewTransaction),
       ),
       body: SafeArea(
         child: Padding(
@@ -192,7 +193,7 @@ class _NewTransactionViewState extends State<NewTransactionView> {
                   ),
                   onPressed: () { isValid == true ? saveTransaction() : null; },
                   child: Text(
-                    isEdit ? 'Update' : 'Create',
+                    isEdit ? AppLocalizations.of(context)!.update : AppLocalizations.of(context)!.create,
                     style: Theme.of(context).textTheme.titleMedium
                   ),
                 ),

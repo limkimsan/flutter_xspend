@@ -1,5 +1,7 @@
 import 'package:intl/intl.dart';
 
+import 'package:flutter_xspend/src/localization/localization_service.dart';
+
 class CurrencyUtil {
   // curencyType is the tyoe of the currency that was used in the transaction
   static getKHR(amount, currencyType, exchangeRates) {
@@ -14,8 +16,9 @@ class CurrencyUtil {
 
   static getCurrencyFormat(value, currencyType) {
     if (currencyType == 'khr') {
+      final String symbol = LocalizationService.currentLanguage == 'km' ? '៛ ' : 'KHR ';
       return  NumberFormat.currency(
-        symbol: 'KHR ',
+        symbol: symbol,
       ).format(value);
     }
 

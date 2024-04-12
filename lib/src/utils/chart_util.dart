@@ -1,15 +1,29 @@
 import 'package:intl/intl.dart';
 import 'package:fl_chart/fl_chart.dart';
 
+import 'package:flutter_xspend/src/localization/localization_service.dart';
+
 class ChartUtil {
   static getMonthLabels(index) {
-    List<String> months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    List<Map<String, String>> months = [
+      { 'en': 'Jan', 'km': 'មករា' },
+      { 'en': 'Feb', 'km': 'កុម្ភៈ' },
+      { 'en': 'Mar', 'km': 'មីនា' },
+      { 'en': 'Apr', 'km': 'មេសា' },
+      { 'en': 'May', 'km': 'ឧសភា' },
+      { 'en': 'Jun', 'km': 'មិថុនា' },
+      { 'en': 'Jul', 'km': 'កក្កដា' },
+      { 'en': 'Aug', 'km': 'សីហា' },
+      { 'en': 'Sep', 'km': 'កញ្ញា' },
+      { 'en': 'Oct', 'km': 'តុលា' },
+      { 'en': 'Nov', 'km': 'វិច្ឆិកា' },
+      { 'en': 'Dec', 'km': 'ធ្នូ' },
+    ];
 
     if (index >= 12) {
       return '';
     }
-
-    return months[index];
+    return months[index][LocalizationService.currentLanguage];
   }
 
   static getLeftTitle(number) {

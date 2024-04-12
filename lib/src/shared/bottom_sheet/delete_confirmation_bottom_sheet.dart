@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/shared/bottom_sheet/bottom_sheet_body.dart';
@@ -44,7 +45,7 @@ class _DeleteConfirmationBottomSheetState extends State<DeleteConfirmationBottom
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
                     ),
-                    child: const Text('Cancel', style: TextStyle(color: red)),
+                    child: Text(AppLocalizations.of(context)!.cancel, style: const TextStyle(color: red)),
                   ),
                 ),
               ),
@@ -59,7 +60,7 @@ class _DeleteConfirmationBottomSheetState extends State<DeleteConfirmationBottom
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(red),
                     ),
-                    child: const Text('Confirm', style: TextStyle(color: Colors.white)),
+                    child: Text(AppLocalizations.of(context)!.confirm, style: const TextStyle(color: Colors.white)),
                   ),
                 ),
               )

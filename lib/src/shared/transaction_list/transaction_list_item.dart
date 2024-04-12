@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+// import 'package:intl/intl.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/models/transaction.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_xspend/src/shared/category_icon.dart';
 import 'package:flutter_xspend/src/constants/transaction_constant.dart';
 import 'package:flutter_xspend/src/helpers/transaction_helper.dart';
 import 'package:flutter_xspend/src/bloc/exchange_rate/exchange_rate_bloc.dart';
+import 'package:flutter_xspend/src/localization/localization_service.dart';
 
 class TransactionListItem extends StatelessWidget {
   const TransactionListItem({
@@ -83,22 +85,24 @@ class TransactionListItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             for (int i = 0; i < currencyTypes.length; i++)
-              Text(
-                TransactionHelper.getFormattedAmount(
-                  item.transactionType,
-                  currencyTypes[i],
-                  item.amount,
-                  item.currencyType,
-                  state.exchangeRate
+              Expanded(
+                child: Text(
+                  TransactionHelper.getFormattedAmount(
+                    item.transactionType,
+                    currencyTypes[i],
+                    item.amount,
+                    item.currencyType,
+                    state.exchangeRate
+                  ),
+                  style: TextStyle(
+                    color: item.transactionType == 1 ? red : success,
+                    fontSize: i == 0 ? 14 : 13
+                  )
                 ),
-                style: TextStyle(
-                  color: item.transactionType == 1 ? red : success,
-                  fontSize: i == 0 ? 14 : 13
-                )
               ),
 
             Text(
-              DateFormat('d MMM').format(item.transactionDate).toString(),
+              LocalizationService.getTranslatedDateMonth(item.transactionDate),
               style: const TextStyle(color: pewter, fontSize: 12)
             ),
           ],
@@ -121,13 +125,13 @@ class TransactionListItem extends StatelessWidget {
               backgroundColor: lightBlue,
               foregroundColor: Colors.white,
               icon: Icons.edit_outlined,
-              label: 'Edit'
+              label: AppLocalizations.of(context)!.edit
             ),
             SlidableAction(
               onPressed: (context) {
                 DeleteConfirmationBottomSheet(
-                  title: 'Delete transaction',
-                  description: 'Are you sure to delete this transaction?',
+                  title: AppLocalizations.of(context)!.deleteTransaction,
+                  description: AppLocalizations.of(context)!.areYouSureToDeleteThisTransaction,
                   onConfirm: () {
                     TransactionController.delete(item.id, (transactions) {
                       reloadData!(transactions);
@@ -138,7 +142,7 @@ class TransactionListItem extends StatelessWidget {
               backgroundColor: red,
               foregroundColor: Colors.white,
               icon: Icons.delete_outline,
-              label: 'Delete'
+              label: AppLocalizations.of(context)!.delete
             ),
           ],
         ),

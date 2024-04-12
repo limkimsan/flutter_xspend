@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 
@@ -24,7 +25,7 @@ class TransactionNoteInput extends StatelessWidget {
             maxLines: 5,
             onChanged: (value) => onChanged(value),
             decoration: InputDecoration(
-              hintText: 'Note',
+              hintText: AppLocalizations.of(context)!.note,
               hintStyle: const TextStyle(color: pewter, fontSize: 15),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),

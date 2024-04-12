@@ -39,8 +39,8 @@ class _BaseCurrencyBottomSheetState extends State<BaseCurrencyBottomSheet> {
               InkWell(
                 onTap: () async {
                   final SharedPreferences prefs = await SharedPreferences.getInstance();
-                  await prefs.setString('BASED_CURRENCY', currencyTypes[i]);
-                  updateBaseCurrencyBloc(currencyTypes[i]);
+                  await prefs.setString('BASED_CURRENCY', currencyTypes[i]['value'].toString());
+                  updateBaseCurrencyBloc(currencyTypes[i]['value']);
                   Navigator.of(ctx).pop();
                 },
                 child: Row(
@@ -50,11 +50,11 @@ class _BaseCurrencyBottomSheetState extends State<BaseCurrencyBottomSheet> {
                       child: SizedBox(
                         height: 48,
                         width: double.infinity,
-                        child: Align(alignment: Alignment.centerLeft, child: Text(currencyTypes[i].toUpperCase()))
+                        child: Align(alignment: Alignment.centerLeft, child: Text(currencyTypes[i]['label'].toString()))
                       ),
                     ),
                     // if (widget.basedCurrency == currencyTypes[i])
-                    if (state.currency == currencyTypes[i])
+                    if (state.currency == currencyTypes[i]['value'])
                       const Icon(Icons.check, color: primary)
                   ],
                 ),

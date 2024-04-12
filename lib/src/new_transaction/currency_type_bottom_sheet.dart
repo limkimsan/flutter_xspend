@@ -32,7 +32,7 @@ class _CurrencyTypeBottomSheetState extends State<CurrencyTypeBottomSheet> {
             Wrap(children: [
               InkWell(
                 onTap: () {
-                  widget.updateSelectedCurrency(currencyTypes[i]);
+                  widget.updateSelectedCurrency(currencyTypes[i]['value'].toString());
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -43,11 +43,11 @@ class _CurrencyTypeBottomSheetState extends State<CurrencyTypeBottomSheet> {
                         width: double.infinity,
                         child: Align(
                           alignment: Alignment.centerLeft,
-                          child: Text(currencyTypes[i].toUpperCase())
+                          child: Text(currencyTypes[i]['label'].toString())
                         )
                       ),
                     ),
-                    if (widget.selectedCurrency == currencyTypes[i])
+                    if (widget.selectedCurrency == currencyTypes[i]['value'])
                       const Icon(Icons.check, color: primary)
                   ],
                 ),

@@ -39,7 +39,7 @@ class _HomeViewState extends State<HomeView> {
                 TransactionDurationSwitcher(selectedDate: selectedDate, updateSelectedDate: (date) {
                   setState(() { selectedDate = date; });
                 },),
-                TransactionListTotalExpense(selectedDate: selectedDate),
+                Expanded(child: TransactionListTotalExpense(selectedDate: selectedDate)),
               ],
             ),
           ),

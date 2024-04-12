@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/home/home_view.dart';
 import 'package:flutter_xspend/src/wallets/wallet_view.dart';
@@ -42,11 +43,11 @@ class _BottomTabViewState extends State<BottomTabView> {
         type: BottomNavigationBarType.fixed,
         onTap: (index) { selectPage(index); },
         currentIndex: _selectedIndex,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.analytics_outlined), label: 'Timeline'),
-          BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet_outlined), label: 'Wallet'),
+        items: [
+          BottomNavigationBarItem(icon: const Icon(Icons.analytics_outlined), label: AppLocalizations.of(context)!.transaction),
+          BottomNavigationBarItem(icon: const Icon(Icons.account_balance_wallet_outlined), label: AppLocalizations.of(context)!.wallet),
           // BottomNavigationBarItem(icon: Icon(Icons.assignment_outlined), label: 'Budget'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings_outlined), label: 'Settings'),
+          BottomNavigationBarItem(icon: const Icon(Icons.settings_outlined), label: AppLocalizations.of(context)!.settings),
         ]
       ),
     );

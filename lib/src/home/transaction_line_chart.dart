@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/helpers/transaction_helper.dart';
@@ -162,8 +163,8 @@ class _TransactionLineChartState extends State<TransactionLineChart> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              legend(lightGreen, 'Income'),
-              legend(red, 'Expense'),
+              legend(lightGreen, AppLocalizations.of(context)!.income),
+              legend(red, AppLocalizations.of(context)!.expense),
             ]
           ),
         ),

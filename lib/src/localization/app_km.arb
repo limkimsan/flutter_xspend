@@ -11,7 +11,7 @@
   "week": "សប្ដាហ៍",
   "month": "ខែ",
   "year": "ឆ្នាំ",
-  "custom": "កំណត់ដោយខ្លួនឯង",
+  "custom": "ការកំណត់",
   "totalExpense": "ការចំណាយសរុប",
   "income": "ចំណូល",
   "expense": "ចំណាយ",
@@ -67,5 +67,8 @@
   "confirmPassword": "ពាក្យសម្ងាត់បញ្ជាក់",
   "enterConfirmPassword": "បញ្ចូលពាក្យសម្ងាត់បញ្ជាក់",
   "signUp": "ចុះឈ្មោះ",
-  "alreadyHasAnAccount": "មានគណនីរួចហើយ?"
+  "alreadyHasAnAccount": "មានគណនីរួចហើយ?",
+  "cashflowTitle": "លំហូរសាច់ប្រាក់ {type}",
+  "transactionDuration": "រយៈពេលប្រតិបត្តិការ",
+  "inThe": "ក្នុង"
 }

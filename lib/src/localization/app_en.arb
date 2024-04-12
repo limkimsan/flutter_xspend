@@ -67,5 +67,8 @@
   "confirmPassword": "Confirm password",
   "enterConfirmPassword": "Enter confirm password",
   "signUp": "Sign Up",
-  "alreadyHasAnAccount": "Already has an account?"
+  "alreadyHasAnAccount": "Already has an account?",
+  "cashflowTitle": "{type} cashflow",
+  "transactionDuration": "Transaction duration",
+  "inThe": "in the"
 }

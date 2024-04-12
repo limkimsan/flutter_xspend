@@ -3,10 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/shared/bottom_sheet/bottom_sheet_body.dart';
 import 'package:flutter_xspend/src/utils/string_util.dart';
+import 'package:flutter_xspend/src/localization/localization_service.dart';
 
 class TransactionDurationBottomSheet extends StatefulWidget {
   const TransactionDurationBottomSheet({super.key, required this.selectedDuration, required this.updateSelectedDuration});
@@ -90,7 +92,12 @@ class _TransactionDurationBottomSheetState extends State<TransactionDurationBott
   }
 
   Widget durationPicker() {
-    List durationTypes = ['week', 'month', 'year', 'custom'];
+    List durationTypes = [
+      {'label': AppLocalizations.of(context)!.week, 'value': 'week'},
+      {'label': AppLocalizations.of(context)!.month, 'value': 'month'},
+      {'label': AppLocalizations.of(context)!.year, 'value': 'year'},
+      {'label': AppLocalizations.of(context)!.custom, 'value': 'custom'},
+    ];
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -99,7 +106,7 @@ class _TransactionDurationBottomSheetState extends State<TransactionDurationBott
             Wrap(
               children: [
                 InkWell(
-                  onTap: () { onSelectDuration(durationTypes[i]); },
+                  onTap: () { onSelectDuration(durationTypes[i]['value']); },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -109,17 +116,17 @@ class _TransactionDurationBottomSheetState extends State<TransactionDurationBott
                           width: double.infinity,
                           child: Row(
                             children: [
-                              Text(StringUtil.capitalize(durationTypes[i])),
-                              if (durationTypes[i] == 'custom')
+                              Text(StringUtil.capitalize(durationTypes[i]['label'])),
+                              if (durationTypes[i]['value'] == 'custom')
                                 Text(
-                                  ' (${DateFormat('d MMM y').format(startDate)} - ${DateFormat('d MMM y').format(endDate)})',
+                                  ' (${LocalizationService.getTranslatedDate(startDate)} - ${LocalizationService.getTranslatedDate(endDate)})',
                                   style: const TextStyle(color: pewter, fontSize: 14)
                                 )
                             ],
                           ),
                         ),
                       ),
-                      if (widget.selectedDuration == durationTypes[i])
+                      if (widget.selectedDuration == durationTypes[i]['value'])
                         const Icon(Icons.check, color: primary)
                     ],
                   )
@@ -137,8 +144,8 @@ class _TransactionDurationBottomSheetState extends State<TransactionDurationBott
   Widget build(BuildContext context) {
     return FractionallySizedBox(
       child: BottomSheetBody(
-        title: 'Base currency',
-        titleIcon: const Icon(Icons.currency_exchange_outlined, color: lightGreen, size: 26),
+        title: AppLocalizations.of(context)!.transactionDuration,
+        titleIcon: const Icon(Icons.calendar_month_outlined, color: lightGreen, size: 26),
         body: durationPicker(),
       ),
     );

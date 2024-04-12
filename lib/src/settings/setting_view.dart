@@ -7,6 +7,7 @@ import 'package:flutter_xspend/src/utils/color_util.dart';
 import 'package:flutter_xspend/src/login/login_controller.dart';
 import 'base_currency_bottom_sheet.dart';
 import 'exchange_rate_bottom_sheet.dart';
+import 'language_bottom_sheet.dart';
 import 'package:flutter_xspend/src/bloc/base_currency/base_currency_bloc.dart';
 import 'package:flutter_xspend/src/clean_transaction/clean_transaction_view.dart';
 import 'package:flutter_xspend/src/profile/profile_view.dart';
@@ -28,6 +29,9 @@ class _SettingViewState extends State<SettingView> {
     }
     else if (type == 3) {
       Navigator.of(context).pushNamed(CleanTransactionView.routeName);
+    }
+    else if (type == 4) {
+      const LanguageBottomSheet().showBottomSheet(context);
     }
     else {
       Navigator.of(context).pushNamed(ProfileView.routeName);
@@ -59,6 +63,12 @@ class _SettingViewState extends State<SettingView> {
         'icon': Icons.cleaning_services_outlined,
         'color': red,
         'type': 3,
+      },
+      {
+        'label': 'Language',
+        'icon': Icons.translate,
+        'color': Colors.white,
+        'type': 4
       },
     ];
 

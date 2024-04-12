@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'transaction_duration_picker.dart';
 import 'transaction_duration_controller.dart';
 import 'package:flutter_xspend/src/utils/datetime_util.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
+import 'package:flutter_xspend/src/localization/localization_service.dart';
 
 class TransactionDurationSwitcher extends StatefulWidget {
   const TransactionDurationSwitcher({super.key, required this.selectedDate, required this.updateSelectedDate});
@@ -37,11 +38,17 @@ class _TransactionDurationSwitcherState extends State<TransactionDurationSwitche
       }
 
       if (prefs.getString('TRANSACTION_DURATION') == 'year') {
-        label = now.year.toString();
+        String placeholder = '${LocalizationService.currentLanguage == 'km' ? AppLocalizations.of(context)!.year : ''}${now.year.toString()}';
+        label = AppLocalizations.of(context)!.cashflowTitle(placeholder);
       } else if (prefs.getString('TRANSACTION_DURATION') == 'custom') {
-        label = 'Custom';
-      } else {
-        label = DateFormat('MMMM').format(now);
+        label = AppLocalizations.of(context)!.cashflowTitle('');
+      } else if (prefs.getString('TRANSACTION_DURATION') == 'week') {
+        String placeholder = '${LocalizationService.currentLanguage == 'km' ? AppLocalizations.of(context)!.inThe : ''}${AppLocalizations.of(context)!.week}';
+        label = AppLocalizations.of(context)!.cashflowTitle(placeholder);
+      }
+       else {
+        String placeholder = '${LocalizationService.currentLanguage == 'km' ? AppLocalizations.of(context)!.month : ''}${LocalizationService.getTranslatedMonth(DateTime.now())}';
+        label = AppLocalizations.of(context)!.cashflowTitle(placeholder);
       }
     });
   }
@@ -66,7 +73,7 @@ class _TransactionDurationSwitcherState extends State<TransactionDurationSwitche
             if (isBackward)
               const Icon(Icons.chevron_left, color: primary, size: 28),
             Text(
-              DateFormat('MMM yy').format(label),
+              LocalizationService.getTranslatedMonthYear(label),
               style: const TextStyle(color: primary, fontWeight: FontWeight.bold)
             ),
             if (!isBackward)
@@ -81,8 +88,9 @@ class _TransactionDurationSwitcherState extends State<TransactionDurationSwitche
         return;
       }
       TransactionDurationController.switchTransactionMonth(type, widget.selectedDate, (newDate, transactions) {
+        String placeholder = '${LocalizationService.currentLanguage == 'km' ? AppLocalizations.of(context)!.month : ''}${LocalizationService.getTranslatedMonth(newDate)}';
         setState(() {
-          label = DateFormat('MMMM').format(newDate);
+          label = AppLocalizations.of(context)!.cashflowTitle(placeholder);
         });
         widget.updateSelectedDate(newDate);
         context.read<TransactionBloc>().add(LoadTransaction(transactions: transactions));
@@ -96,7 +104,7 @@ class _TransactionDurationSwitcherState extends State<TransactionDurationSwitche
           Padding(
             padding: const EdgeInsets.only(bottom: 16, top: 4),
             child: Text(
-              '$label cash flow',
+              label.toString(),
               style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600)
             ),
           ),

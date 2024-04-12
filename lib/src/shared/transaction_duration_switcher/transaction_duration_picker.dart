@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'transaction_duration_bottom_sheet.dart';
@@ -49,6 +50,16 @@ class _TransactionDurationPickerState extends State<TransactionDurationPicker> {
     });
   }
 
+  String getTranslatedLabel() {
+    Map<String, dynamic> labels = {
+      'week':  AppLocalizations.of(context)!.week,
+      'month': AppLocalizations.of(context)!.month,
+      'year': AppLocalizations.of(context)!.year,
+      'custom': AppLocalizations.of(context)!.custom,
+    };
+    return labels[selectedDuration];
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -71,7 +82,7 @@ class _TransactionDurationPickerState extends State<TransactionDurationPicker> {
           children: [
             Expanded(
               child: Center(
-                child: Text(StringUtil.capitalize(selectedDuration), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+                child: Text(StringUtil.capitalize(getTranslatedLabel()), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
               ),
             ),
             const Icon(Icons.keyboard_arrow_down, color: Colors.white, size: 24),

@@ -5,12 +5,53 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'routes/app_route.dart';
 import 'constants/colors.dart';
+import 'constants/languages.dart';
+// import 'localization/main_localization.dart';
+import 'localization/localization_service.dart';
 
 /// The Widget that configures your application.
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key, required this.initialRoute, required this.appRoute});
   final String initialRoute;
   final AppRoute appRoute;
+
+  static void setLocale(BuildContext context, Locale locale) {
+    _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
+    state?.setLocale(locale);
+  }
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Locale _locale = localizations['en']!;
+
+  void setLocale(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    LocalizationService.getLocale()
+      .then((locale) {
+        setLocale(locale);
+      });
+  }
+
+  // didChangeDependenices is called whenever a dependency of the state object changes
+  // It is safe to use context here as dependencies are loaded
+  // @override
+  // void didChangeDependencies() {
+  //   LocalizationService.getLocale()
+  //     .then((locale) {
+  //       setLocale(locale);
+  //     });
+  //   super.didChangeDependencies();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +72,26 @@ class MyApp extends StatelessWidget {
       // allows descendant Widgets to display the correct translations
       // depending on the user's locale.
       localizationsDelegates: const [
+        // MainLocalization.delegate,
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
+      locale: _locale,   // set the locale of the app
       supportedLocales: const [
-        Locale('en', ''), // English, no country code
+        Locale('en', 'US'), // English, no country code
+        Locale('km', 'KM'),
       ],
+      localeResolutionCallback:(locale, supportedLocales) {
+        for (var supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale?.languageCode) {
+            return locale;
+          }
+        }
+
+        return supportedLocales.first;
+      },
 
       // Use AppLocalizations to configure the correct application title
       // depending on the user's locale.
@@ -123,9 +176,9 @@ class MyApp extends StatelessWidget {
       ),
       // darkTheme: ThemeData.dark(),
       onGenerateRoute: (RouteSettings routeSettings) {
-        return appRoute.onGenerateRoute(routeSettings);
+        return widget.appRoute.onGenerateRoute(routeSettings);
       },
-      initialRoute: initialRoute,
+      initialRoute: widget.initialRoute,
       builder: EasyLoading.init()
     );
   }

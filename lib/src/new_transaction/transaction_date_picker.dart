@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 
@@ -50,7 +51,7 @@ class TransactionDatePicker extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: Text(
-                        selectedDate == null ? 'Select transaction date' : DateFormat('dd-MM-yyyy').format(selectedDate!),
+                        selectedDate == null ? AppLocalizations.of(context)!.selectTransactionDate : DateFormat('dd-MM-yyyy').format(selectedDate!),
                         style: const TextStyle(color: primary, fontSize: 15, fontWeight: FontWeight.w500)
                       ),
                     ),
@@ -70,7 +71,7 @@ class TransactionDatePicker extends StatelessWidget {
               //   borderRadius: BorderRadius.circular(15.0), // Adjust radius
               // ),
             ),
-            child: const Text('Today', style: TextStyle(fontSize: 15)),
+            child: Text(AppLocalizations.of(context)!.today, style: const TextStyle(fontSize: 15)),
           )
         ],
       ),

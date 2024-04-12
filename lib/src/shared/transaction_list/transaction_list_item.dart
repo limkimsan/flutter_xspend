@@ -89,7 +89,7 @@ class TransactionListItem extends StatelessWidget {
                 child: Text(
                   TransactionHelper.getFormattedAmount(
                     item.transactionType,
-                    currencyTypes[i],
+                    currencyTypes[i]['value'],
                     item.amount,
                     item.currencyType,
                     state.exchangeRate

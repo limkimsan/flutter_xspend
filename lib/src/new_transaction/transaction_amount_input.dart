@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/utils/currency_util.dart';
@@ -30,7 +31,7 @@ class TransactionAmountInput extends StatelessWidget {
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
           onChanged: (value) => onAmountChange(value),
           decoration: InputDecoration(
-            hintText: 'Transaction amount',
+            hintText: AppLocalizations.of(context)!.transactionAmount,
             hintStyle: const TextStyle(color: pewter, fontSize: 15),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),

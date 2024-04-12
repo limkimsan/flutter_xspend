@@ -138,7 +138,7 @@ class _NewTransactionViewState extends State<NewTransactionView> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.createNewTransaction),
+        title: Text(isEdit ? AppLocalizations.of(context)!.editTransaction : AppLocalizations.of(context)!.createNewTransaction),
       ),
       body: SafeArea(
         child: Padding(

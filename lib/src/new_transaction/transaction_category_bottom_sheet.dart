@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/constants/transaction_constant.dart';
@@ -50,110 +51,110 @@ class _TransactionCategoryBottomSheetState extends State<TransactionCategoryBott
     });
   }
 
-  Widget tabButton(type) {
-    final color = selectedType != type ? { 'label': darkGrey, 'background': pewter } : { 'label': Colors.white, 'background': transactionTypes[type]!['color'] as Color };
-
-    return Expanded(
-      key: UniqueKey(),
-      child: Container(
-        margin: type == 'expense'
-          ? const EdgeInsets.only(right: 10)
-          : const EdgeInsets.only(left: 10),
-        child: FilledButton.icon(
-          onPressed: () { switchType(type); },
-          icon: Icon(transactionTypes[type]!['icon'] as IconData?, color: color['label']),
-          label: Text(
-            transactionTypes[type]!['label'].toString(),
-            style: TextStyle(color: color['label']),
-          ),
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(color['background']!),
-          )
-        ),
-      ),
-    );
-  }
-
-  Widget categoryItem(category) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        InkWell(
-          onTap: () {
-            widget.updateSelectedValue(category);
-          },
-          child: Container(
-            height: 56,
-            width: 56,
-            margin: const EdgeInsets.only(bottom: 4),
-            decoration: BoxDecoration(
-              color: getColorFromHex(category.bgColor),
-              borderRadius: BorderRadius.circular(56)
-            ),
-            child: CategoryIcon(type: category.iconType, name: category.icon, color: getColorFromHex(category.iconColor)),
-          ),
-        ),
-        SizedBox(
-          width: double.infinity,
-          child: Text(
-            category.name,
-            style: const TextStyle(fontSize: 12, overflow: TextOverflow.ellipsis),
-            maxLines: 2,
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget bottomSheetChild() {
-    return BottomSheetBody(
-      title: 'Transaction category',
-      titleIcon: const Icon(Icons.category_outlined, size: 34, color: Colors.orange),
-      body: transactionCateBottomSheet()
-    );
-  }
-
-  Widget transactionCateBottomSheet() {
-    return Flexible(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 4, 0, 18),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  tabButton('expense'),
-                  tabButton('income'),
-                ],
-              ),
-            ),
-            Flexible(     // make the its height fill the rest of its parent widget
-              child: SizedBox(
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    childAspectRatio: 0.8,
-                    crossAxisCount: 4, // 4 items per row
-                    crossAxisSpacing: 8, // Horizontal spacing between items
-                    mainAxisSpacing: 4, // Vertical spacing between items
-                  ),
-                  itemCount: categories.length, // Total number of items
-                  itemBuilder: (context, index) {
-                    return categoryItem(categories[index]);
-                  },
-                )
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    Widget tabButton(type, label) {
+      final color = selectedType != type ? { 'label': darkGrey, 'background': pewter } : { 'label': Colors.white, 'background': transactionTypes[type]!['color'] as Color };
+
+      return Expanded(
+        key: UniqueKey(),
+        child: Container(
+          margin: type == 'expense'
+            ? const EdgeInsets.only(right: 10)
+            : const EdgeInsets.only(left: 10),
+          child: FilledButton.icon(
+            onPressed: () { switchType(type); },
+            icon: Icon(transactionTypes[type]!['icon'] as IconData?, color: color['label']),
+            label: Text(
+              label,
+              style: TextStyle(color: color['label']),
+            ),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(color['background']!),
+            )
+          ),
+        ),
+      );
+    }
+
+    Widget categoryItem(category) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          InkWell(
+            onTap: () {
+              widget.updateSelectedValue(category);
+            },
+            child: Container(
+              height: 56,
+              width: 56,
+              margin: const EdgeInsets.only(bottom: 4),
+              decoration: BoxDecoration(
+                color: getColorFromHex(category.bgColor),
+                borderRadius: BorderRadius.circular(56)
+              ),
+              child: CategoryIcon(type: category.iconType, name: category.icon, color: getColorFromHex(category.iconColor)),
+            ),
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: Text(
+              category.name,
+              style: const TextStyle(fontSize: 12, overflow: TextOverflow.ellipsis),
+              maxLines: 2,
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ],
+      );
+    }
+
+    Widget transactionCateBottomSheet() {
+      return Flexible(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 4, 0, 18),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    tabButton('expense', AppLocalizations.of(context)!.expense),
+                    tabButton('income', AppLocalizations.of(context)!.income),
+                  ],
+                ),
+              ),
+              Flexible(     // make the its height fill the rest of its parent widget
+                child: SizedBox(
+                  child: GridView.builder(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      childAspectRatio: 0.8,
+                      crossAxisCount: 4, // 4 items per row
+                      crossAxisSpacing: 8, // Horizontal spacing between items
+                      mainAxisSpacing: 4, // Vertical spacing between items
+                    ),
+                    itemCount: categories.length, // Total number of items
+                    itemBuilder: (context, index) {
+                      return categoryItem(categories[index]);
+                    },
+                  )
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    Widget bottomSheetChild() {
+      return BottomSheetBody(
+        title: AppLocalizations.of(context)!.transactionCategory,
+        titleIcon: const Icon(Icons.category_outlined, size: 34, color: Colors.orange),
+        body: transactionCateBottomSheet()
+      );
+    }
+
     return FractionallySizedBox(
       heightFactor: 0.6,
       child: bottomSheetChild(),

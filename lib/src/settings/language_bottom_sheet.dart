@@ -25,7 +25,7 @@ class LanguageBottomSheet extends StatefulWidget {
 class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
   List locales = [
     {'label': 'English', 'code': 'en', 'country': 'US'},
-    {'label': 'Khmer', 'code': 'km', 'country': 'KM'}
+    {'label': 'ខ្មែរ', 'code': 'km', 'country': 'KM'}
   ];
 
   void onSelectLanguage(languageCode) async {

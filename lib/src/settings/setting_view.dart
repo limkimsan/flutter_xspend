@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/utils/color_util.dart';
@@ -41,31 +42,31 @@ class _SettingViewState extends State<SettingView> {
   Widget listItems(currency) {
     final items = [
       {
-        'label': 'Profile',
+        'label': AppLocalizations.of(context)!.profile,
         'icon': Icons.person,
         'color': lightBlue,
         'type': 0,
       },
       {
-        'label': 'Exchange rate',
+        'label': AppLocalizations.of(context)!.exchangeRate,
         'icon': Icons.show_chart_rounded,
         'color': getColorFromHex('#00f6ff'),
         'type': 1,
       },
       {
-        'label': 'Base currency',
+        'label': AppLocalizations.of(context)!.baseCurrency,
         'icon': Icons.currency_exchange_outlined,
         'color': lightGreen,
         'type': 2,
       },
       {
-        'label': 'Clean transaction',
+        'label': AppLocalizations.of(context)!.cleanTransaction,
         'icon': Icons.cleaning_services_outlined,
         'color': red,
         'type': 3,
       },
       {
-        'label': 'Language',
+        'label': AppLocalizations.of(context)!.language,
         'icon': Icons.translate,
         'color': Colors.white,
         'type': 4
@@ -110,7 +111,7 @@ class _SettingViewState extends State<SettingView> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false, // hide the back button
-        title: const Text('Settings'),
+        title: Text(AppLocalizations.of(context)!.settings),
       ),
       body: Column(
         children: [
@@ -124,7 +125,7 @@ class _SettingViewState extends State<SettingView> {
                   LoginController.logout(context);
                 },
                 child: Text(
-                  'Logout',
+                  AppLocalizations.of(context)!.logout,
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
                     color: primary
                   )
@@ -134,7 +135,7 @@ class _SettingViewState extends State<SettingView> {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 6),
-            child: Text('Version ${dotenv.env['APP_VERSION']}', style: const TextStyle(color: grey)),
+            child: Text('${AppLocalizations.of(context)!.version} ${dotenv.env['APP_VERSION']}', style: const TextStyle(color: grey)),
           )
         ]
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/shared/bottom_sheet/bottom_sheet_body.dart';
@@ -72,7 +73,7 @@ class _BaseCurrencyBottomSheetState extends State<BaseCurrencyBottomSheet> {
     return FractionallySizedBox(
       // heightFactor: 0.6,
       child: BottomSheetBody(
-        title: 'Base currency',
+        title: AppLocalizations.of(context)!.baseCurrency,
         titleIcon: const Icon(Icons.currency_exchange_outlined, color: lightGreen, size: 26),
         body: currencyPicker(context),
       ),

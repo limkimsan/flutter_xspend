@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/shared/line_chart/line_chart_left_title.dart';
@@ -38,7 +39,7 @@ class _WalletLineChartState extends State<WalletLineChart> {
           margin: const EdgeInsets.only(right: 4, top: 0),
           child: const SizedBox(width: 12, height: 12)
         ),
-        const Text('Balance')
+        Text(AppLocalizations.of(context)!.balance)
       ],
     );
   }

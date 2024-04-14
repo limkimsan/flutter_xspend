@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/wallets/wallet_header.dart';
@@ -32,7 +33,7 @@ class WalletView extends StatelessWidget {
                   Navigator.of(context).pushNamed(WalletDetailView.routeName);
                 },
                 child: Text(
-                  'View balance detail',
+                  AppLocalizations.of(context)!.viewBalanceDetail,
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(color: primary),
                 ),
               ),

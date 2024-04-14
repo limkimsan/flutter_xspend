@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_xspend/src/bloc/exchange_rate/exchange_rate_bloc.dart';
 import 'package:flutter_xspend/src/models/transaction.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/constants/font_size.dart';
@@ -87,7 +88,7 @@ class _WalletDetailSummaryHeaderState extends State<WalletDetailSummaryHeader> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          summaryLabel('Wallet Balance', khrBalance, usdBalance),
+          summaryLabel(AppLocalizations.of(context)!.walletBalance, khrBalance, usdBalance),
           Container(
             width: 0.5,
             height: 70,
@@ -102,7 +103,7 @@ class _WalletDetailSummaryHeaderState extends State<WalletDetailSummaryHeader> {
               height: double.infinity,
             ),
           ),
-          summaryLabel('Cashflow', khrCashflow, usdCashflow, true),
+          summaryLabel(AppLocalizations.of(context)!.cashflow, khrCashflow, usdCashflow, true),
         ],
       ),
     );

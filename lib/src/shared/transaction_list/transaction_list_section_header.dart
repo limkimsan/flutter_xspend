@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
+import 'package:flutter_xspend/src/localization/localization_service.dart';
 
 class TransactionListSectionHeader extends StatelessWidget {
   const TransactionListSectionHeader({super.key, required this.transactionDate, required this.total});
@@ -23,7 +24,7 @@ class TransactionListSectionHeader extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-              DateFormat.yMMMd().format(DateTime.parse(transactionDate)),
+              LocalizationService.getTranslatedFullDate(DateTime.parse(transactionDate)),
               style: const TextStyle(color: pewter)
             ),
           ),

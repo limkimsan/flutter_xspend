@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/wallet_details/wallet_detail_summary_header.dart';
 import 'package:flutter_xspend/src/shared/transaction_duration_switcher/transaction_duration_switcher.dart';
@@ -21,7 +22,7 @@ class _WalletDetailViewState extends State<WalletDetailView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Balance Detail'),
+        title: Text(AppLocalizations.of(context)!.balanceDetail),
       ),
       body: SafeArea(
         child: Column(
@@ -33,7 +34,10 @@ class _WalletDetailViewState extends State<WalletDetailView> {
             TransactionDurationSwitcher(selectedDate: selectedDate, updateSelectedDate: (date) {
               setState(() { selectedDate = date; });
             }),
-            TransactionListTotalExpense(selectedDate: selectedDate),
+            SizedBox(
+              height: 84,
+              child: TransactionListTotalExpense(selectedDate: selectedDate)
+            ),
             const SizedBox(height: 12),
             const Expanded(
               child: TransactionList(hasLineChart: false, isSlideable: false),

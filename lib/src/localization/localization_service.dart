@@ -48,4 +48,9 @@ class LocalizationService {
     final DateFormat dateFormat = DateFormat('d MMM', currentLanguage);
     return dateFormat.format(date);
   }
+
+  static getTranslatedFullDate(date) {
+    final DateFormat dateFormat = DateFormat('yMMMd', currentLanguage);
+    return dateFormat.format(date);
+  }
 }

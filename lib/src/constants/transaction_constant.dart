@@ -8,7 +8,7 @@ final transactionTypes = {
 };
 
 final currencyTypes = [
-  { 'label': 'រៀល', 'value': 'khr' },
+  { 'label': 'រៀល (KHR)', 'value': 'khr' },
   { 'label': 'USD', 'value': 'usd' },
 ];
 

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:flutter_xspend/src/models/user.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 
@@ -46,16 +48,16 @@ class _ProfileViewState extends State<ProfileView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile')
+        title: Text(AppLocalizations.of(context)!.profile)
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            profileItem('Name:', profile != null ? profile?.name : ""),
+            profileItem('${AppLocalizations.of(context)!.name}:', profile != null ? profile?.name : ""),
             const SizedBox(height: 16),
-            profileItem('Email:', profile != null ? profile?.email : ""),
+            profileItem('${AppLocalizations.of(context)!.email}:', profile != null ? profile?.email : ""),
           ],
         )
       )

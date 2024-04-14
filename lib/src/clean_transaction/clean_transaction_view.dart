@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/models/transaction.dart';
@@ -56,7 +57,7 @@ class _CleanTransactionViewState extends State<CleanTransactionView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Clean Transaction'),
+        title: Text(AppLocalizations.of(context)!.cleanTransaction),
       ),
       body: SafeArea(
         child: Padding(
@@ -76,7 +77,7 @@ class _CleanTransactionViewState extends State<CleanTransactionView> {
                       child: Text(
                         startDate != null
                         ? '${DateFormat('dd/MM/yyyy').format(startDate as DateTime)}    -    ${DateFormat('dd/MM/yyyy').format(endDate as DateTime)}'
-                        : 'Please select the start date and end date',
+                        : AppLocalizations.of(context)!.pleaseSelectTheStartDateAndEndDate,
                         style: const TextStyle(
                           color: primary,
                           fontSize: 15,
@@ -97,7 +98,7 @@ class _CleanTransactionViewState extends State<CleanTransactionView> {
                   onPressed: () {
                     startDate != null ? cleanTransaction() : null;
                   },
-                  child: Text('Clean',
+                  child: Text(AppLocalizations.of(context)!.clean,
                       style: Theme.of(context).textTheme.titleMedium),
                 ),
               ),

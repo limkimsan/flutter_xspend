@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/shared/bottom_sheet/bottom_sheet_body.dart';
@@ -89,7 +90,7 @@ class _ExchangeRateBottomSheetState extends State<ExchangeRateBottomSheet> {
         children: [
           Row(
             children: [
-              textField('KHR', 'KHR rate', khrController),
+              textField('រៀល (KHR)', 'KHR rate', khrController),
               const Padding(
                 padding: EdgeInsets.only(left: 12, right: 12, top: 24),
                 child: Icon(Icons.compare_arrows_outlined, color: Colors.white,)
@@ -102,7 +103,7 @@ class _ExchangeRateBottomSheetState extends State<ExchangeRateBottomSheet> {
             margin: const EdgeInsets.only(top: 22),
             child: FilledButton(
               onPressed: () { save(); },
-              child: const Text('Save')
+              child: Text(AppLocalizations.of(context)!.save)
             ),
           ),
         ],
@@ -114,7 +115,7 @@ class _ExchangeRateBottomSheetState extends State<ExchangeRateBottomSheet> {
   Widget build(BuildContext context) {
     return FractionallySizedBox(
       child: BottomSheetBody(
-        title: 'Exchange rate',
+        title: AppLocalizations.of(context)!.exchangeRate,
         titleIcon: Icon(Icons.show_chart_rounded, color: getColorFromHex('#00f6ff'), size: 26),
         body: exchangeRateForm(context),
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/models/transaction.dart';
@@ -54,7 +55,7 @@ class _WalletHeaderState extends State<WalletHeader> {
               )
             ),
             const SizedBox(height: 12),
-            const Text('Total Balance', style: TextStyle(color: pewter))
+            Text(AppLocalizations.of(context)!.totalBalance, style: const TextStyle(color: pewter))
           ],
         ),
       ),

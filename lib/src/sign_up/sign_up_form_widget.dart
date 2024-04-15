@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_xspend/src/sign_up/sign_up_controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import 'package:flutter_xspend/src/sign_up/sign_up_controller.dart';
 import 'package:flutter_xspend/src/widgets/input_label_widget.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/bottom_tab/bottom_tab_view.dart';
@@ -29,7 +30,7 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
         setState(() {
           errorMsg = '';
         });
-        EasyLoading.show(status: 'Loading...');
+        EasyLoading.show(status: AppLocalizations.of(context)!.loading);
         SignUpController.signUp(_name, _email, _password, () {
           EasyLoading.dismiss();
           Navigator.pushNamedAndRemoveUntil(context, BottomTabView.routeName, (route) => false);
@@ -47,14 +48,14 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const InputLabelWidget('Your name'),
+          InputLabelWidget(AppLocalizations.of(context)!.yourName),
           TextFormField(
-            decoration: const InputDecoration(
-              hintText: 'Enter your name',
+            decoration: InputDecoration(
+              hintText: AppLocalizations.of(context)!.enterYourName,
             ),
             validator: (value) {
               if (value == null || value.isEmpty || value.trim().length <= 1 || value.trim().length >= 50) {
-                return 'Must be between 1 and 50 characters long.';
+                return AppLocalizations.of(context)!.mustBeAtLeastSixCharacters;
               }
               return null;
             },
@@ -66,15 +67,15 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
             },
           ),
           const SizedBox(height: 24),
-          const InputLabelWidget('Your email'),
+          InputLabelWidget(AppLocalizations.of(context)!.yourEmail),
           TextFormField(
             keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(
-              hintText: 'Enter your email',
+            decoration: InputDecoration(
+              hintText: AppLocalizations.of(context)!.enterYourEmail,
             ),
             validator: (value) {
               if (value == null || value.isEmpty || !EmailValidator.validate(value)) {
-                return 'Please enter a valid email address.';
+                return AppLocalizations.of(context)!.pleaseEnterAValidEmailAddress;
               }
               return null;
             },
@@ -83,15 +84,15 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
             },
           ),
           const SizedBox(height: 24),
-          const InputLabelWidget('Your password'),
+          InputLabelWidget(AppLocalizations.of(context)!.yourPassword),
           TextFormField(
             obscureText: true,
-            decoration: const InputDecoration(
-              hintText: 'Enter your password',
+            decoration: InputDecoration(
+              hintText: AppLocalizations.of(context)!.enterYourPassword,
             ),
             validator: (value) {
               if (value == null || value.isEmpty || value.length < 6) {
-                return 'Must be at least 6 characters';
+                return AppLocalizations.of(context)!.mustBeAtLeastSixCharacters;
               }
               return null;
             },
@@ -100,19 +101,19 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
             },
           ),
           const SizedBox(height: 24),
-          const InputLabelWidget('Confirm password'),
+          InputLabelWidget(AppLocalizations.of(context)!.confirmPassword),
           TextFormField(
             obscureText: true,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               errorMaxLines: 2,
-              hintText: 'Enter confirm password',
+              hintText: AppLocalizations.of(context)!.enterConfirmPassword,
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Confirm password is required';
+                return AppLocalizations.of(context)!.confirmPasswordIsRequired;
               }
               if (value != _password) {
-                return 'Confirm password and password are not matched.';
+                return AppLocalizations.of(context)!.confirmPasswordAndPasswordAreNotMatched;
               }
               return null;
             },
@@ -130,7 +131,7 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
             child: ElevatedButton(
               onPressed: signUp,
               child: Text(
-                'Sign Up',
+                AppLocalizations.of(context)!.signUp,
                 style: Theme.of(context).textTheme.titleMedium
               ),
             ),

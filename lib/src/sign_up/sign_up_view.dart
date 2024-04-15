@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'sign_up_form_widget.dart';
 import 'package:flutter_xspend/src/login/login_view.dart';
@@ -22,7 +23,7 @@ class SignUpView extends StatelessWidget {
                 Align(
                   alignment: Alignment.center,
                   child: Text(
-                    'Sign Up',
+                    AppLocalizations.of(context)!.signUp,
                     style: Theme.of(context).textTheme.headlineLarge,
                   ),
                 ),
@@ -32,15 +33,15 @@ class SignUpView extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
-                      'Already has an account?',
-                      style: TextStyle(color: Colors.white),
+                    Text(
+                      AppLocalizations.of(context)!.alreadyHasAnAccount,
+                      style: const TextStyle(color: Colors.white),
                     ),
                     TextButton(
                       onPressed: () {
                         Navigator.pushNamedAndRemoveUntil(context, LoginView.routeName, (route) => false);
                       },
-                      child: const Text('Login'),
+                      child: Text(AppLocalizations.of(context)!.login),
                     )
                   ],
                 )

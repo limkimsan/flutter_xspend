@@ -97,7 +97,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
             child: ElevatedButton(
               onPressed: login,
               child: Text(
-                'Login',
+                AppLocalizations.of(context)!.login,
                 style: Theme.of(context).textTheme.titleMedium
               ),
             ),

@@ -57,7 +57,9 @@
   "logout": "ចាកចេញ",
   "version": "កំណែ",
   "enterYourEmail": "បញ្ចូលអ៊ីមែលរបស់អ្នក",
+  "pleaseEnterAValidEmailAddress": "សូមបញ្ចូលអ៊ីមែលដែលត្រឹមត្រូវ",
   "enterYourPassword": "បញ្ចូលពាក្យសម្ងាត់របស់អ្នក",
+  "passwordIsRequired": "ត្រូវការពាក្យសម្ងាត់",
   "login": "ចូល",
   "or": "ឬ",
   "createNewAccount": "បង្កើតគណនីថ្មី",
@@ -71,5 +73,6 @@
   "alreadyHasAnAccount": "មានគណនីរួចហើយ?",
   "cashflowTitle": "លំហូរសាច់ប្រាក់ {type}",
   "transactionDuration": "រយៈពេលប្រតិបត្តិការ",
-  "inThe": "ក្នុង"
+  "inThe": "ក្នុង",
+  "loading": "កំពុងដំណើរការ..."
 }

@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/bottom_tab/bottom_tab_view.dart';
 import 'package:flutter_xspend/src/login/login_controller.dart';
@@ -29,7 +30,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
         setState(() {
           errorMsg = '';
         });
-        EasyLoading.show(status: 'Loading...');
+        EasyLoading.show(status: AppLocalizations.of(context)!.loading);
         LoginController.login(_email, _password, () {
           EasyLoading.dismiss();
           Navigator.pushNamedAndRemoveUntil(context, BottomTabView.routeName, (route) => false);
@@ -47,15 +48,15 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const InputLabelWidget('Email'),
+          InputLabelWidget(AppLocalizations.of(context)!.email),
           TextFormField(
             keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(
-              hintText: 'Enter the email',
+            decoration: InputDecoration(
+              hintText: AppLocalizations.of(context)!.enterYourEmail,
             ),
             validator: (value) {
               if (value == null || value.isEmpty || !EmailValidator.validate(value)) {
-                return 'Please enter a valid email address.';
+                return AppLocalizations.of(context)!.pleaseEnterAValidEmailAddress;
               }
               return null;
             },
@@ -67,15 +68,15 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
             },
           ),
           const SizedBox(height: 24),
-          const InputLabelWidget('Password'),
+          InputLabelWidget(AppLocalizations.of(context)!.yourPassword),
           TextFormField(
             obscureText: true,
-            decoration: const InputDecoration(
-              hintText: 'Enter the password',
+            decoration: InputDecoration(
+              hintText: AppLocalizations.of(context)!.enterYourPassword,
             ),
             validator: (value) {
               if (value == null || value.isEmpty || value.trim().isEmpty) {
-                return 'Password is required.';
+                return AppLocalizations.of(context)!.passwordIsRequired;
               }
               return null;
             },

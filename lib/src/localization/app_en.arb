@@ -57,7 +57,9 @@
   "logout": "Logout",
   "version": "Version",
   "enterYourEmail": "Enter your email",
+  "pleaseEnterAValidEmailAddress": "Please enter a valid email address",
   "enterYourPassword": "Enter your password",
+  "passwordIsRequired": "Password is required",
   "login": "Login",
   "or": "Or",
   "createNewAccount": "Create new account",
@@ -71,5 +73,6 @@
   "alreadyHasAnAccount": "Already has an account?",
   "cashflowTitle": "{type} cashflow",
   "transactionDuration": "Transaction duration",
-  "inThe": "in the"
+  "inThe": "in the",
+  "loading": "Loading..."
 }

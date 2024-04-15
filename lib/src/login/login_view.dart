@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'login_form_widget.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
@@ -57,11 +58,11 @@ class LoginView extends StatelessWidget {
                 ),
                 const LoginFormWidget(),
                 const SizedBox(height: 26),
-                const Row(
+                Row(
                   children: [
-                    Expanded(child: Divider(endIndent: 12, color: darkGrey)),
-                    Text('OR', style: TextStyle(color: darkGrey)),
-                    Expanded(child: Divider(indent: 12, color: darkGrey)),
+                    const Expanded(child: Divider(endIndent: 12, color: darkGrey)),
+                    Text(AppLocalizations.of(context)!.or, style: const TextStyle(color: darkGrey)),
+                    const Expanded(child: Divider(indent: 12, color: darkGrey)),
                   ],
                 ),
                 const SizedBox(height: 26),
@@ -72,7 +73,7 @@ class LoginView extends StatelessWidget {
                       Navigator.pushNamedAndRemoveUntil(context, SignUpView.routeName, (route) => false);
                     },
                     child: Text(
-                      'Create new account',
+                      AppLocalizations.of(context)!.createNewAccount,
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
                         color: primary
                       )

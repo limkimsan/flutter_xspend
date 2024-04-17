@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/shared/bottom_sheet/bottom_sheet_body.dart';
+import 'package:flutter_xspend/src/localization/localization_service.dart';
 
 class DeleteConfirmationBottomSheet extends StatefulWidget {
   const DeleteConfirmationBottomSheet({super.key, required this.title, required this.description, required this.onConfirm});
@@ -24,6 +25,13 @@ class DeleteConfirmationBottomSheet extends StatefulWidget {
 }
 
 class _DeleteConfirmationBottomSheetState extends State<DeleteConfirmationBottomSheet> {
+  Widget label(String text, Color color) {
+    return Padding(
+            padding: EdgeInsets.only(top: LocalizationService.currentLanguage == 'km' ? 4 : 0),
+            child: Text(text, style: TextStyle(color: color)),
+          );
+  }
+
   Widget confirmationBody() {
     return Column(
       children: [
@@ -45,7 +53,7 @@ class _DeleteConfirmationBottomSheetState extends State<DeleteConfirmationBottom
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
                     ),
-                    child: Text(AppLocalizations.of(context)!.cancel, style: const TextStyle(color: red)),
+                    child: label(AppLocalizations.of(context)!.cancel, red),
                   ),
                 ),
               ),
@@ -60,7 +68,7 @@ class _DeleteConfirmationBottomSheetState extends State<DeleteConfirmationBottom
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all<Color>(red),
                     ),
-                    child: Text(AppLocalizations.of(context)!.confirm, style: const TextStyle(color: Colors.white)),
+                    child: label(AppLocalizations.of(context)!.confirm, Colors.white),
                   ),
                 ),
               )

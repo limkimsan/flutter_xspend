@@ -7,6 +7,7 @@ import 'package:flutter_xspend/src/shared/bottom_sheet/bottom_sheet_body.dart';
 import 'package:flutter_xspend/src/shared/category_icon.dart';
 import 'package:flutter_xspend/src/models/category.dart';
 import 'package:flutter_xspend/src/utils/color_util.dart';
+import 'package:flutter_xspend/src/localization/localization_service.dart';
 
 class TransactionCategoryBottomSheet extends StatefulWidget {
   const TransactionCategoryBottomSheet({super.key, required this.updateSelectedValue});
@@ -65,9 +66,12 @@ class _TransactionCategoryBottomSheetState extends State<TransactionCategoryBott
           child: FilledButton.icon(
             onPressed: () { switchType(type); },
             icon: Icon(transactionTypes[type]!['icon'] as IconData?, color: color['label']),
-            label: Text(
-              label,
-              style: TextStyle(color: color['label']),
+            label: Padding(
+              padding: EdgeInsets.only(top: LocalizationService.currentLanguage == 'km' ? 4 : 0),
+              child: Text(
+                label,
+                style: TextStyle(color: color['label']),
+              ),
             ),
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(color['background']!),

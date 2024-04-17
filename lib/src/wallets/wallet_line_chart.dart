@@ -6,6 +6,7 @@ import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/shared/line_chart/line_chart_left_title.dart';
 import 'package:flutter_xspend/src/shared/line_chart/line_chart_bottom_title.dart';
 import 'package:flutter_xspend/src/wallets/wallet_controller.dart';
+import 'package:flutter_xspend/src/localization/localization_service.dart';
 
 class WalletLineChart extends StatefulWidget {
   const WalletLineChart({super.key});
@@ -79,6 +80,7 @@ class _WalletLineChartState extends State<WalletLineChart> {
               showTitles: true,
               interval: 1,
               getTitlesWidget: (value, meta) => LineChartBottomTitle(value: value, meta: meta),
+              reservedSize: LocalizationService.currentLanguage == 'km' ? 26 : 22,
             )
           ),
           leftTitles: AxisTitles(

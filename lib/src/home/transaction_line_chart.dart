@@ -6,6 +6,7 @@ import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/helpers/transaction_helper.dart';
 import 'package:flutter_xspend/src/shared/line_chart/line_chart_left_title.dart';
 import 'package:flutter_xspend/src/shared/line_chart/line_chart_bottom_title.dart';
+import 'package:flutter_xspend/src/localization/localization_service.dart';
 
 class TransactionLineChart extends StatefulWidget {
   const TransactionLineChart({super.key, required this.transactions});
@@ -78,6 +79,7 @@ class _TransactionLineChartState extends State<TransactionLineChart> {
             showTitles: true,
             interval: 1,
             getTitlesWidget: (value, meta) => LineChartBottomTitle(value: value, meta: meta),
+            reservedSize: LocalizationService.currentLanguage == 'km' ? 26 : 22,
           ),
         ),
         leftTitles: AxisTitles(

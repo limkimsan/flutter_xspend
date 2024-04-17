@@ -82,7 +82,7 @@ class _TransactionDurationPickerState extends State<TransactionDurationPicker> {
           children: [
             Expanded(
               child: Center(
-                child: Text(StringUtil.capitalize(getTranslatedLabel()), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+                child: Text(StringUtil.capitalize(getTranslatedLabel()), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 15)),
               ),
             ),
             const Icon(Icons.keyboard_arrow_down, color: Colors.white, size: 24),

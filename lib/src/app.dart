@@ -121,27 +121,36 @@ class _MyAppState extends State<MyApp> {
           )
         ),
         textTheme: ThemeData().textTheme.copyWith(
+          bodyLarge: const TextStyle(
+            fontFamily: 'KantumruyPro',
+            // fontFamily: LocalizationService.currentLanguage == 'km' ? 'KantumruyPro' : null,
+          ),
           headlineLarge: const TextStyle(
             fontSize: 36,
             color: Color.fromARGB(255, 105, 191, 100),
+            fontFamily: 'KantumruyPro-SemiBold',
             fontWeight: FontWeight.bold
           ),
           headlineMedium: const TextStyle(
             fontSize: 24,
             color: yellow,
+            fontFamily: 'KantumruyPro-SemiBold',
             fontWeight: FontWeight.bold,
           ),
           headlineSmall: const TextStyle(
             color: Colors.white,
             fontSize: 18,
+            fontFamily: 'KantumruyPro-SemiBold',
             fontWeight: FontWeight.bold,
           ),
           bodyMedium: ThemeData().textTheme.bodyMedium?.copyWith(
-            color: Colors.white
+            color: Colors.white,
+            fontFamily: 'KantumruyPro',
           ),
           titleMedium: ThemeData().textTheme.titleMedium?.copyWith(
             color: Colors.white,
             fontSize: 18,
+            fontFamily: 'KantumruyPro'
           ),
         ),
         inputDecorationTheme: const InputDecorationTheme().copyWith(

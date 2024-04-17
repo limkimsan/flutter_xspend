@@ -61,3 +61,12 @@ flutter:
     - lib/src/localization/app_km.arb
     - .env.development
     - .env.production
+  fonts:
+    - family: KantumruyPro
+      fonts:
+        - asset: fonts/KantumruyPro-Regular.ttf
+    - family: KantumruyPro-SemiBold
+      fonts:
+        - asset: fonts/KantumruyPro-SemiBold.ttf
+          weight: 700
+

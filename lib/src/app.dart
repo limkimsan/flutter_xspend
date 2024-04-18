@@ -122,6 +122,7 @@ class _MyAppState extends State<MyApp> {
         ),
         textTheme: ThemeData().textTheme.copyWith(
           bodyLarge: const TextStyle(
+            color: Colors.black,
             fontFamily: 'KantumruyPro',
             // fontFamily: LocalizationService.currentLanguage == 'km' ? 'KantumruyPro' : null,
           ),

@@ -35,11 +35,30 @@ class _BudgetListState extends State<BudgetList> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(budget['name'], style: const TextStyle(fontWeight: FontWeight.bold)),
-            const Text('\$50.00 left out of \$50.00 (\$0.00 spent)', style: TextStyle(color: primary, fontWeight: FontWeight.bold)),
-            Text('You can spend \$25.00 each day for the rest of the period. (2 days left)', style: TextStyle(fontSize: xsFontSize, color: pewter)),
+            Text(budget['name'], style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 16)),
+            const SizedBox(height: 8,),
+            Row(
+              children: [
+                Text('\$50.00', style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 14, color: primary, fontWeight: FontWeight.w900)),
+                const Text(' left out of \$50.00 (\$0.00 spent)', style: TextStyle(color: primary, fontWeight: FontWeight.w900)),
+              ],
+            ),
+            const SizedBox(height: 4,),
+            RichText(
+              text: TextSpan(
+                text: 'You can spend ',
+                style: TextStyle(fontSize: xsFontSize, color: pewter),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: '\$25.00',
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: xsFontSize, color: pewter, fontWeight: FontWeight.w900),
+                  ),
+                  const TextSpan(text: ' each day for the rest of the period. (2 days left)'),
+                ],
+              ),
+            ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 6),
+              padding: const EdgeInsets.symmetric(vertical: 8),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(6),
                 child: LinearPercentIndicator(

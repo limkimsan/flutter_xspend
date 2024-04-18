@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/constants/font_size.dart';
@@ -37,6 +38,20 @@ class _BudgetListState extends State<BudgetList> {
             Text(budget['name'], style: const TextStyle(fontWeight: FontWeight.bold)),
             const Text('\$50.00 left out of \$50.00 (\$0.00 spent)', style: TextStyle(color: primary, fontWeight: FontWeight.bold)),
             Text('You can spend \$25.00 each day for the rest of the period. (2 days left)', style: TextStyle(fontSize: xsFontSize, color: pewter)),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: LinearPercentIndicator(
+                  lineHeight: 24,
+                  percent: 0.5,
+                  center: const Text("100%", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+                  progressColor: Colors.green,
+                  backgroundColor: Colors.white,
+                  padding: const EdgeInsets.all(0),
+                ),
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/constants/font_size.dart';
@@ -40,20 +41,20 @@ class _BudgetListState extends State<BudgetList> {
             Row(
               children: [
                 Text('\$50.00', style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 14, color: primary, fontWeight: FontWeight.w900)),
-                const Text(' left out of \$50.00 (\$0.00 spent)', style: TextStyle(color: primary, fontWeight: FontWeight.w900)),
+                Text(AppLocalizations.of(context)!.budgetSpendRecommendation('\$100', '\$50'), style: const TextStyle(color: primary, fontWeight: FontWeight.w900)),
               ],
             ),
             const SizedBox(height: 4,),
             RichText(
               text: TextSpan(
-                text: 'You can spend ',
+                text: AppLocalizations.of(context)!.youCanSpend,
                 style: TextStyle(fontSize: xsFontSize, color: pewter),
                 children: <TextSpan>[
                   TextSpan(
                     text: '\$25.00',
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: xsFontSize, color: pewter, fontWeight: FontWeight.w900),
                   ),
-                  const TextSpan(text: ' each day for the rest of the period. (2 days left)'),
+                  TextSpan(text: AppLocalizations.of(context)!.eachDayForTheRestOfPeriod(2)),
                 ],
               ),
             ),

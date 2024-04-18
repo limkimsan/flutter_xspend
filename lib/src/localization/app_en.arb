@@ -82,5 +82,8 @@
   "khrRateIsRequired": "រៀល (KHR) rate is required",
   "usdRateIsRequired": "USD rate is required",
   "budget": "Budget",
-  "noBudgetCreated": "No budget created"
+  "noBudgetCreated": "No budget created",
+  "budgetSpendRecommendation": " left out of {total} ({amountSpent} spent)",
+  "youCanSpend": "You can spend ",
+  "eachDayForTheRestOfPeriod": " each day for the rest of period. ({day} days left)"
 }

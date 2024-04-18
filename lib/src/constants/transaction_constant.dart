@@ -13,3 +13,8 @@ final currencyTypes = [
 ];
 
 const Map<String, int> defaultExchangeRate = { 'khr': 4100, 'usd': 1 };
+
+const currencyLabels = {
+  'khr': 'រៀល (KHR)',
+  'usd': 'USD'
+};

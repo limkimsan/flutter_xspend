@@ -81,5 +81,6 @@
   "loading": "Loading...",
   "khrRateIsRequired": "រៀល (KHR) rate is required",
   "usdRateIsRequired": "USD rate is required",
-  "budget": "Budget"
+  "budget": "Budget",
+  "noBudgetCreated": "No budget created"
 }

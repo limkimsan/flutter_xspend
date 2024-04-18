@@ -81,5 +81,6 @@
   "loading": "កំពុងដំណើរការ...",
   "khrRateIsRequired": "ត្រូវការអត្រាប្រាក់រៀល",
   "usdRateIsRequired": "ត្រូវការអត្រាប្រាក់ USD",
-  "budget": "កញ្ចប់ថវិកា"
+  "budget": "កញ្ចប់ថវិកា",
+  "noBudgetCreated": "មិនមានកញ្ចប់ថវិកា"
 }

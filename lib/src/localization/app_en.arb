@@ -78,5 +78,7 @@
   "cashflowTitle": "{type} cashflow",
   "transactionDuration": "Transaction duration",
   "inThe": "in the",
-  "loading": "Loading..."
+  "loading": "Loading...",
+  "khrRateIsRequired": "រៀល (KHR) rate is required",
+  "usdRateIsRequired": "USD rate is required"
 }

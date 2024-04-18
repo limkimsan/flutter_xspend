@@ -78,5 +78,7 @@
   "cashflowTitle": "លំហូរសាច់ប្រាក់ {type}",
   "transactionDuration": "រយៈពេលប្រតិបត្តិការ",
   "inThe": "ក្នុង",
-  "loading": "កំពុងដំណើរការ..."
+  "loading": "កំពុងដំណើរការ...",
+  "khrRateIsRequired": "ត្រូវការអត្រាប្រាក់រៀល",
+  "usdRateIsRequired": "ត្រូវការអត្រាប្រាក់ USD"
 }

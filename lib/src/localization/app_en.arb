@@ -80,5 +80,6 @@
   "inThe": "in the",
   "loading": "Loading...",
   "khrRateIsRequired": "រៀល (KHR) rate is required",
-  "usdRateIsRequired": "USD rate is required"
+  "usdRateIsRequired": "USD rate is required",
+  "budget": "Budget"
 }

@@ -20,11 +20,46 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
   DateTime? endDate;
   String selectedCurrency = 'khr';
 
+  void saveBudget() {
+    _formKey.currentState!.save();
+    print('=== save budget ====');
+    print('= name = $name | amount = $amount | start date = $startDate | end date = $endDate | currency = $selectedCurrency');
+  }
+
   @override
   Widget build(BuildContext context) {
-    Widget datePicker(title) {
+    Future<void> selectDate(selectedDate, type) async {
+      final DateTime? pickedDate = await showDatePicker(
+        context: context,
+        firstDate: DateTime(2024),
+        lastDate: DateTime(2026),
+      );
+      if (pickedDate != null && pickedDate != selectedDate) {
+        final now = DateTime.now();
+        final selectedDateTime = DateTime(
+          pickedDate.year,
+          pickedDate.month,
+          pickedDate.day,
+          now.hour,
+          now.minute,
+          now.second,
+          now.millisecond,
+          now.microsecond
+        );
+        setState(() {
+          if (type == 'start') {
+            startDate = selectedDateTime;
+          }
+          else {
+            endDate = selectedDateTime;
+          }
+        });
+      }
+    }
+
+    Widget datePicker(title, onTap) {
       return InkWell(
-        onTap: () {},
+        onTap: onTap,
         child: SizedBox(
           height: 56,
           child: Column(
@@ -51,7 +86,12 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const Text('Currency type'),
-          CurrencyTypePicker(selectedCurrency, (currency) { })
+          CurrencyTypePicker(selectedCurrency, (currency) {
+            setState(() {
+              selectedCurrency = currency;
+            });
+            Navigator.of(context).pop();
+          })
         ],
       );
     }
@@ -76,7 +116,8 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
                         return 'Budget name is required';
                       }
                       return null;
-                    }
+                    },
+                    onSaved: (value) { name = value; },
                   ),
                   const SizedBox(height: 24),
                   const InputLabelWidget(label: 'Budget amount', isRequired: true,),
@@ -89,14 +130,15 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
                         return 'Budget amount must be positive number';
                       }
                       return null;
-                    }
+                    },
+                    onSaved: (value) { amount = value; },
                   ),
                   const SizedBox(height: 24),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      datePicker('Start date'),
-                      datePicker('End date'),
+                      datePicker('Start date', () { selectDate(startDate, 'start'); }),
+                      datePicker('End date', () { selectDate(endDate, 'end'); }),
                     ],
                   ),
                   const SizedBox(height: 24),
@@ -105,7 +147,7 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
               ),
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () { saveBudget(); },
               child: Text(
                 'Create new budget',
                 style: Theme.of(context).textTheme.titleMedium

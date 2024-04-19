@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'budget_empty_message.dart';
 import 'budget_list.dart';
+import 'package:flutter_xspend/src/new_budgets/new_budget_view.dart';
 
 class BudgetView extends StatefulWidget {
   const BudgetView({super.key});
@@ -47,7 +48,9 @@ class _BudgetViewState extends State<BudgetView> {
           foregroundColor: Colors.white,
           backgroundColor: primary,
           shape: const CircleBorder(),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pushNamed(NewBudgetView.routeName);
+          },
           child: const Icon(Icons.add, size: 32)
         )
       )

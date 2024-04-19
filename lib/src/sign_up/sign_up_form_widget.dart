@@ -4,7 +4,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/sign_up/sign_up_controller.dart';
-import 'package:flutter_xspend/src/widgets/input_label_widget.dart';
+import 'package:flutter_xspend/src/shared/input_label_widget.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/bottom_tab/bottom_tab_view.dart';
 
@@ -48,7 +48,7 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          InputLabelWidget(AppLocalizations.of(context)!.yourName),
+          InputLabelWidget(label: AppLocalizations.of(context)!.yourName),
           TextFormField(
             decoration: InputDecoration(
               hintText: AppLocalizations.of(context)!.enterYourName,
@@ -67,7 +67,7 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
             },
           ),
           const SizedBox(height: 24),
-          InputLabelWidget(AppLocalizations.of(context)!.yourEmail),
+          InputLabelWidget(label: AppLocalizations.of(context)!.yourEmail),
           TextFormField(
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
@@ -84,7 +84,7 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
             },
           ),
           const SizedBox(height: 24),
-          InputLabelWidget(AppLocalizations.of(context)!.yourPassword),
+          InputLabelWidget(label: AppLocalizations.of(context)!.yourPassword),
           TextFormField(
             obscureText: true,
             decoration: InputDecoration(
@@ -101,7 +101,7 @@ class _SignUpFormWidgetState extends State<SignUpFormWidget> {
             },
           ),
           const SizedBox(height: 24),
-          InputLabelWidget(AppLocalizations.of(context)!.confirmPassword),
+          InputLabelWidget(label: AppLocalizations.of(context)!.confirmPassword),
           TextFormField(
             obscureText: true,
             decoration: InputDecoration(

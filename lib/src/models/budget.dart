@@ -16,4 +16,17 @@ class Budget {
   DateTime? endDate;
   String? currencyType;
   final user = IsarLink<User>();
+
+  static create(Budget newBudget) async {
+    final isar = await IsarService().getDB();
+    isar.writeTxnSync(() {
+      isar.budgets.putSync(newBudget);
+    });
+  }
+
+  static getAllOfCurrentUser() async {
+    final user = await User.currentLoggedIn();
+    final isar = await IsarService().getDB();
+    return await isar.budgets.filter().user((q) => q.idEqualTo(user.id)).findAll();
+  }
 }

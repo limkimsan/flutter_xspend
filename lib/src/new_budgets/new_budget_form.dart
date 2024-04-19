@@ -21,7 +21,6 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
   DateTime? startDate;
   DateTime? endDate;
   String selectedCurrency = 'khr';
-  // bool isValidDate = false;
   bool isValid = false;
 
   void saveBudget() {
@@ -29,6 +28,7 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
       _formKey.currentState!.save();
       print('=== save budget ====');
       print('= name = $name | amount = $amount | start date = $startDate | end date = $endDate | currency = $selectedCurrency');
+      NewBudgetController.createBudget(name, amount, startDate, endDate, selectedCurrency);
     }
   }
 

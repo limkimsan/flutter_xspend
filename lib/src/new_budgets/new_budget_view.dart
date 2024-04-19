@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'new_budget_form.dart';
 
@@ -11,7 +12,7 @@ class NewBudgetView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add New Budget'),
+        title: Text(AppLocalizations.of(context)!.createNewBudget),
       ),
       body: const SafeArea(child: NewBudgetForm()),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/shared/input_label_widget.dart';
@@ -79,7 +80,7 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
     }
 
     Widget datePicker(type, onTap) {
-      String label = 'Select date';
+      String label = AppLocalizations.of(context)!.selectDate;
       if (type == 'start' && startDate != null) {
         label = DateFormat('dd-MM-yyyy').format(startDate!);
       }
@@ -95,7 +96,7 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               InputLabelWidget(
-                label: type == 'start' ? 'Start date' : 'End date',
+                label: type == 'start' ? AppLocalizations.of(context)!.startDate : AppLocalizations.of(context)!.endDate,
                 isRequired: true)
               ,
               Row(
@@ -120,7 +121,7 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text('Currency type'),
+          Text(AppLocalizations.of(context)!.currencyType),
           CurrencyTypePicker(selectedCurrency, (currency) {
             setState(() {
               selectedCurrency = currency;
@@ -141,14 +142,14 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const InputLabelWidget(label: 'Budget name', isRequired: true),
+                  InputLabelWidget(label: AppLocalizations.of(context)!.budgetName, isRequired: true),
                   TextFormField(
-                    decoration: const InputDecoration(
-                      hintText: 'Please enter your budget name',
+                    decoration: InputDecoration(
+                      hintText: AppLocalizations.of(context)!.pleaseEnterBudgetName,
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Budget name is required';
+                        return AppLocalizations.of(context)!.budgetNameIsRequired;
                       }
                       return null;
                     },
@@ -161,14 +162,14 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
                     },
                   ),
                   const SizedBox(height: 24),
-                  const InputLabelWidget(label: 'Budget amount', isRequired: true,),
+                  InputLabelWidget(label: AppLocalizations.of(context)!.budgetAmount, isRequired: true,),
                   TextFormField(
-                    decoration: const InputDecoration(
-                      hintText: 'Please enter your buget amount',
+                    decoration: InputDecoration(
+                      hintText: AppLocalizations.of(context)!.pleaseEnterBudgetAmount,
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty || int.parse(value) <= 0) {
-                        return 'Budget amount must be positive number';
+                        return AppLocalizations.of(context)!.budgetAmountMustBePositiveNumber;
                       }
                       return null;
                     },
@@ -199,7 +200,7 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
               ),
               onPressed: () { saveBudget(); },
               child: Text(
-                'Create new budget',
+                AppLocalizations.of(context)!.createNewBudget,
                 style: Theme.of(context).textTheme.titleMedium
               )
             )

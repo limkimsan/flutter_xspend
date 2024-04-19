@@ -34,10 +34,24 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
   @override
   Widget build(BuildContext context) {
     Future<void> selectDate(selectedDate, type) async {
+      DateTime? firstDate;
+      DateTime? lastDate;
+      DateTime? initialDate;
+
+      if (type == 'start') {
+        initialDate = startDate;
+        lastDate = endDate;
+      }
+      if (type == 'end') {
+        initialDate = endDate;
+        firstDate = startDate;
+      }
+
       final DateTime? pickedDate = await showDatePicker(
         context: context,
-        firstDate: DateTime(2024),
-        lastDate: DateTime(2026),
+        initialDate: initialDate,
+        firstDate: firstDate ?? DateTime(2024),
+        lastDate: lastDate ?? DateTime(2050),
       );
       if (pickedDate != null && pickedDate != selectedDate) {
         final now = DateTime.now();

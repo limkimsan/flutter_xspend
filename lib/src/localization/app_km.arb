@@ -80,5 +80,10 @@
   "inThe": "ក្នុង",
   "loading": "កំពុងដំណើរការ...",
   "khrRateIsRequired": "ត្រូវការអត្រាប្រាក់រៀល",
-  "usdRateIsRequired": "ត្រូវការអត្រាប្រាក់ USD"
+  "usdRateIsRequired": "ត្រូវការអត្រាប្រាក់ USD",
+  "budget": "កញ្ចប់ថវិកា",
+  "noBudgetCreated": "មិនមានកញ្ចប់ថវិកា",
+  "budgetSpendRecommendation": " នៅសល់ពី {total} (បានចាយ {amountSpent})",
+  "youCanSpend": "អ្នកអាចចាយ ",
+  "eachDayForTheRestOfPeriod": " រាល់ថ្ងៃក្នុងរយៈពេលដែលនៅសល់។ ({day} ថ្ងៃនៅសល់)"
 }

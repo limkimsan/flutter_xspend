@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
+import 'package:flutter_xspend/src/constants/transaction_constant.dart';
 import 'package:flutter_xspend/src/utils/color_util.dart';
 import 'package:flutter_xspend/src/login/login_controller.dart';
 import 'base_currency_bottom_sheet.dart';
@@ -84,13 +85,13 @@ class _SettingViewState extends State<SettingView> {
               title: Text(item['label'].toString(), style: const TextStyle(color: Colors.white)),
               trailing: ConstrainedBox(
                 constraints: const BoxConstraints(
-                  maxWidth: 80,
+                  maxWidth: 110,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    if (item['label'] == 'Base currency')
-                      Text(currency.toUpperCase(), style: const TextStyle(color: primary, fontSize: 14, fontWeight: FontWeight.bold)),
+                    if (item['type'] == 2)
+                      Expanded(child: Text(currencyLabels[currency]!, textAlign: TextAlign.end, style: const TextStyle(color: primary, fontSize: 14, fontWeight: FontWeight.bold))),
 
                     const Icon(Icons.chevron_right_outlined, color: primary, size: 30)
                   ],

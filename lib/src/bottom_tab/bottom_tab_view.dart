@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/home/home_view.dart';
 import 'package:flutter_xspend/src/wallets/wallet_view.dart';
+import 'package:flutter_xspend/src/budgets/budget_view.dart';
 import 'package:flutter_xspend/src/settings/setting_view.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
 
@@ -34,6 +35,10 @@ class _BottomTabViewState extends State<BottomTabView> {
     }
 
     if (_selectedIndex == 2) {
+      activePage = const BudgetView();
+    }
+
+    if (_selectedIndex == 3) {
       activePage = const SettingView();
     }
 
@@ -46,7 +51,7 @@ class _BottomTabViewState extends State<BottomTabView> {
         items: [
           BottomNavigationBarItem(icon: const Icon(Icons.analytics_outlined), label: AppLocalizations.of(context)!.transaction),
           BottomNavigationBarItem(icon: const Icon(Icons.account_balance_wallet_outlined), label: AppLocalizations.of(context)!.wallet),
-          // BottomNavigationBarItem(icon: Icon(Icons.assignment_outlined), label: 'Budget'),
+          BottomNavigationBarItem(icon: const Icon(Icons.assignment_outlined), label: AppLocalizations.of(context)!.budget),
           BottomNavigationBarItem(icon: const Icon(Icons.settings_outlined), label: AppLocalizations.of(context)!.settings),
         ]
       ),

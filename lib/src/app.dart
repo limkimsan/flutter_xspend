@@ -130,13 +130,13 @@ class _MyAppState extends State<MyApp> {
             fontSize: 36,
             color: Color.fromARGB(255, 105, 191, 100),
             fontFamily: 'KantumruyPro-SemiBold',
-            fontWeight: FontWeight.bold
+            fontWeight: FontWeight.w700
           ),
           headlineMedium: const TextStyle(
             fontSize: 24,
             color: yellow,
             fontFamily: 'KantumruyPro-SemiBold',
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w700,
           ),
           headlineSmall: const TextStyle(
             color: Colors.white,

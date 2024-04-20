@@ -17,6 +17,9 @@ class Budget {
   String? currencyType;
   final user = IsarLink<User>();
 
+  @override
+  String toString() => 'Budget(id: $id, name: $name, amount: $amount, startDate: $startDate, endDate: $endDate, currencyType: $currencyType, user: $user)';
+
   static create(Budget newBudget) async {
     final isar = await IsarService().getDB();
     isar.writeTxnSync(() {

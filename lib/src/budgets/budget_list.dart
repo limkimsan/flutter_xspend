@@ -15,19 +15,7 @@ class BudgetList extends StatefulWidget {
 }
 
 class _BudgetListState extends State<BudgetList> {
-  List budgets = [
-    {
-      'id': 'asdad1231',
-      'name': 'Trip budget',
-      'amount': '300',
-      'start_date': DateTime.now(),
-      'end_date': DateTime.now(),
-      'currency_type': 'usd',
-      'local_user_id': '123'
-    }
-  ];
-
-  // List budgets = [];
+  List budgets = [];
 
   @override
   void initState() {
@@ -37,24 +25,24 @@ class _BudgetListState extends State<BudgetList> {
 
   void loadBudgets() async {
     List result = await Budget.getAllOfCurrentUser();
-    print('=== budgets ====');
-    print(result);
-    // setState(() {
-    //   budgets = result;
-    // });
+    setState(() {
+      budgets = result;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     Widget listItem(index) {
       final budget = budgets[index];
+      // print('=== budgets ====');
+      // print(budget.toString());
 
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(budget['name'], style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 16)),
+            Text(budget.name, style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 16)),
             const SizedBox(height: 8,),
             Row(
               children: [
@@ -93,11 +81,14 @@ class _BudgetListState extends State<BudgetList> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(LocalizationService.getTranslatedFullDate(budget['start_date'])),
-                Text(LocalizationService.getTranslatedFullDate(budget['end_date'])),
+                Text(LocalizationService.getTranslatedFullDate(budget.startDate)),
+                Text(LocalizationService.getTranslatedFullDate(budget.endDate)),
               ],
             ),
-            const Divider(color: grey),
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 8),
+              child: const Divider(color: grey)
+            ),
           ],
         ),
       );

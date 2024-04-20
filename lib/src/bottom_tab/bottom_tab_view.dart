@@ -6,6 +6,7 @@ import 'package:flutter_xspend/src/wallets/wallet_view.dart';
 import 'package:flutter_xspend/src/budgets/budget_view.dart';
 import 'package:flutter_xspend/src/settings/setting_view.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
+import 'package:flutter_xspend/src/bloc/budget/budget_bloc.dart';
 
 class BottomTabView extends StatefulWidget {
   const BottomTabView({super.key, required this.transactionBloc});
@@ -20,6 +21,7 @@ class BottomTabView extends StatefulWidget {
 
 class _BottomTabViewState extends State<BottomTabView> {
   int _selectedIndex = 0;
+  BudgetBloc budgetBloc = BudgetBloc();
 
   selectPage(index) {
     setState(() {
@@ -31,7 +33,7 @@ class _BottomTabViewState extends State<BottomTabView> {
   Widget build(BuildContext context) {
     Widget activePage = HomeView(transactionBloc: widget.transactionBloc,);
     if (_selectedIndex == 1) {
-      activePage = const WalletView();
+      activePage = WalletView(budgetBloc: budgetBloc);
     }
 
     if (_selectedIndex == 2) {

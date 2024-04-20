@@ -5,6 +5,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter_xspend/src/models/user.dart';
 import 'package:flutter_xspend/src/models/category.dart';
 import 'package:flutter_xspend/src/models/transaction.dart';
+import 'package:flutter_xspend/src/models/budget.dart';
 
 class IsarService {
   // Singleton instance variable
@@ -27,7 +28,7 @@ class IsarService {
     if (Isar.instanceNames.isEmpty) {
       final Directory dir = await getApplicationDocumentsDirectory();
       return await Isar.open(
-        [UserSchema, CategorySchema, TransactionSchema],
+        [UserSchema, CategorySchema, TransactionSchema, BudgetSchema],
         directory: dir.path,
         // inspector: true,
       );

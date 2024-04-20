@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/shared/input_label_widget.dart';
 import 'package:flutter_xspend/src/new_transaction/currency_type_picker.dart';
+import 'package:flutter_xspend/src/utils/datetime_util.dart';
 import 'new_budget_controller.dart';
 
 class NewBudgetForm extends StatefulWidget {
@@ -29,6 +30,7 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
       print('=== save budget ====');
       print('= name = $name | amount = $amount | start date = $startDate | end date = $endDate | currency = $selectedCurrency');
       NewBudgetController.createBudget(name, amount, startDate, endDate, selectedCurrency);
+      Navigator.of(context).pop();
     }
   }
 
@@ -54,7 +56,8 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
         firstDate: firstDate ?? DateTime(2024),
         lastDate: lastDate ?? DateTime(2050),
       );
-      if (pickedDate != null && pickedDate != selectedDate) {
+
+      if (pickedDate != null && !DateTimeUtil.isSameDate(pickedDate, selectedDate)) {
         final now = DateTime.now();
         final selectedDateTime = DateTime(
           pickedDate.year,
@@ -69,11 +72,11 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
         setState(() {
           if (type == 'start') {
             startDate = selectedDateTime;
-            isValid = NewBudgetController.isValidForm(name, amount, selectedDate, endDate);
+            isValid = NewBudgetController.isValidForm(name, amount, selectedDateTime, endDate);
           }
           else {
             endDate = selectedDateTime;
-            isValid = NewBudgetController.isValidForm(name, amount, startDate, selectedDate);
+            isValid = NewBudgetController.isValidForm(name, amount, startDate, selectedDateTime);
           }
         });
       }
@@ -125,6 +128,7 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
           CurrencyTypePicker(selectedCurrency, (currency) {
             setState(() {
               selectedCurrency = currency;
+              isValid = NewBudgetController.isValidForm(name, amount, startDate, endDate);
             });
             Navigator.of(context).pop();
           })
@@ -159,6 +163,9 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
                       setState(() {
                         isValid = NewBudgetController.isValidForm(value, amount, startDate, endDate);
                       });
+                    },
+                    onTapOutside: (event) {
+                      FocusScope.of(context).unfocus();
                     },
                   ),
                   const SizedBox(height: 24),

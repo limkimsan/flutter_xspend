@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/constants/font_size.dart';
 import 'package:flutter_xspend/src/localization/localization_service.dart';
+import 'package:flutter_xspend/src/models/budget.dart';
 
 class BudgetList extends StatefulWidget {
   const BudgetList({super.key});
@@ -25,6 +26,23 @@ class _BudgetListState extends State<BudgetList> {
       'local_user_id': '123'
     }
   ];
+
+  // List budgets = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadBudgets();
+  }
+
+  void loadBudgets() async {
+    List result = await Budget.getAllOfCurrentUser();
+    print('=== budgets ====');
+    print(result);
+    // setState(() {
+    //   budgets = result;
+    // });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +97,7 @@ class _BudgetListState extends State<BudgetList> {
                 Text(LocalizationService.getTranslatedFullDate(budget['end_date'])),
               ],
             ),
+            const Divider(color: grey),
           ],
         ),
       );

@@ -83,7 +83,7 @@
   "usdRateIsRequired": "ត្រូវការអត្រាប្រាក់ USD",
   "budget": "កញ្ចប់ថវិកា",
   "noBudgetCreated": "មិនមានកញ្ចប់ថវិកា",
-  "budgetSpendRecommendation": " នៅសល់ពី {total} (បានចាយ {amountSpent})",
+  "budgetSpendRecommendation": " នៅសល់ពី {a} (បានចាយ {b})",
   "youCanSpend": "អ្នកអាចចាយ ",
   "eachDayForTheRestOfPeriod": " រាល់ថ្ងៃក្នុងរយៈពេលដែលនៅសល់។ ({day} ថ្ងៃនៅសល់)",
   "createNewBudget": "បង្កើតកញ្ចប់ថវិកាថ្មី",

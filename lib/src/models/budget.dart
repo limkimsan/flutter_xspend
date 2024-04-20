@@ -32,4 +32,9 @@ class Budget {
     final isar = await IsarService().getDB();
     return await isar.budgets.filter().user((q) => q.idEqualTo(user.id)).findAll();
   }
+
+  static findById(String id) async {
+    final isar = await IsarService().getDB();
+    return await isar.budgets.filter().idEqualTo(id).findFirst();
+  }
 }

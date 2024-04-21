@@ -8,7 +8,9 @@ import 'package:flutter_xspend/src/new_budgets/new_budget_view.dart';
 import 'package:flutter_xspend/src/bloc/budget/budget_bloc.dart';
 
 class BudgetView extends StatefulWidget {
-  const BudgetView({super.key});
+  const BudgetView({super.key, required this.budgetBloc});
+
+  final BudgetBloc budgetBloc;
 
   @override
   State<BudgetView> createState() => _BudgetViewState();
@@ -17,8 +19,8 @@ class BudgetView extends StatefulWidget {
 class _BudgetViewState extends State<BudgetView> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => BudgetBloc(),
+    return BlocProvider.value(
+      value: widget.budgetBloc,
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,

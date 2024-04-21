@@ -61,34 +61,53 @@ class _BudgetListState extends State<BudgetList> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(budget.name!, style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 16)),
-            const SizedBox(height: 8,),
+            Text(budget.name!,
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineSmall
+                    ?.copyWith(fontSize: 16)),
+            const SizedBox(
+              height: 8,
+            ),
             Row(
               children: [
                 Text(
-                  CurrencyUtil.getCurrencyFormat(progress['remainAmount'], budget.currencyType),
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 14, color: primary, fontWeight: FontWeight.w900)
-                ),
+                    CurrencyUtil.getCurrencyFormat(
+                        progress['remainAmount'], budget.currencyType),
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                        fontSize: 14,
+                        color: primary,
+                        fontWeight: FontWeight.w900)),
                 Text(
-                  AppLocalizations.of(context)!.budgetSpendRecommendation(
-                    CurrencyUtil.getCurrencyFormat(budget.amount, budget.currencyType),
-                    CurrencyUtil.getCurrencyFormat(progress['expense'], budget.currencyType)
-                  ),
-                  style: const TextStyle(color: primary, fontWeight: FontWeight.w900)
-                ),
+                    AppLocalizations.of(context)!.budgetSpendRecommendation(
+                        CurrencyUtil.getCurrencyFormat(
+                            budget.amount, budget.currencyType),
+                        CurrencyUtil.getCurrencyFormat(
+                            progress['expense'], budget.currencyType)),
+                    style: const TextStyle(
+                        color: primary, fontWeight: FontWeight.w900)),
               ],
             ),
-            const SizedBox(height: 4,),
+            const SizedBox(
+              height: 4,
+            ),
             RichText(
               text: TextSpan(
                 text: AppLocalizations.of(context)!.youCanSpend,
                 style: TextStyle(fontSize: xsFontSize, color: pewter),
                 children: <TextSpan>[
                   TextSpan(
-                    text: CurrencyUtil.getCurrencyFormat(progress['amountEachDay'], budget.currencyType),
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: xsFontSize, color: pewter, fontWeight: FontWeight.w900),
+                    text: CurrencyUtil.getCurrencyFormat(
+                        progress['amountEachDay'], budget.currencyType),
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                        fontSize: xsFontSize,
+                        color: pewter,
+                        fontWeight: FontWeight.w900),
                   ),
-                  TextSpan(text: AppLocalizations.of(context)!.eachDayForTheRestOfPeriod(progress['remainingDays'])),
+                  TextSpan(
+                      text: AppLocalizations.of(context)!
+                          .eachDayForTheRestOfPeriod(
+                              progress['remainingDays'])),
                 ],
               ),
             ),
@@ -101,7 +120,8 @@ class _BudgetListState extends State<BudgetList> {
                   percent: progress['percentage'],
                   center: Text(
                     MathUtil.getFormattedPercentage(progress['percentage']),
-                    style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
                   ),
                   progressColor: Colors.green,
                   backgroundColor: Colors.white,
@@ -112,28 +132,33 @@ class _BudgetListState extends State<BudgetList> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(LocalizationService.getTranslatedFullDate(budget.startDate)),
+                Text(LocalizationService.getTranslatedFullDate(
+                    budget.startDate)),
                 Text(LocalizationService.getTranslatedFullDate(budget.endDate)),
               ],
             ),
             Container(
-              margin: const EdgeInsets.symmetric(vertical: 8),
-              child: const Divider(color: grey)
-            ),
+                margin: const EdgeInsets.symmetric(vertical: 8),
+                child: const Divider(color: grey)),
           ],
         ),
       );
     }
 
-    if (budgetState.budgets.isEmpty) {
+    if (budgetState.budgets.isEmpty || transactionList.isEmpty) {
       return const BudgetEmptyMessage();
     }
 
-    return ListView.builder(
-      itemCount: budgetState.budgets.length,
-      itemBuilder: (context, index) {
-        return listItem(index);
-      }
+    return BlocListener<BudgetBloc, BudgetState>(
+      listener: (context, state) {
+        loadTransactions(state.budgets);
+      },
+      child: ListView.builder(
+        itemCount: budgetState.budgets.length,
+        itemBuilder: (context, index) {
+          return listItem(index);
+        }
+      ),
     );
   }
 }

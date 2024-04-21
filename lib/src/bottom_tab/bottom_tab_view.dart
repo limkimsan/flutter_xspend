@@ -6,11 +6,13 @@ import 'package:flutter_xspend/src/wallets/wallet_view.dart';
 import 'package:flutter_xspend/src/budgets/budget_view.dart';
 import 'package:flutter_xspend/src/settings/setting_view.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
+import 'package:flutter_xspend/src/bloc/budget/budget_bloc.dart';
 
 class BottomTabView extends StatefulWidget {
-  const BottomTabView({super.key, required this.transactionBloc});
+  const BottomTabView({super.key, required this.transactionBloc, required this.budgetBloc});
 
   final TransactionBloc transactionBloc;
+  final BudgetBloc budgetBloc;
 
   static const routeName = '/bottom_tab';
 
@@ -35,7 +37,7 @@ class _BottomTabViewState extends State<BottomTabView> {
     }
 
     if (_selectedIndex == 2) {
-      activePage = const BudgetView();
+      activePage = BudgetView(budgetBloc: widget.budgetBloc);
     }
 
     if (_selectedIndex == 3) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -6,6 +7,7 @@ import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/shared/input_label_widget.dart';
 import 'package:flutter_xspend/src/new_transaction/currency_type_picker.dart';
 import 'package:flutter_xspend/src/utils/datetime_util.dart';
+import 'package:flutter_xspend/src/bloc/budget/budget_bloc.dart';
 import 'new_budget_controller.dart';
 
 class NewBudgetForm extends StatefulWidget {
@@ -27,10 +29,10 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
   void saveBudget() {
     if (_formKey.currentState!.validate() && isValid) {
       _formKey.currentState!.save();
-      print('=== save budget ====');
-      print('= name = $name | amount = $amount | start date = $startDate | end date = $endDate | currency = $selectedCurrency');
-      NewBudgetController.createBudget(name, amount, startDate, endDate, selectedCurrency);
-      Navigator.of(context).pop();
+      NewBudgetController.createBudget(name, amount, startDate, endDate, selectedCurrency, (budgets) {
+        context.read<BudgetBloc>().add(LoadBudget(budgets: budgets));
+        Navigator.of(context).pop();
+      });
     }
   }
 

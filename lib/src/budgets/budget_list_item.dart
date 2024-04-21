@@ -9,12 +9,28 @@ import 'package:flutter_xspend/src/utils/currency_util.dart';
 import 'package:flutter_xspend/src/utils/math_util.dart';
 import 'package:flutter_xspend/src/models/budget.dart';
 import 'package:flutter_xspend/src/localization/localization_service.dart';
+import 'package:flutter_xspend/src/new_budgets/new_budget_view.dart';
+import 'package:flutter_xspend/src/new_budgets/budget_controller.dart';
+import 'package:flutter_xspend/src/shared/bottom_sheet/delete_confirmation_bottom_sheet.dart';
 
 class BudgetListItem extends StatelessWidget {
-  const BudgetListItem({super.key, required this.budget, required this.progress});
+  const BudgetListItem({super.key, required this.budget, required this.progress, required this.reloadBudgets});
 
   final Budget budget;
   final Map<String, dynamic> progress;
+  final void Function(List<Budget> newBudgets) reloadBudgets;
+
+  void showDeleteConfirmation(BuildContext context) {
+    DeleteConfirmationBottomSheet(
+      title: AppLocalizations.of(context)!.deleteBudget,
+      description: AppLocalizations.of(context)!.areYouSureToDeleteThisBudget,
+      onConfirm: () {
+        BudgetController.delete(budget.id!, (budgets) {
+          reloadBudgets(budgets);
+        });
+      }
+    ).showBottomSheet(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,14 +112,16 @@ class BudgetListItem extends StatelessWidget {
         motion: const DrawerMotion(),
         children: [
           SlidableAction(
-            onPressed: (context) {},
+            onPressed: (context) {
+              Navigator.of(context).pushNamed(NewBudgetView.routeName, arguments: { 'budgetId': budget.id });
+            },
             backgroundColor: lightBlue,
             foregroundColor: Colors.white,
             icon: Icons.edit_outlined,
             label: AppLocalizations.of(context)!.edit
           ),
           SlidableAction(
-            onPressed: (context) {},
+            onPressed: (context) { showDeleteConfirmation(context); },
             backgroundColor: red,
             foregroundColor: Colors.white,
             icon: Icons.delete_outlined,

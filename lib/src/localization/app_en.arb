@@ -96,5 +96,7 @@
   "startDate": "Start date",
   "endDate": "End date",
   "createNewBudget": "Create new budget",
-  "selectDate": "Select date"
+  "selectDate": "Select date",
+  "deleteBudget": "Delete Budget",
+  "areYouSureToDeleteThisBudget": "Are you sure to delete this budget?"
 }

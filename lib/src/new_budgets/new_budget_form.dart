@@ -8,7 +8,7 @@ import 'package:flutter_xspend/src/shared/input_label_widget.dart';
 import 'package:flutter_xspend/src/new_transaction/currency_type_picker.dart';
 import 'package:flutter_xspend/src/utils/datetime_util.dart';
 import 'package:flutter_xspend/src/bloc/budget/budget_bloc.dart';
-import 'new_budget_controller.dart';
+import 'budget_controller.dart';
 
 class NewBudgetForm extends StatefulWidget {
   const NewBudgetForm({super.key});
@@ -29,7 +29,7 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
   void saveBudget() {
     if (_formKey.currentState!.validate() && isValid) {
       _formKey.currentState!.save();
-      NewBudgetController.createBudget(name, amount, startDate, endDate, selectedCurrency, (budgets) {
+      BudgetController.create(name, amount, startDate, endDate, selectedCurrency, (budgets) {
         context.read<BudgetBloc>().add(LoadBudget(budgets: budgets));
         Navigator.of(context).pop();
       });
@@ -74,11 +74,11 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
         setState(() {
           if (type == 'start') {
             startDate = selectedDateTime;
-            isValid = NewBudgetController.isValidForm(name, amount, selectedDateTime, endDate);
+            isValid = BudgetController.isValidForm(name, amount, selectedDateTime, endDate);
           }
           else {
             endDate = selectedDateTime;
-            isValid = NewBudgetController.isValidForm(name, amount, startDate, selectedDateTime);
+            isValid = BudgetController.isValidForm(name, amount, startDate, selectedDateTime);
           }
         });
       }
@@ -130,7 +130,7 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
           CurrencyTypePicker(selectedCurrency, (currency) {
             setState(() {
               selectedCurrency = currency;
-              isValid = NewBudgetController.isValidForm(name, amount, startDate, endDate);
+              isValid = BudgetController.isValidForm(name, amount, startDate, endDate);
             });
             Navigator.of(context).pop();
           })
@@ -163,7 +163,7 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
                     onChanged: (value) {
                       name = value;
                       setState(() {
-                        isValid = NewBudgetController.isValidForm(value, amount, startDate, endDate);
+                        isValid = BudgetController.isValidForm(value, amount, startDate, endDate);
                       });
                     },
                     onTapOutside: (event) {
@@ -186,7 +186,7 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
                     onChanged: (value) {
                       amount= value;
                       setState(() {
-                        isValid = NewBudgetController.isValidForm(name, value, startDate, endDate);
+                        isValid = BudgetController.isValidForm(name, value, startDate, endDate);
                       });
                     },
                   ),

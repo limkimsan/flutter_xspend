@@ -96,5 +96,7 @@
   "startDate": "ថ្ងៃចាប់ផ្ដើម",
   "endDate": "ថ្ងៃបញ្ចប់",
   "createNewBudget": "បង្កើតកញ្ចប់ថវិកា",
-  "selectDate": "សូមជ្រើសរើសថ្ងៃ"
+  "selectDate": "សូមជ្រើសរើសថ្ងៃ",
+  "deleteBudget": "លុបកញ្ចប់ថវិកា",
+  "areYouSureToDeleteThisBudget": "តើអ្នកពិតជាចង់លុបកញ្ចប់ថវិកានេះ?"
 }

@@ -53,7 +53,13 @@ class _BudgetListState extends State<BudgetList> {
 
       return Column(
         children: [
-          BudgetListItem(budget: budget, progress: progress,),
+          BudgetListItem(
+            budget: budget,
+            progress: progress,
+            reloadBudgets: (newBudgets) {
+              context.read<BudgetBloc>().add(LoadBudget(budgets: newBudgets));
+            }
+          ),
           const Divider(color: grey, height: 1)
         ],
       );

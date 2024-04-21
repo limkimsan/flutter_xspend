@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/percent_indicator.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:flutter_xspend/src/bloc/exchange_rate/exchange_rate_bloc.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
-import 'package:flutter_xspend/src/constants/font_size.dart';
-import 'package:flutter_xspend/src/localization/localization_service.dart';
+import 'package:flutter_xspend/src/models/budget.dart';
+import 'package:flutter_xspend/src/models/transaction.dart';
+import 'package:flutter_xspend/src/helpers/budget_helper.dart';
+import 'package:flutter_xspend/src/bloc/budget/budget_bloc.dart';
+import 'budget_calculation_service.dart';
+import 'budget_empty_message.dart';
+import 'budget_list_item.dart';
 
 class BudgetList extends StatefulWidget {
   const BudgetList({super.key});
@@ -14,81 +19,66 @@ class BudgetList extends StatefulWidget {
 }
 
 class _BudgetListState extends State<BudgetList> {
-  List budgets = [
-    {
-      'id': 'asdad1231',
-      'name': 'Trip budget',
-      'amount': '300',
-      'start_date': DateTime.now(),
-      'end_date': DateTime.now(),
-      'currency_type': 'usd',
-      'local_user_id': '123'
+  List transactionList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    BudgetHelper.loadBudgets((budgets) {
+      context.read<BudgetBloc>().add(LoadBudget(budgets: budgets));
+      loadTransactions(budgets);
+    });
+  }
+
+  void loadTransactions(budgets) async {
+    List tranList = [];
+    for (Budget budget in budgets) {
+      final transactions = await Transaction.getAllByDurationType('custom', budget.startDate.toString(), budget.endDate.toString());
+      tranList.add(transactions);
     }
-  ];
+    setState(() {
+      transactionList = tranList;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    Widget listItem(index) {
-      final budget = budgets[index];
+    final state = context.watch<ExchangeRateBloc>().state;
+    final budgetState = context.watch<BudgetBloc>().state;
 
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(budget['name'], style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 16)),
-            const SizedBox(height: 8,),
-            Row(
-              children: [
-                Text('\$50.00', style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 14, color: primary, fontWeight: FontWeight.w900)),
-                Text(AppLocalizations.of(context)!.budgetSpendRecommendation('\$100', '\$50'), style: const TextStyle(color: primary, fontWeight: FontWeight.w900)),
-              ],
-            ),
-            const SizedBox(height: 4,),
-            RichText(
-              text: TextSpan(
-                text: AppLocalizations.of(context)!.youCanSpend,
-                style: TextStyle(fontSize: xsFontSize, color: pewter),
-                children: <TextSpan>[
-                  TextSpan(
-                    text: '\$25.00',
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: xsFontSize, color: pewter, fontWeight: FontWeight.w900),
-                  ),
-                  TextSpan(text: AppLocalizations.of(context)!.eachDayForTheRestOfPeriod(2)),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(6),
-                child: LinearPercentIndicator(
-                  lineHeight: 24,
-                  percent: 0.5,
-                  center: const Text("100%", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
-                  progressColor: Colors.green,
-                  backgroundColor: Colors.white,
-                  padding: const EdgeInsets.all(0),
-                ),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(LocalizationService.getTranslatedFullDate(budget['start_date'])),
-                Text(LocalizationService.getTranslatedFullDate(budget['end_date'])),
-              ],
-            ),
-          ],
-        ),
+    Widget listItem(index) {
+      final budget = budgetState.budgets[index];
+      final budgetCal = BudgetCalculationService(budget, transactionList[index], state.exchangeRate);
+      final Map<String, dynamic> progress = budgetCal.getProgress();
+
+      return Column(
+        children: [
+          BudgetListItem(
+            budget: budget,
+            progress: progress,
+            reloadBudgets: (newBudgets) {
+              context.read<BudgetBloc>().add(LoadBudget(budgets: newBudgets));
+            }
+          ),
+          const Divider(color: grey, height: 1)
+        ],
       );
     }
 
-    return ListView.builder(
-      itemCount: budgets.length,
-      itemBuilder: (context, index) {
-        return listItem(index);
-      }
+    if (budgetState.budgets.isEmpty || transactionList.isEmpty) {
+      return const BudgetEmptyMessage();
+    }
+
+    return BlocListener<BudgetBloc, BudgetState>(
+      listener: (context, state) {
+        loadTransactions(state.budgets);
+      },
+      child: ListView.builder(
+        itemCount: budgetState.budgets.length,
+        itemBuilder: (context, index) {
+          return listItem(index);
+        }
+      ),
     );
   }
 }

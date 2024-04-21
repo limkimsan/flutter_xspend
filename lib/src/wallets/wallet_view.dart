@@ -34,7 +34,10 @@ class WalletView extends StatelessWidget {
                 },
                 child: Text(
                   AppLocalizations.of(context)!.viewBalanceDetail,
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(color: primary),
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium!
+                      .copyWith(color: primary),
                 ),
               ),
             ),

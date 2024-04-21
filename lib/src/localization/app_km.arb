@@ -83,7 +83,20 @@
   "usdRateIsRequired": "ត្រូវការអត្រាប្រាក់ USD",
   "budget": "កញ្ចប់ថវិកា",
   "noBudgetCreated": "មិនមានកញ្ចប់ថវិកា",
-  "budgetSpendRecommendation": " នៅសល់ពី {total} (បានចាយ {amountSpent})",
+  "budgetSpendRecommendation": " នៅសល់ពី {a} (បានចាយ {b})",
   "youCanSpend": "អ្នកអាចចាយ ",
-  "eachDayForTheRestOfPeriod": " រាល់ថ្ងៃក្នុងរយៈពេលដែលនៅសល់។ ({day} ថ្ងៃនៅសល់)"
+  "eachDayForTheRestOfPeriod": " រាល់ថ្ងៃក្នុងរយៈពេលដែលនៅសល់។ ({day} ថ្ងៃនៅសល់)",
+  "createNewBudget": "បង្កើតកញ្ចប់ថវិកាថ្មី",
+  "budgetName": "ឈ្មោះកញ្ចប់ថវិកា",
+  "pleaseEnterBudgetName": "សូមបញ្ចូលឈ្មោះកញ្ចប់ថវិកា",
+  "budgetNameIsRequired": "ត្រូវការឈ្មោះកញ្ចប់ថវិកា",
+  "budgetAmount": "ចំនួនថវិកា",
+  "pleaseEnterBudgetAmount": "សូមបញ្ចូលចំនួនថវិកា",
+  "budgetAmountMustBePositiveNumber": "ចំនួនថវិកាត្រូវតែជាលេខវិជ្ជមាន",
+  "startDate": "ថ្ងៃចាប់ផ្ដើម",
+  "endDate": "ថ្ងៃបញ្ចប់",
+  "createNewBudget": "បង្កើតកញ្ចប់ថវិកា",
+  "selectDate": "សូមជ្រើសរើសថ្ងៃ",
+  "deleteBudget": "លុបកញ្ចប់ថវិកា",
+  "areYouSureToDeleteThisBudget": "តើអ្នកពិតជាចង់លុបកញ្ចប់ថវិកានេះ?"
 }

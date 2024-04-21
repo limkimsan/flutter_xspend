@@ -83,7 +83,20 @@
   "usdRateIsRequired": "USD rate is required",
   "budget": "Budget",
   "noBudgetCreated": "No budget created",
-  "budgetSpendRecommendation": " left out of {total} ({amountSpent} spent)",
+  "budgetSpendRecommendation": " left out of {a} ({b} spent)",
   "youCanSpend": "You can spend ",
-  "eachDayForTheRestOfPeriod": " each day for the rest of period. ({day} days left)"
+  "eachDayForTheRestOfPeriod": " each day for the rest of period. ({day} days left)",
+  "createNewBudget": "Create New Budget",
+  "budgetName": "Budget name",
+  "pleaseEnterBudgetName": "Please enter budget name",
+  "budgetNameIsRequired": "Budget name is required",
+  "budgetAmount": "Budget amount",
+  "pleaseEnterBudgetAmount": "Please enter budget amount",
+  "budgetAmountMustBePositiveNumber": "Budget amount must be positive number",
+  "startDate": "Start date",
+  "endDate": "End date",
+  "createNewBudget": "Create new budget",
+  "selectDate": "Select date",
+  "deleteBudget": "Delete Budget",
+  "areYouSureToDeleteThisBudget": "Are you sure to delete this budget?"
 }

@@ -10,13 +10,16 @@ import 'package:flutter_xspend/src/new_transaction/new_transaction_view.dart';
 import 'package:flutter_xspend/src/clean_transaction/clean_transaction_view.dart';
 import 'package:flutter_xspend/src/profile/profile_view.dart';
 import 'package:flutter_xspend/src/wallet_details/wallet_detail_view.dart';
+import 'package:flutter_xspend/src/new_budgets/new_budget_view.dart';
 import 'package:flutter_xspend/src/isar/isar_service.dart';
 import 'package:flutter_xspend/src/models/user.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
+import 'package:flutter_xspend/src/bloc/budget/budget_bloc.dart';
 
 class AppRoute {
   final isarService = IsarService();
   TransactionBloc transactionBloc = TransactionBloc();
+  BudgetBloc budgetBloc = BudgetBloc();
 
   Route onGenerateRoute(RouteSettings routeSettings) {
     return MaterialPageRoute(
@@ -43,8 +46,13 @@ class AppRoute {
               value: transactionBloc,
               child: const WalletDetailView()
             );
+          case NewBudgetView.routeName:
+            return BlocProvider.value(
+              value: budgetBloc,
+              child: const NewBudgetView()
+            );
           case BottomTabView.routeName:
-            return BottomTabView(transactionBloc: transactionBloc);
+            return BottomTabView(transactionBloc: transactionBloc, budgetBloc: budgetBloc);
           default:
             return const LoginView();
         }

@@ -11,7 +11,10 @@ import 'package:flutter_xspend/src/models/budget.dart';
 import 'package:flutter_xspend/src/models/transaction.dart';
 import 'package:flutter_xspend/src/utils/currency_util.dart';
 import 'package:flutter_xspend/src/utils/math_util.dart';
+import 'package:flutter_xspend/src/helpers/budget_helper.dart';
+import 'package:flutter_xspend/src/bloc/budget/budget_bloc.dart';
 import 'budget_calculation_service.dart';
+import 'budget_empty_message.dart';
 
 class BudgetList extends StatefulWidget {
   const BudgetList({super.key});
@@ -21,24 +24,18 @@ class BudgetList extends StatefulWidget {
 }
 
 class _BudgetListState extends State<BudgetList> {
-  List budgets = [];
   List transactionList = [];
 
   @override
   void initState() {
     super.initState();
-    loadBudgets();
-  }
-
-  void loadBudgets() async {
-    List result = await Budget.getAllOfCurrentUser();
-    setState(() {
-      budgets = result;
+    BudgetHelper.loadBudgets((budgets) {
+      context.read<BudgetBloc>().add(LoadBudget(budgets: budgets));
+      loadTransactions(budgets);
     });
-    loadTransactions();
   }
 
-  void loadTransactions() async {
+  void loadTransactions(budgets) async {
     List tranList = [];
     for (Budget budget in budgets) {
       final transactions = await Transaction.getAllByDurationType('custom', budget.startDate.toString(), budget.endDate.toString());
@@ -52,9 +49,10 @@ class _BudgetListState extends State<BudgetList> {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<ExchangeRateBloc>().state;
+    final budgetState = context.watch<BudgetBloc>().state;
 
     Widget listItem(index) {
-      final budget = budgets[index];
+      final budget = budgetState.budgets[index];
       final budgetCal = BudgetCalculationService(budget, transactionList[index], state.exchangeRate);
       final Map<String, dynamic> progress = budgetCal.getProgress();
 
@@ -63,7 +61,7 @@ class _BudgetListState extends State<BudgetList> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(budget.name, style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 16)),
+            Text(budget.name!, style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 16)),
             const SizedBox(height: 8,),
             Row(
               children: [
@@ -127,8 +125,12 @@ class _BudgetListState extends State<BudgetList> {
       );
     }
 
+    if (budgetState.budgets.isEmpty) {
+      return const BudgetEmptyMessage();
+    }
+
     return ListView.builder(
-      itemCount: budgets.length,
+      itemCount: budgetState.budgets.length,
       itemBuilder: (context, index) {
         return listItem(index);
       }

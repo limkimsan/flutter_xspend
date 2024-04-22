@@ -10,11 +10,17 @@ class NewBudgetView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String? budgetId;
+    if (ModalRoute.of(context)?.settings.arguments != null) {
+      final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+      budgetId = args['budgetId'];
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.createNewBudget),
+        title: Text(budgetId == null ? AppLocalizations.of(context)!.createNewBudget : AppLocalizations.of(context)!.editBudget),
       ),
-      body: const SafeArea(child: NewBudgetForm()),
+      body: SafeArea(child: NewBudgetForm(budgetId: budgetId)),
     );
   }
 }

@@ -42,23 +42,24 @@ class BudgetListItem extends StatelessWidget {
           children: [
             Text(budget.name!, style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 16)),
             const SizedBox(height: 8),
-            Row(
-              children: [
-                Text(
-                  CurrencyUtil.getCurrencyFormat(progress['remainAmount'], budget.currencyType),
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontSize: 14,
-                    color: primary,
-                    fontWeight: FontWeight.w900)
-                  ),
-                Text(
-                  AppLocalizations.of(context)!.budgetSpendRecommendation(
-                    CurrencyUtil.getCurrencyFormat(budget.amount, budget.currencyType),
-                    CurrencyUtil.getCurrencyFormat(progress['expense'], budget.currencyType)
-                  ),
-                  style: const TextStyle(color: primary, fontWeight: FontWeight.w900)
+            RichText(
+              text: TextSpan(
+                text: CurrencyUtil.getCurrencyFormat(progress['remainAmount'], budget.currencyType),
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  fontSize: 14,
+                  color: primary,
+                  fontWeight: FontWeight.w900
                 ),
-              ],
+                children:<TextSpan> [
+                  TextSpan(
+                    text: AppLocalizations.of(context)!.budgetSpendRecommendation(
+                      CurrencyUtil.getCurrencyFormat(budget.amount, budget.currencyType),
+                      CurrencyUtil.getCurrencyFormat(progress['expense'], budget.currencyType)
+                    ),
+                    style: const TextStyle(color: primary, fontWeight: FontWeight.w900)
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 4),
             RichText(

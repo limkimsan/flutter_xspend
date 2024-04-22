@@ -7,11 +7,16 @@ import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/shared/input_label_widget.dart';
 import 'package:flutter_xspend/src/new_transaction/currency_type_picker.dart';
 import 'package:flutter_xspend/src/utils/datetime_util.dart';
+import 'package:flutter_xspend/src/utils/currency_util.dart';
 import 'package:flutter_xspend/src/bloc/budget/budget_bloc.dart';
+import 'package:flutter_xspend/src/models/budget.dart';
+import 'package:flutter_xspend/src/shared/currency_text_field.dart';
 import 'budget_controller.dart';
 
 class NewBudgetForm extends StatefulWidget {
-  const NewBudgetForm({super.key});
+  const NewBudgetForm({super.key, this.budgetId});
+
+  final String? budgetId;
 
   @override
   State<NewBudgetForm> createState() => _NewBudgetFormState();
@@ -25,15 +30,49 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
   DateTime? endDate;
   String selectedCurrency = 'khr';
   bool isValid = false;
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _amountController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.budgetId != null) {
+      loadBudgetInfo();
+    }
+  }
+
+  void loadBudgetInfo() async {
+    Budget budget = await Budget.findById(widget.budgetId!);
+    setState(() {
+      name = budget.name;
+      amount = budget.amount.toString();
+      startDate = budget.startDate;
+      endDate = budget.endDate;
+      selectedCurrency = budget.currencyType!;
+    });
+    _nameController.text = budget.name!;
+    _amountController.text = CurrencyUtil.formatNumber(budget.amount.toString());
+  }
 
   void saveBudget() {
     if (_formKey.currentState!.validate() && isValid) {
       _formKey.currentState!.save();
-      BudgetController.create(name, amount, startDate, endDate, selectedCurrency, (budgets) {
-        context.read<BudgetBloc>().add(LoadBudget(budgets: budgets));
-        Navigator.of(context).pop();
-      });
+      if (widget.budgetId != null) {
+        BudgetController.update(widget.budgetId, name, amount, startDate, endDate, selectedCurrency, (newBudgets) {
+          reloadBudgetList(newBudgets);
+        });
+      }
+      else {
+        BudgetController.create(name, amount, startDate, endDate, selectedCurrency, (newBudgets) {
+          reloadBudgetList(newBudgets);
+        });
+      }
     }
+  }
+
+  void reloadBudgetList(budgets) {
+    context.read<BudgetBloc>().add(LoadBudget(budgets: budgets));
+    Navigator.of(context).pop();
   }
 
   @override
@@ -150,6 +189,7 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
                 children: [
                   InputLabelWidget(label: AppLocalizations.of(context)!.budgetName, isRequired: true),
                   TextFormField(
+                    controller: _nameController,
                     decoration: InputDecoration(
                       hintText: AppLocalizations.of(context)!.pleaseEnterBudgetName,
                     ),
@@ -172,22 +212,20 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
                   ),
                   const SizedBox(height: 24),
                   InputLabelWidget(label: AppLocalizations.of(context)!.budgetAmount, isRequired: true,),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      hintText: AppLocalizations.of(context)!.pleaseEnterBudgetAmount,
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty || int.parse(value) <= 0) {
-                        return AppLocalizations.of(context)!.budgetAmountMustBePositiveNumber;
-                      }
-                      return null;
-                    },
-                    onSaved: (value) { amount = value; },
+                  CurrencyTextField(
+                    hintText: AppLocalizations.of(context)!.pleaseEnterBudgetAmount,
+                    controller: _amountController,
                     onChanged: (value) {
                       amount= value;
                       setState(() {
                         isValid = BudgetController.isValidForm(name, value, startDate, endDate);
                       });
+                    },
+                    validator: (value) {
+                      if (value == null || value.isEmpty || double.parse(value) <= 0) {
+                        return AppLocalizations.of(context)!.budgetAmountMustBePositiveNumber;
+                      }
+                      return null;
                     },
                   ),
                   const SizedBox(height: 24),
@@ -204,12 +242,10 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
               ),
             ),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: isValid ? primary : pewter,
-              ),
+              style: ElevatedButton.styleFrom(primary: isValid ? primary : pewter),
               onPressed: () { saveBudget(); },
               child: Text(
-                AppLocalizations.of(context)!.createNewBudget,
+                widget.budgetId == null ? AppLocalizations.of(context)!.create : AppLocalizations.of(context)!.update,
                 style: Theme.of(context).textTheme.titleMedium
               )
             )

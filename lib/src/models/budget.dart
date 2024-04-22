@@ -20,6 +20,29 @@ class Budget {
   @override
   String toString() => 'Budget(id: $id, name: $name, amount: $amount, startDate: $startDate, endDate: $endDate, currencyType: $currencyType, user: $user)';
 
+  Map<String, dynamic> toMap() {
+    return {
+      "id": id,
+      "name": name,
+      "amount": amount,
+      "startDate": startDate,
+      "endDate": endDate,
+      "currencyType": currencyType,
+      "user": user
+    };
+  }
+
+  static fromJson(Map<String, dynamic> json) {
+    return Budget()
+            ..id = json['id']
+            ..name = json['name']
+            ..amount = json['amount']
+            ..startDate = json['startDate']
+            ..endDate = json['endDate']
+            ..currencyType = json['currencyType']
+            ..user.value = json['user'].value;
+  }
+
   static create(Budget newBudget) async {
     final isar = await IsarService().getDB();
     isar.writeTxnSync(() {
@@ -30,12 +53,27 @@ class Budget {
   static getAllOfCurrentUser() async {
     final user = await User.currentLoggedIn();
     final isar = await IsarService().getDB();
-    return await isar.budgets.filter().user((q) => q.idEqualTo(user.id)).findAll();
+    return await isar.budgets.filter().user((q) => q.idEqualTo(user.id)).sortByStartDate().findAll();
   }
 
   static findById(String id) async {
     final isar = await IsarService().getDB();
     return await isar.budgets.filter().idEqualTo(id).findFirst();
+  }
+
+  static update(id, Map<String, dynamic> params) async {
+    final isar = await IsarService().getDB();
+    Budget? budget = await findById(id);
+    if (budget != null) {
+      Map<String, dynamic> newBudget = budget.toMap();
+      params.forEach((key, value) {
+        newBudget[key] = value;
+      });
+      Budget formattedParams = Budget.fromJson(newBudget);
+      isar.writeTxnSync(() {
+        isar.budgets.putSync(formattedParams);
+      });
+    }
   }
 
   static deleteById(String id) async {

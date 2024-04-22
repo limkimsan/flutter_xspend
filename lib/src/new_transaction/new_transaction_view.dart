@@ -9,7 +9,6 @@ import 'currency_type_picker.dart';
 import 'transaction_date_picker.dart';
 import 'transaction_note_input.dart';
 import 'transaction_controller.dart';
-import 'transaction_amount_input.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/models/category.dart';
 import 'package:flutter_xspend/src/models/user.dart';
@@ -17,6 +16,7 @@ import 'package:flutter_xspend/src/models/transaction.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
 import 'package:flutter_xspend/src/utils/currency_util.dart';
 import 'package:flutter_xspend/src/utils/datetime_util.dart';
+import 'package:flutter_xspend/src/shared/currency_text_field.dart';
 
 class NewTransactionView extends StatefulWidget {
   const NewTransactionView({super.key});
@@ -158,9 +158,15 @@ class _NewTransactionViewState extends State<NewTransactionView> {
                           validate('category', category);
                           Navigator.of(context).pop();
                         }),
-                        TransactionAmountInput(
-                          controller: amountController,
-                          onChange: onAmountChange
+                        Flexible(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: CurrencyTextField(
+                              hintText: AppLocalizations.of(context)!.transactionAmount,
+                              controller: amountController,
+                              onChanged: onAmountChange
+                            ),
+                          ),
                         ),
                         CurrencyTypePicker(currencyType, (type) {
                           setState(() { currencyType = type; });

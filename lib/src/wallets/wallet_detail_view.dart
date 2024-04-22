@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:flutter_xspend/src/wallet_details/wallet_detail_summary_header.dart';
+import 'wallet_detail_summary_header.dart';
 import 'package:flutter_xspend/src/shared/transaction_duration_switcher/transaction_duration_switcher.dart';
 import 'package:flutter_xspend/src/shared/transaction_list/transaction_list.dart';
 import 'package:flutter_xspend/src/shared/transaction_list/transaction_list_total_expense.dart';

@@ -3,14 +3,14 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
+import 'new_budget_view.dart';
+import 'budget_controller.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/constants/font_size.dart';
 import 'package:flutter_xspend/src/utils/currency_util.dart';
 import 'package:flutter_xspend/src/utils/math_util.dart';
 import 'package:flutter_xspend/src/models/budget.dart';
 import 'package:flutter_xspend/src/localization/localization_service.dart';
-import 'package:flutter_xspend/src/new_budgets/new_budget_view.dart';
-import 'package:flutter_xspend/src/new_budgets/budget_controller.dart';
 import 'package:flutter_xspend/src/shared/bottom_sheet/delete_confirmation_bottom_sheet.dart';
 
 class BudgetListItem extends StatelessWidget {

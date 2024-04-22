@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:flutter_xspend/src/constants/colors.dart';
 import 'budget_list.dart';
-import 'package:flutter_xspend/src/new_budgets/new_budget_view.dart';
+import 'new_budget_view.dart';
+import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/bloc/budget/budget_bloc.dart';
 
 class BudgetView extends StatefulWidget {

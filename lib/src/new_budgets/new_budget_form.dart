@@ -57,14 +57,22 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
   void saveBudget() {
     if (_formKey.currentState!.validate() && isValid) {
       _formKey.currentState!.save();
-
-      print('== Amount ===== $amount');
-
-      // BudgetController.create(name, amount, startDate, endDate, selectedCurrency, (budgets) {
-      //   context.read<BudgetBloc>().add(LoadBudget(budgets: budgets));
-      //   Navigator.of(context).pop();
-      // });
+      if (widget.budgetId != null) {
+        BudgetController.update(widget.budgetId, name, amount, startDate, endDate, selectedCurrency, (newBudgets) {
+          reloadBudgetList(newBudgets);
+        });
+      }
+      else {
+        BudgetController.create(name, amount, startDate, endDate, selectedCurrency, (newBudgets) {
+          reloadBudgetList(newBudgets);
+        });
+      }
     }
+  }
+
+  void reloadBudgetList(budgets) {
+    context.read<BudgetBloc>().add(LoadBudget(budgets: budgets));
+    Navigator.of(context).pop();
   }
 
   @override
@@ -234,9 +242,7 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
               ),
             ),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: isValid ? primary : pewter,
-              ),
+              style: ElevatedButton.styleFrom(primary: isValid ? primary : pewter),
               onPressed: () { saveBudget(); },
               child: Text(
                 widget.budgetId == null ? AppLocalizations.of(context)!.create : AppLocalizations.of(context)!.update,

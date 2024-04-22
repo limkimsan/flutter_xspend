@@ -26,6 +26,22 @@ class BudgetController {
     });
   }
 
+  static update(id, name, amount, startDate, endDate, currencyType, callback) async {
+    Map<String, dynamic> params = {
+      'name': name,
+      'amount': double.parse(amount),
+      'startDate': startDate,
+      'endDate': endDate,
+      'currencyType': currencyType,
+    };
+    Budget.update(id, params);
+    Future.delayed(const Duration(milliseconds: 100), () {
+      BudgetHelper.loadBudgets((budgets) {
+        callback?.call(budgets);
+      });
+    });
+  }
+
   static delete(String id, callback) {
     Budget.deleteById(id);
     Future.delayed(const Duration(milliseconds: 100), () {

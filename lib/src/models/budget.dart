@@ -53,7 +53,7 @@ class Budget {
   static getAllOfCurrentUser() async {
     final user = await User.currentLoggedIn();
     final isar = await IsarService().getDB();
-    return await isar.budgets.filter().user((q) => q.idEqualTo(user.id)).findAll();
+    return await isar.budgets.filter().user((q) => q.idEqualTo(user.id)).sortByStartDate().findAll();
   }
 
   static findById(String id) async {

@@ -2,6 +2,7 @@ import 'package:uuid/uuid.dart';
 
 import 'package:flutter_xspend/src/models/budget.dart';
 import 'package:flutter_xspend/src/models/user.dart';
+import 'package:flutter_xspend/src/constants/colors.dart';
 
 class BudgetController {
   static bool isValidForm(name, amount, startDate, endDate) {
@@ -53,5 +54,15 @@ class BudgetController {
         callback?.call(budgets);
       });
     });
+  }
+
+  static getProgressBarColor(percentage) {
+    if (percentage < 0.5) {
+      return lightGreen;
+    }
+    else if (percentage < 0.75) {
+      return yellow;
+    }
+    return percentage < 0.85 ? orange : red;
   }
 }

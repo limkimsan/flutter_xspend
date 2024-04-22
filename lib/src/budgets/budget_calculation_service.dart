@@ -10,9 +10,11 @@ class BudgetCalculationService {
 
   getProgress() {
     final double totalExpense = TransactionCalculationService.getTotalExpense(transactions, budget.currencyType, exchangeRates);
+    double percentage = totalExpense / budget.amount!;
+
     return {
       'expense': totalExpense,
-      'percentage': totalExpense / budget.amount!,
+      'percentage': percentage > 1 ? 1.0 : percentage,
       'remainAmount': budget.amount! - totalExpense,
       'amountEachDay': (budget.amount! - totalExpense) / _getNumberOfDays(),
       'remainingDays': _getNumberOfDays(),

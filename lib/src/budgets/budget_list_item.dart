@@ -90,7 +90,7 @@ class BudgetListItem extends StatelessWidget {
                     MathUtil.getFormattedPercentage(progress['percentage']),
                     style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                   ),
-                  progressColor: Colors.green,
+                  progressColor: BudgetController.getProgressBarColor(progress['percentage']),
                   backgroundColor: Colors.white,
                   padding: const EdgeInsets.all(0),
                 ),

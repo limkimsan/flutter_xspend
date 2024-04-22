@@ -5,11 +5,11 @@ import 'package:flutter_xspend/src/bloc/exchange_rate/exchange_rate_bloc.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/models/budget.dart';
 import 'package:flutter_xspend/src/models/transaction.dart';
-import 'package:flutter_xspend/src/helpers/budget_helper.dart';
 import 'package:flutter_xspend/src/bloc/budget/budget_bloc.dart';
 import 'budget_calculation_service.dart';
 import 'budget_empty_message.dart';
 import 'budget_list_item.dart';
+import 'budget_controller.dart';
 
 class BudgetList extends StatefulWidget {
   const BudgetList({super.key});
@@ -24,7 +24,7 @@ class _BudgetListState extends State<BudgetList> {
   @override
   void initState() {
     super.initState();
-    BudgetHelper.loadBudgets((budgets) {
+    BudgetController.loadBudgets((budgets) {
       context.read<BudgetBloc>().add(LoadBudget(budgets: budgets));
       loadTransactions(budgets);
     });

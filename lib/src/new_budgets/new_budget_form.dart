@@ -10,6 +10,7 @@ import 'package:flutter_xspend/src/utils/datetime_util.dart';
 import 'package:flutter_xspend/src/utils/currency_util.dart';
 import 'package:flutter_xspend/src/bloc/budget/budget_bloc.dart';
 import 'package:flutter_xspend/src/models/budget.dart';
+import 'package:flutter_xspend/src/shared/currency_text_field.dart';
 import 'budget_controller.dart';
 
 class NewBudgetForm extends StatefulWidget {
@@ -56,10 +57,13 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
   void saveBudget() {
     if (_formKey.currentState!.validate() && isValid) {
       _formKey.currentState!.save();
-      BudgetController.create(name, amount, startDate, endDate, selectedCurrency, (budgets) {
-        context.read<BudgetBloc>().add(LoadBudget(budgets: budgets));
-        Navigator.of(context).pop();
-      });
+
+      print('== Amount ===== $amount');
+
+      // BudgetController.create(name, amount, startDate, endDate, selectedCurrency, (budgets) {
+      //   context.read<BudgetBloc>().add(LoadBudget(budgets: budgets));
+      //   Navigator.of(context).pop();
+      // });
     }
   }
 
@@ -200,23 +204,20 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
                   ),
                   const SizedBox(height: 24),
                   InputLabelWidget(label: AppLocalizations.of(context)!.budgetAmount, isRequired: true,),
-                  TextFormField(
+                  CurrencyTextField(
+                    hintText: AppLocalizations.of(context)!.pleaseEnterBudgetAmount,
                     controller: _amountController,
-                    decoration: InputDecoration(
-                      hintText: AppLocalizations.of(context)!.pleaseEnterBudgetAmount,
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty || int.parse(value) <= 0) {
-                        return AppLocalizations.of(context)!.budgetAmountMustBePositiveNumber;
-                      }
-                      return null;
-                    },
-                    onSaved: (value) { amount = value; },
                     onChanged: (value) {
                       amount= value;
                       setState(() {
                         isValid = BudgetController.isValidForm(name, value, startDate, endDate);
                       });
+                    },
+                    validator: (value) {
+                      if (value == null || value.isEmpty || double.parse(value) <= 0) {
+                        return AppLocalizations.of(context)!.budgetAmountMustBePositiveNumber;
+                      }
+                      return null;
                     },
                   ),
                   const SizedBox(height: 24),

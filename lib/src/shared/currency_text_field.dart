@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_xspend/src/utils/currency_util.dart';
 
 class CurrencyTextField extends StatelessWidget {
-  const CurrencyTextField({super.key, required this.hintText, required this.controller, required this.onChange, this.validator});
+  const CurrencyTextField({super.key, required this.hintText, required this.controller, required this.onChanged, this.validator});
 
   final String hintText;
   final TextEditingController controller;
-  final Function(String value) onChange;
+  final Function(String value) onChanged;
   final Function(String? value)? validator;
 
   void onAmountChange(value) {
@@ -18,7 +18,7 @@ class CurrencyTextField extends StatelessWidget {
         selection: TextSelection.collapsed(offset: newText.length),
       );
     }
-    onChange(controller.text.replaceAll(' ', ''));
+    onChanged(controller.text.replaceAll(' ', ''));
   }
 
   @override
@@ -35,7 +35,11 @@ class CurrencyTextField extends StatelessWidget {
       },
       validator: (value) {
         if (validator != null) {
-          validator?.call(value);
+          String? newValue = value;
+          if (value != '') {
+            newValue = value!.replaceAll(' ', '');
+          }
+          validator?.call(newValue);
         }
         return null;
       },

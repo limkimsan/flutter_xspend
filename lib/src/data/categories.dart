@@ -5,6 +5,7 @@ final categories = [
   Category(
     "2529fa6d-a529-44ce-8949-57275d179793",
     "Salary",
+    "ប្រាក់ខែ",
     int.parse(transactionTypes['income']!['value'].toString()),
     1,
     "cash",
@@ -15,6 +16,7 @@ final categories = [
   Category(
     "50f5573b-cf95-4fef-9916-41d5ef2fd05e",
     "Returned fee",
+    "ប្រាក់សំណង",
     int.parse(transactionTypes['income']!['value'].toString()),
     3,
     "refresh-ccw",
@@ -25,6 +27,7 @@ final categories = [
   Category(
     "4e48297e-099c-4dcf-a620-31a7f398a36c",
     "Food",
+    "អាហារ",
     int.parse(transactionTypes['expense']!['value'].toString()),
     1,
     "fast-food-outline",
@@ -35,6 +38,7 @@ final categories = [
   Category(
     "e95e4f02-a1b6-4c87-9d10-df03836ea490",
     "Drink",
+    "ភេសជ្ជៈ",
     int.parse(transactionTypes['expense']!['value'].toString()),
     2,
     "coffee",
@@ -45,6 +49,7 @@ final categories = [
   Category(
     "cc92ad4c-9d7b-42c3-8c83-9c9529466559",
     "Monthly fee",
+    "ការប្រាក់ប្រចាំ​ខែ",
     int.parse(transactionTypes['income']!['value'].toString()),
     2,
     "cash-outline",
@@ -55,6 +60,7 @@ final categories = [
   Category(
     "fe318f3f-0c6e-4c3d-a013-6b20cf719f03",
     "Gasoline",
+    "សាំង",
     int.parse(transactionTypes['expense']!['value'].toString()),
     4,
     "gas-station-outline",
@@ -65,6 +71,7 @@ final categories = [
   Category(
     "99bc1b73-709b-4888-8cae-dd808f95bfa5",
     "Movie",
+    "ភាពយន្ត",
     int.parse(transactionTypes['expense']!['value'].toString()),
     3,
     "film",
@@ -75,6 +82,7 @@ final categories = [
   Category(
     "52962d0f-0303-482d-bec1-859a6539fbd3",
     "Public service",
+    "សេវាសាធារណៈ",
     int.parse(transactionTypes['expense']!['value'].toString()),
     5,
     "receipt-outline",
@@ -85,6 +93,7 @@ final categories = [
   Category(
     "dfb49315-e55d-4429-afe6-22196e0b738a",
     "Travel",
+    "ការធ្វើដំណើរ",
     int.parse(transactionTypes['expense']!['value'].toString()),
     6,
     "car-outline",
@@ -95,6 +104,7 @@ final categories = [
   Category(
     "83b138e2-426c-4c8c-8532-5276362b91f0",
     "Accommodation",
+    "ការស្នាក់នៅ",
     int.parse(transactionTypes['expense']!['value'].toString()),
     7,
     "bed-outline",
@@ -105,6 +115,7 @@ final categories = [
   Category(
     "3dcfaf97-75cb-4d48-8c55-6dbf88bbe053",
     "Electronic device",
+    "ឧបករណ៍អេឡិចត្រូនិក",
     int.parse(transactionTypes['expense']!['value'].toString()),
     8,
     "cpu",
@@ -115,6 +126,7 @@ final categories = [
   Category(
     "dc071198-5bf2-4408-8cc5-cecb6256f2d3",
     "Health care",
+    "សេវាថែទាំសុខភាព",
     int.parse(transactionTypes['expense']!['value'].toString()),
     9,
     "stethoscope",
@@ -125,6 +137,7 @@ final categories = [
   Category(
     "cf12bacd-b5b4-4eca-8df2-3bae524e2160",
     "Online subscription",
+    "ការជាវអនឡាញ",
     int.parse(transactionTypes['expense']!['value'].toString()),
     10,
     "web",
@@ -135,6 +148,7 @@ final categories = [
   Category(
     "ada9772b-498f-4619-8962-7ad0c15ebca9",
     "Grocery",
+    "គ្រឿងទេស",
     int.parse(transactionTypes['expense']!['value'].toString()),
     11,
     "shopping-cart",
@@ -145,6 +159,7 @@ final categories = [
   Category(
     "97cb519e-2b22-45a5-a859-339cf83cef02",
     "Shopping",
+    "ទិញទំនិញ",
     int.parse(transactionTypes['expense']!['value'].toString()),
     12,
     "shopping-bag",
@@ -155,6 +170,7 @@ final categories = [
   Category(
     "ebc67a95-64f8-4574-9c1d-6a96e0672f4a",
     "Trading",
+    "ការជួញដូរ",
     int.parse(transactionTypes['income']!['value'].toString()),
     4,
     "swap-horizontal",
@@ -165,21 +181,12 @@ final categories = [
   Category(
     "b1540a66-be03-4bf8-9121-57c5b94cf7f7",
     "Utility",
+    "ទឹក និងភ្លើង",
     int.parse(transactionTypes['expense']!['value'].toString()),
     13,
     "hammer-wrench",
     "materialcommunityicons",
     "#ffffff",
     "#14bdb2"
-  ),
-  Category(
-    "7296ae1e-5561-4e6a-9fc9-b8faa4ab2671",
-    "Gasoline",
-    int.parse(transactionTypes['expense']!['value'].toString()),
-    15,
-    "gas-station-outline",
-    "materialcommunityicons",
-    "#ffffff",
-    "#f21c1c"
   )
 ];

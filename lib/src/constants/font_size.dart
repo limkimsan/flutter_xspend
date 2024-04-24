@@ -4,4 +4,4 @@ double mdHeader = 16;
 double smHeader = 14;
 double mdFontSize = 16;
 double smFontSize = 14;
-double xsFontSize = 12;
+double xsFontSize = 13;

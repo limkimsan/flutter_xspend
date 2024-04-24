@@ -56,7 +56,7 @@ class BudgetListItem extends StatelessWidget {
                       CurrencyUtil.getCurrencyFormat(budget.amount, budget.currencyType),
                       CurrencyUtil.getCurrencyFormat(progress['expense'], budget.currencyType)
                     ),
-                    style: const TextStyle(color: primary, fontWeight: FontWeight.w900)
+                    style: const TextStyle(color: primary, fontFamily: 'KantumruyPro')
                   ),
                 ],
               ),

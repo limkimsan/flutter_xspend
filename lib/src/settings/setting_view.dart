@@ -111,6 +111,7 @@ class _SettingViewState extends State<SettingView> {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         automaticallyImplyLeading: false, // hide the back button
         title: Text(AppLocalizations.of(context)!.settings),
       ),

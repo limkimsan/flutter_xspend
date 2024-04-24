@@ -58,20 +58,20 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
     if (_formKey.currentState!.validate() && isValid) {
       _formKey.currentState!.save();
       if (widget.budgetId != null) {
-        BudgetController.update(widget.budgetId, name, amount, startDate, endDate, selectedCurrency, (newBudgets) {
-          reloadBudgetList(newBudgets);
+        BudgetController.update(widget.budgetId, name, amount, startDate, endDate, selectedCurrency, (newBudgets, tranList) {
+          reloadBudgetList(newBudgets, tranList);
         });
       }
       else {
-        BudgetController.create(name, amount, startDate, endDate, selectedCurrency, (newBudgets) {
-          reloadBudgetList(newBudgets);
+        BudgetController.create(name, amount, startDate, endDate, selectedCurrency, (newBudgets, tranList) {
+          reloadBudgetList(newBudgets, tranList);
         });
       }
     }
   }
 
-  void reloadBudgetList(budgets) {
-    context.read<BudgetBloc>().add(LoadBudget(budgets: budgets));
+  void reloadBudgetList(budgets, tranList) {
+    context.read<BudgetBloc>().add(LoadBudget(budgets: budgets, tranList: tranList));
     Navigator.of(context).pop();
   }
 

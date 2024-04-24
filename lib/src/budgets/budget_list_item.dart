@@ -18,15 +18,15 @@ class BudgetListItem extends StatelessWidget {
 
   final Budget budget;
   final Map<String, dynamic> progress;
-  final void Function(List<Budget> newBudgets) reloadBudgets;
+  final void Function(List<Budget> newBudgets, List tranList) reloadBudgets;
 
   void showDeleteConfirmation(BuildContext context) {
     DeleteConfirmationBottomSheet(
       title: AppLocalizations.of(context)!.deleteBudget,
       description: AppLocalizations.of(context)!.areYouSureToDeleteThisBudget,
       onConfirm: () {
-        BudgetController.delete(budget.id!, (budgets) {
-          reloadBudgets(budgets);
+        BudgetController.delete(budget.id!, (budgets, tranList) {
+          reloadBudgets(budgets, tranList);
         });
       }
     ).showBottomSheet(context);

@@ -2,6 +2,7 @@ import 'package:uuid/uuid.dart';
 
 import 'package:flutter_xspend/src/models/budget.dart';
 import 'package:flutter_xspend/src/models/user.dart';
+import 'package:flutter_xspend/src/models/transaction.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 
 class BudgetController {
@@ -11,7 +12,13 @@ class BudgetController {
 
   static loadBudgets(callback) async {
     final List<Budget> budgets = await Budget.getAllOfCurrentUser();
-    callback?.call(budgets);
+    List tranList = [];
+
+    for (Budget budget in budgets) {
+      final transactions = await Transaction.getAllByDurationType('custom', budget.startDate.toString(), budget.endDate.toString());
+      tranList.add(transactions);
+    }
+    callback?.call(budgets, tranList);
   }
 
   static create(name, amount, startDate, endDate, currencyType, callback) async {
@@ -26,8 +33,10 @@ class BudgetController {
                     ..user.value = await User.currentLoggedIn();
 
     Budget.create(budget);
-    loadBudgets((budgets) {
-      callback?.call(budgets);
+    Future.delayed(const Duration(milliseconds: 100), () {
+      loadBudgets((budgets, tranList) {
+        callback?.call(budgets, tranList);
+      });
     });
   }
 
@@ -41,8 +50,8 @@ class BudgetController {
     };
     Budget.update(id, params);
     Future.delayed(const Duration(milliseconds: 100), () {
-      loadBudgets((budgets) {
-        callback?.call(budgets);
+      loadBudgets((budgets, tranList) {
+        callback?.call(budgets, tranList);
       });
     });
   }
@@ -50,8 +59,8 @@ class BudgetController {
   static delete(String id, callback) {
     Budget.deleteById(id);
     Future.delayed(const Duration(milliseconds: 100), () {
-      loadBudgets((budgets) {
-        callback?.call(budgets);
+      loadBudgets((budgets, tranList) {
+        callback?.call(budgets, tranList);
       });
     });
   }

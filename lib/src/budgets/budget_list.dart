@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_xspend/src/bloc/exchange_rate/exchange_rate_bloc.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
-import 'package:flutter_xspend/src/models/budget.dart';
-import 'package:flutter_xspend/src/models/transaction.dart';
 import 'package:flutter_xspend/src/bloc/budget/budget_bloc.dart';
 import 'budget_calculation_service.dart';
 import 'budget_empty_message.dart';
@@ -24,20 +22,8 @@ class _BudgetListState extends State<BudgetList> {
   @override
   void initState() {
     super.initState();
-    BudgetController.loadBudgets((budgets) {
-      context.read<BudgetBloc>().add(LoadBudget(budgets: budgets));
-      loadTransactions(budgets);
-    });
-  }
-
-  void loadTransactions(budgets) async {
-    List tranList = [];
-    for (Budget budget in budgets) {
-      final transactions = await Transaction.getAllByDurationType('custom', budget.startDate.toString(), budget.endDate.toString());
-      tranList.add(transactions);
-    }
-    setState(() {
-      transactionList = tranList;
+    BudgetController.loadBudgets((budgets, tranList) {
+      context.read<BudgetBloc>().add(LoadBudget(budgets: budgets, tranList: tranList));
     });
   }
 
@@ -48,7 +34,7 @@ class _BudgetListState extends State<BudgetList> {
 
     Widget listItem(index) {
       final budget = budgetState.budgets[index];
-      final budgetCal = BudgetCalculationService(budget, transactionList[index], state.exchangeRate);
+      final budgetCal = BudgetCalculationService(budget, budgetState.tranList[index], state.exchangeRate);
       final Map<String, dynamic> progress = budgetCal.getProgress();
 
       return Column(
@@ -56,8 +42,8 @@ class _BudgetListState extends State<BudgetList> {
           BudgetListItem(
             budget: budget,
             progress: progress,
-            reloadBudgets: (newBudgets) {
-              context.read<BudgetBloc>().add(LoadBudget(budgets: newBudgets));
+            reloadBudgets: (newBudgets, newTranList) {
+              context.read<BudgetBloc>().add(LoadBudget(budgets: newBudgets, tranList: newTranList));
             }
           ),
           const Divider(color: grey, height: 1)
@@ -65,20 +51,15 @@ class _BudgetListState extends State<BudgetList> {
       );
     }
 
-    if (budgetState.budgets.isEmpty || transactionList.isEmpty) {
+    if (budgetState.budgets.isEmpty) {
       return const BudgetEmptyMessage();
     }
 
-    return BlocListener<BudgetBloc, BudgetState>(
-      listener: (context, state) {
-        loadTransactions(state.budgets);
-      },
-      child: ListView.builder(
-        itemCount: budgetState.budgets.length,
-        itemBuilder: (context, index) {
-          return listItem(index);
-        }
-      ),
+    return ListView.builder(
+      itemCount: budgetState.budgets.length,
+      itemBuilder: (context, index) {
+        return listItem(index);
+      }
     );
   }
 }

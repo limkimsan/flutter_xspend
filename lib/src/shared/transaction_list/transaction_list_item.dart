@@ -76,7 +76,7 @@ class TransactionListItem extends StatelessWidget {
           )
         ),
         title: Text(
-          item.category.value!.name.toString(),
+          LocalizationService.currentLanguage == 'km' ? item.category.value!.nameKm.toString() : item.category.value!.name.toString(),
           style: const TextStyle(color: Colors.white)
         ),
         subtitle: subtitle(),

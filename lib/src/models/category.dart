@@ -11,6 +11,7 @@ class Category {
   String? id;
   Id get isarId => fastHash(id!);
   String? name;
+  String? nameKm;
   int? transactionType;
   int? order;
   String? icon;
@@ -18,32 +19,34 @@ class Category {
   String? iconColor;
   String? bgColor;
 
-  Category(this.id, this.name, this.transactionType, this.order,  this.icon, this.iconType, this.iconColor, this.bgColor);
+  // Category(this.id, this.name, this.nameKm, this.transactionType, this.order,  this.icon, this.iconType, this.iconColor, this.bgColor);
 
-  // Map<String, dynamic> toMap() {
-  //   return {
-  //     'id': id,
-  //     'name': name,
-  //     'transactionType': transactionType,
-  //     'order': order,
-  //     'icon': icon,
-  //     'iconType': iconType,
-  //     'iconColor': iconColor,
-  //     'bgColor': bgColor
-  //   };
-  // }
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'nameKm': nameKm,
+      'transactionType': transactionType,
+      'order': order,
+      'icon': icon,
+      'iconType': iconType,
+      'iconColor': iconColor,
+      'bgColor': bgColor
+    };
+  }
 
-  // fromJson(Map<String, dynamic> json) {
-  //   return Category()
-  //           ..id = json['id']
-  //           ..name = json['name']
-  //           ..transactionType = json['transactionType']
-  //           ..order = json['order']
-  //           ..icon = json['icon']
-  //           ..iconType = json['iconType']
-  //           ..iconColor = json['iconColor']
-  //           ..bgColor = json['bgColor'];
-  // }
+  static fromJson(Map<String, dynamic> json) {
+    return Category()
+            ..id = json['id']
+            ..name = json['name']
+            ..nameKm = json['nameKm']
+            ..transactionType = json['transactionType']
+            ..order = json['order']
+            ..icon = json['icon']
+            ..iconType = json['iconType']
+            ..iconColor = json['iconColor']
+            ..bgColor = json['bgColor'];
+  }
 
   static seedData() async {
     final isar = await IsarService().getDB();

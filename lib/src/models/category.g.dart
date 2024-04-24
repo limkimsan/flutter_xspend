@@ -47,13 +47,18 @@ const CategorySchema = CollectionSchema(
       name: r'name',
       type: IsarType.string,
     ),
-    r'order': PropertySchema(
+    r'nameKm': PropertySchema(
       id: 6,
+      name: r'nameKm',
+      type: IsarType.string,
+    ),
+    r'order': PropertySchema(
+      id: 7,
       name: r'order',
       type: IsarType.long,
     ),
     r'transactionType': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'transactionType',
       type: IsarType.long,
     )
@@ -114,6 +119,12 @@ int _categoryEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
+  {
+    final value = object.nameKm;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   return bytesCount;
 }
 
@@ -129,8 +140,9 @@ void _categorySerialize(
   writer.writeString(offsets[3], object.iconType);
   writer.writeString(offsets[4], object.id);
   writer.writeString(offsets[5], object.name);
-  writer.writeLong(offsets[6], object.order);
-  writer.writeLong(offsets[7], object.transactionType);
+  writer.writeString(offsets[6], object.nameKm);
+  writer.writeLong(offsets[7], object.order);
+  writer.writeLong(offsets[8], object.transactionType);
 }
 
 Category _categoryDeserialize(
@@ -139,16 +151,16 @@ Category _categoryDeserialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = Category(
-    reader.readStringOrNull(offsets[4]),
-    reader.readStringOrNull(offsets[5]),
-    reader.readLongOrNull(offsets[7]),
-    reader.readLongOrNull(offsets[6]),
-    reader.readStringOrNull(offsets[1]),
-    reader.readStringOrNull(offsets[3]),
-    reader.readStringOrNull(offsets[2]),
-    reader.readStringOrNull(offsets[0]),
-  );
+  final object = Category();
+  object.bgColor = reader.readStringOrNull(offsets[0]);
+  object.icon = reader.readStringOrNull(offsets[1]);
+  object.iconColor = reader.readStringOrNull(offsets[2]);
+  object.iconType = reader.readStringOrNull(offsets[3]);
+  object.id = reader.readStringOrNull(offsets[4]);
+  object.name = reader.readStringOrNull(offsets[5]);
+  object.nameKm = reader.readStringOrNull(offsets[6]);
+  object.order = reader.readLongOrNull(offsets[7]);
+  object.transactionType = reader.readLongOrNull(offsets[8]);
   return object;
 }
 
@@ -172,8 +184,10 @@ P _categoryDeserializeProp<P>(
     case 5:
       return (reader.readStringOrNull(offset)) as P;
     case 6:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 7:
+      return (reader.readLongOrNull(offset)) as P;
+    case 8:
       return (reader.readLongOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1199,6 +1213,152 @@ extension CategoryQueryFilter
     });
   }
 
+  QueryBuilder<Category, Category, QAfterFilterCondition> nameKmIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'nameKm',
+      ));
+    });
+  }
+
+  QueryBuilder<Category, Category, QAfterFilterCondition> nameKmIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'nameKm',
+      ));
+    });
+  }
+
+  QueryBuilder<Category, Category, QAfterFilterCondition> nameKmEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'nameKm',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Category, Category, QAfterFilterCondition> nameKmGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'nameKm',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Category, Category, QAfterFilterCondition> nameKmLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'nameKm',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Category, Category, QAfterFilterCondition> nameKmBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'nameKm',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Category, Category, QAfterFilterCondition> nameKmStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'nameKm',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Category, Category, QAfterFilterCondition> nameKmEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'nameKm',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Category, Category, QAfterFilterCondition> nameKmContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'nameKm',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Category, Category, QAfterFilterCondition> nameKmMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'nameKm',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Category, Category, QAfterFilterCondition> nameKmIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'nameKm',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Category, Category, QAfterFilterCondition> nameKmIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'nameKm',
+        value: '',
+      ));
+    });
+  }
+
   QueryBuilder<Category, Category, QAfterFilterCondition> orderIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -1422,6 +1582,18 @@ extension CategoryQuerySortBy on QueryBuilder<Category, Category, QSortBy> {
     });
   }
 
+  QueryBuilder<Category, Category, QAfterSortBy> sortByNameKm() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'nameKm', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Category, Category, QAfterSortBy> sortByNameKmDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'nameKm', Sort.desc);
+    });
+  }
+
   QueryBuilder<Category, Category, QAfterSortBy> sortByOrder() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'order', Sort.asc);
@@ -1533,6 +1705,18 @@ extension CategoryQuerySortThenBy
     });
   }
 
+  QueryBuilder<Category, Category, QAfterSortBy> thenByNameKm() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'nameKm', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Category, Category, QAfterSortBy> thenByNameKmDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'nameKm', Sort.desc);
+    });
+  }
+
   QueryBuilder<Category, Category, QAfterSortBy> thenByOrder() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'order', Sort.asc);
@@ -1602,6 +1786,13 @@ extension CategoryQueryWhereDistinct
     });
   }
 
+  QueryBuilder<Category, Category, QDistinct> distinctByNameKm(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'nameKm', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<Category, Category, QDistinct> distinctByOrder() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'order');
@@ -1656,6 +1847,12 @@ extension CategoryQueryProperty
   QueryBuilder<Category, String?, QQueryOperations> nameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'name');
+    });
+  }
+
+  QueryBuilder<Category, String?, QQueryOperations> nameKmProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'nameKm');
     });
   }
 

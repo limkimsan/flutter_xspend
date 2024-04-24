@@ -1,9 +1,11 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
+import 'package:flutter_xspend/src/constants/spacing_constant.dart';
 import 'package:flutter_xspend/src/models/transaction.dart';
 import 'package:flutter_xspend/src/helpers/transaction_helper.dart';
 import 'package:flutter_xspend/src/bloc/exchange_rate/exchange_rate_bloc.dart';
@@ -42,6 +44,7 @@ class _WalletHeaderState extends State<WalletHeader> {
   Widget build(BuildContext context) {
     return Center(
       child: SafeArea(
+        minimum: EdgeInsets.only(top: Platform.isAndroid ? androidAppBarPaddingTop : MediaQuery.of(context).padding.top),
         child: Column(
           children: [
             Text(basedCurrency == 'khr' ? formattedKhr : formattedUsd,

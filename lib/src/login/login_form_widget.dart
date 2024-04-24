@@ -92,6 +92,8 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
                 style: const TextStyle(color: red),
               ),
             ),
+
+          const SizedBox(height: 6),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(

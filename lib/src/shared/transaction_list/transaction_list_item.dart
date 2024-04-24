@@ -44,7 +44,7 @@ class TransactionListItem extends StatelessWidget {
               const Icon(Icons.credit_card, size: 16, color: pewter),
               Padding(
                 padding: const EdgeInsets.only(left: 8),
-                child: Text(item.currencyType.toString(), style: const TextStyle(color: pewter))
+                child: Text(currencyLabels[item.currencyType].toString(), style: const TextStyle(color: pewter))
               )
             ],
           ),
@@ -76,7 +76,7 @@ class TransactionListItem extends StatelessWidget {
           )
         ),
         title: Text(
-          item.category.value!.name.toString(),
+          LocalizationService.currentLanguage == 'km' ? item.category.value!.nameKm.toString() : item.category.value!.name.toString(),
           style: const TextStyle(color: Colors.white)
         ),
         subtitle: subtitle(),

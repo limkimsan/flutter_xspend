@@ -7,6 +7,7 @@ import 'src/app.dart';
 import 'src/constants/colors.dart';
 import 'src/routes/app_route.dart';
 import 'src/models/category.dart';
+import 'src/services/migration_service.dart';
 
 import 'src/bloc/exchange_rate/exchange_rate_bloc.dart';
 import 'src/bloc/base_currency/base_currency_bloc.dart';
@@ -20,6 +21,8 @@ void main() async {
 
   ExchangeRateBloc exchangeRateBloc = ExchangeRateBloc();
   BaseCurrencyBloc baseCurrencyBloc = BaseCurrencyBloc();
+
+  await MigrationService.performMigration();
 
   runApp(
     MultiBlocProvider(

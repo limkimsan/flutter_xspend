@@ -103,7 +103,7 @@ class _TransactionCategoryBottomSheetState extends State<TransactionCategoryBott
           SizedBox(
             width: double.infinity,
             child: Text(
-              category.name,
+              LocalizationService.currentLanguage == 'km' ? category.nameKm : category.name,
               style: const TextStyle(fontSize: 12, overflow: TextOverflow.ellipsis),
               maxLines: 2,
               textAlign: TextAlign.center,

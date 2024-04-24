@@ -57,6 +57,7 @@ class _CleanTransactionViewState extends State<CleanTransactionView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(AppLocalizations.of(context)!.cleanTransaction),
       ),
       body: SafeArea(

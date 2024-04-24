@@ -18,6 +18,7 @@ class NewBudgetView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(budgetId == null ? AppLocalizations.of(context)!.createNewBudget : AppLocalizations.of(context)!.editBudget),
       ),
       body: SafeArea(child: NewBudgetForm(budgetId: budgetId)),

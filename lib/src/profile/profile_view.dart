@@ -48,6 +48,7 @@ class _ProfileViewState extends State<ProfileView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(AppLocalizations.of(context)!.profile)
       ),
       body: Padding(

@@ -23,6 +23,7 @@ class _BudgetViewState extends State<BudgetView> {
       value: widget.budgetBloc,
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           automaticallyImplyLeading: false,
           title: Text(AppLocalizations.of(context)!.budget)
         ),

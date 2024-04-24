@@ -22,6 +22,7 @@ class _WalletDetailViewState extends State<WalletDetailView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(AppLocalizations.of(context)!.balanceDetail),
       ),
       body: SafeArea(

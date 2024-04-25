@@ -14,7 +14,7 @@ class BudgetCalculationService {
 
     return {
       'expense': totalExpense,
-      'percentage': percentage > 1 ? 1.0 : percentage,
+      'percentage': percentage,
       'remainAmount': budget.amount! - totalExpense,
       'amountEachDay': (budget.amount! - totalExpense) / _getNumberOfDays(),
       'remainingDays': _getNumberOfDays(),

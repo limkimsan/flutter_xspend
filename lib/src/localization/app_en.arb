@@ -98,5 +98,7 @@
   "selectDate": "Select date",
   "deleteBudget": "Delete Budget",
   "areYouSureToDeleteThisBudget": "Are you sure to delete this budget?",
-  "editBudget": "Edit Budget"
+  "editBudget": "Edit Budget",
+  "spendingOverBudget": "Spending over budget ",
+  "amountSpent": "(spent {amount} / budget {budget})"
 }

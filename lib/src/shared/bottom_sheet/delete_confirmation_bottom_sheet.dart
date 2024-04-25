@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -27,7 +28,7 @@ class DeleteConfirmationBottomSheet extends StatefulWidget {
 class _DeleteConfirmationBottomSheetState extends State<DeleteConfirmationBottomSheet> {
   Widget label(String text, Color color) {
     return Padding(
-            padding: EdgeInsets.only(top: LocalizationService.currentLanguage == 'km' ? 4 : 0),
+            padding: EdgeInsets.only(top: (LocalizationService.currentLanguage == 'km' && Platform.isIOS) ? 4 : 0),
             child: Text(text, style: TextStyle(color: color)),
           );
   }

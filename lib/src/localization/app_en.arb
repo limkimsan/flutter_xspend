@@ -85,7 +85,7 @@
   "noBudgetCreated": "No budget created",
   "budgetSpendRecommendation": " left out of {a} ({b} spent)",
   "youCanSpend": "You can spend ",
-  "eachDayForTheRestOfPeriod": " each day for the rest of period. ({day} days left)",
+  "eachDayForTheRestOfPeriod": " each day for the rest of period. ({count, plural, =1{1 day} other{{count} days}} left)",
   "createNewBudget": "Create New Budget",
   "budgetName": "Budget name",
   "pleaseEnterBudgetName": "Please enter budget name",
@@ -98,5 +98,7 @@
   "selectDate": "Select date",
   "deleteBudget": "Delete Budget",
   "areYouSureToDeleteThisBudget": "Are you sure to delete this budget?",
-  "editBudget": "Edit Budget"
+  "editBudget": "Edit Budget",
+  "spendingOverBudget": "Spending over budget ",
+  "amountSpent": "(spent {amount} / budget {budget})"
 }

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -67,7 +68,7 @@ class _TransactionCategoryBottomSheetState extends State<TransactionCategoryBott
             onPressed: () { switchType(type); },
             icon: Icon(transactionTypes[type]!['icon'] as IconData?, color: color['label']),
             label: Padding(
-              padding: EdgeInsets.only(top: LocalizationService.currentLanguage == 'km' ? 4 : 0),
+              padding: EdgeInsets.only(top: (LocalizationService.currentLanguage == 'km' && Platform.isIOS) ? 4 : 0),
               child: Text(
                 label,
                 style: TextStyle(color: color['label']),

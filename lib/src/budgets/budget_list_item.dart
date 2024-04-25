@@ -18,15 +18,15 @@ class BudgetListItem extends StatelessWidget {
 
   final Budget budget;
   final Map<String, dynamic> progress;
-  final void Function(List<Budget> newBudgets) reloadBudgets;
+  final void Function(List<Budget> newBudgets, List tranList) reloadBudgets;
 
   void showDeleteConfirmation(BuildContext context) {
     DeleteConfirmationBottomSheet(
       title: AppLocalizations.of(context)!.deleteBudget,
       description: AppLocalizations.of(context)!.areYouSureToDeleteThisBudget,
       onConfirm: () {
-        BudgetController.delete(budget.id!, (budgets) {
-          reloadBudgets(budgets);
+        BudgetController.delete(budget.id!, (budgets, tranList) {
+          reloadBudgets(budgets, tranList);
         });
       }
     ).showBottomSheet(context);
@@ -34,6 +34,70 @@ class BudgetListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Widget spendInfo() {
+      return RichText(
+        text: TextSpan(
+          text: AppLocalizations.of(context)!.youCanSpend,
+          style: TextStyle(fontSize: xsFontSize, color: pewter),
+          children: <TextSpan>[
+            TextSpan(
+              text: CurrencyUtil.getCurrencyFormat(progress['amountEachDay'], budget.currencyType),
+              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                fontSize: xsFontSize,
+                color: pewter,
+                fontWeight: FontWeight.w900
+              ),
+            ),
+            TextSpan(text: AppLocalizations.of(context)!.eachDayForTheRestOfPeriod(progress['remainingDays'])),
+          ],
+        ),
+      );
+    }
+
+    Widget amountInfo() {
+      if (progress['expense'] > budget.amount) {
+        return  RichText(
+          text: TextSpan(
+            text: AppLocalizations.of(context)!.spendingOverBudget,
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+              fontSize: 14,
+              color: red,
+              fontWeight: FontWeight.w900
+            ),
+            children:<TextSpan> [
+              TextSpan(
+                text: AppLocalizations.of(context)!.amountSpent(
+                  CurrencyUtil.getCurrencyFormat(progress['expense'], budget.currencyType),
+                  CurrencyUtil.getCurrencyFormat(budget.amount, budget.currencyType)
+                ),
+                style: const TextStyle(color: red, fontFamily: 'KantumruyPro')
+              ),
+            ],
+          ),
+        );
+      }
+
+      return  RichText(
+        text: TextSpan(
+          text: CurrencyUtil.getCurrencyFormat(progress['remainAmount'], budget.currencyType),
+          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+            fontSize: 14,
+            color: primary,
+            fontWeight: FontWeight.w900
+          ),
+          children:<TextSpan> [
+            TextSpan(
+              text: AppLocalizations.of(context)!.budgetSpendRecommendation(
+                CurrencyUtil.getCurrencyFormat(budget.amount, budget.currencyType),
+                CurrencyUtil.getCurrencyFormat(progress['expense'], budget.currencyType)
+              ),
+              style: const TextStyle(color: primary, fontFamily: 'KantumruyPro')
+            ),
+          ],
+        ),
+      );
+    }
+
     Widget listItem() {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -42,50 +106,18 @@ class BudgetListItem extends StatelessWidget {
           children: [
             Text(budget.name!, style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 16)),
             const SizedBox(height: 8),
-            RichText(
-              text: TextSpan(
-                text: CurrencyUtil.getCurrencyFormat(progress['remainAmount'], budget.currencyType),
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  fontSize: 14,
-                  color: primary,
-                  fontWeight: FontWeight.w900
-                ),
-                children:<TextSpan> [
-                  TextSpan(
-                    text: AppLocalizations.of(context)!.budgetSpendRecommendation(
-                      CurrencyUtil.getCurrencyFormat(budget.amount, budget.currencyType),
-                      CurrencyUtil.getCurrencyFormat(progress['expense'], budget.currencyType)
-                    ),
-                    style: const TextStyle(color: primary, fontFamily: 'KantumruyPro')
-                  ),
-                ],
-              ),
-            ),
+            amountInfo(),
             const SizedBox(height: 4),
-            RichText(
-              text: TextSpan(
-                text: AppLocalizations.of(context)!.youCanSpend,
-                style: TextStyle(fontSize: xsFontSize, color: pewter),
-                children: <TextSpan>[
-                  TextSpan(
-                    text: CurrencyUtil.getCurrencyFormat(progress['amountEachDay'], budget.currencyType),
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      fontSize: xsFontSize,
-                      color: pewter,
-                      fontWeight: FontWeight.w900
-                    ),
-                  ),
-                  TextSpan(text: AppLocalizations.of(context)!.eachDayForTheRestOfPeriod(progress['remainingDays'])),
-                ],
-              ),
-            ),
+            if (progress['remainingDays'] > 0 && progress['expense'] < budget.amount)
+              spendInfo(),
+
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(6),
                 child: LinearPercentIndicator(
                   lineHeight: 24,
-                  percent: progress['percentage'],
+                  percent: progress['percentage'] > 1 ? 1.0 : progress['percentage'],
                   center: Text(
                     MathUtil.getFormattedPercentage(progress['percentage']),
                     style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),

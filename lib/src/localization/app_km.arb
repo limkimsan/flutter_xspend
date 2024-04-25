@@ -85,7 +85,7 @@
   "noBudgetCreated": "មិនមានកញ្ចប់ថវិកា",
   "budgetSpendRecommendation": " នៅសល់ពី {a} (បានចាយ {b})",
   "youCanSpend": "អ្នកអាចចាយ ",
-  "eachDayForTheRestOfPeriod": " រាល់ថ្ងៃក្នុងរយៈពេលដែលនៅសល់។ ({day} ថ្ងៃនៅសល់)",
+  "eachDayForTheRestOfPeriod": " រាល់ថ្ងៃក្នុងរយៈពេលដែលនៅសល់។ ({count, plural, =1{1 ថ្ងៃ} other{{count} ថ្ងៃ}} នៅសល់)",
   "createNewBudget": "បង្កើតកញ្ចប់ថវិកាថ្មី",
   "budgetName": "ឈ្មោះកញ្ចប់ថវិកា",
   "pleaseEnterBudgetName": "សូមបញ្ចូលឈ្មោះកញ្ចប់ថវិកា",
@@ -98,5 +98,7 @@
   "selectDate": "សូមជ្រើសរើសថ្ងៃ",
   "deleteBudget": "លុបកញ្ចប់ថវិកា",
   "areYouSureToDeleteThisBudget": "តើអ្នកពិតជាចង់លុបកញ្ចប់ថវិកានេះ?",
-  "editBudget": "កែប្រែកញ្ចប់ថវិកា"
+  "editBudget": "កែប្រែកញ្ចប់ថវិកា",
+  "spendingOverBudget": "ចំណាយលើសថវិកា ",
+  "amountSpent": "(បានចាយ {amount} / ថវិកា {budget})"
 }

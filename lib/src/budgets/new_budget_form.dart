@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/shared/input_label_widget.dart';
@@ -39,6 +40,9 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
     if (widget.budgetId != null) {
       loadBudgetInfo();
     }
+    else {
+      loadDefaultCurrency();
+    }
   }
 
   void loadBudgetInfo() async {
@@ -54,24 +58,31 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
     _amountController.text = CurrencyUtil.formatNumber(budget.amount.toString());
   }
 
+  void loadDefaultCurrency() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      selectedCurrency = prefs.getString('BASED_CURRENCY').toString();
+    });
+  }
+
   void saveBudget() {
     if (_formKey.currentState!.validate() && isValid) {
       _formKey.currentState!.save();
       if (widget.budgetId != null) {
-        BudgetController.update(widget.budgetId, name, amount, startDate, endDate, selectedCurrency, (newBudgets) {
-          reloadBudgetList(newBudgets);
+        BudgetController.update(widget.budgetId, name, amount, startDate, endDate, selectedCurrency, (newBudgets, tranList) {
+          reloadBudgetList(newBudgets, tranList);
         });
       }
       else {
-        BudgetController.create(name, amount, startDate, endDate, selectedCurrency, (newBudgets) {
-          reloadBudgetList(newBudgets);
+        BudgetController.create(name, amount, startDate, endDate, selectedCurrency, (newBudgets, tranList) {
+          reloadBudgetList(newBudgets, tranList);
         });
       }
     }
   }
 
-  void reloadBudgetList(budgets) {
-    context.read<BudgetBloc>().add(LoadBudget(budgets: budgets));
+  void reloadBudgetList(budgets, tranList) {
+    context.read<BudgetBloc>().add(LoadBudget(budgets: budgets, tranList: tranList));
     Navigator.of(context).pop();
   }
 
@@ -99,25 +110,15 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
       );
 
       if (pickedDate != null && !DateTimeUtil.isSameDate(pickedDate, selectedDate)) {
-        final now = DateTime.now();
-        final selectedDateTime = DateTime(
-          pickedDate.year,
-          pickedDate.month,
-          pickedDate.day,
-          now.hour,
-          now.minute,
-          now.second,
-          now.millisecond,
-          now.microsecond
-        );
         setState(() {
           if (type == 'start') {
-            startDate = selectedDateTime;
-            isValid = BudgetController.isValidForm(name, amount, selectedDateTime, endDate);
+            startDate = pickedDate;
+            isValid = BudgetController.isValidForm(name, amount, pickedDate, endDate);
           }
           else {
-            endDate = selectedDateTime;
-            isValid = BudgetController.isValidForm(name, amount, startDate, selectedDateTime);
+            final newEndDate = DateTime(pickedDate.year, pickedDate.month, pickedDate.day, 23, 59, 59, 999);
+            endDate = newEndDate;
+            isValid = BudgetController.isValidForm(name, amount, startDate, newEndDate);
           }
         });
       }
@@ -229,6 +230,8 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
                     },
                   ),
                   const SizedBox(height: 24),
+                  currencyPicker(),
+                  const SizedBox(height: 24),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -236,8 +239,6 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
                       datePicker('end', () { selectDate(endDate, 'end'); }),
                     ],
                   ),
-                  const SizedBox(height: 24),
-                  currencyPicker(),
                 ],
               ),
             ),

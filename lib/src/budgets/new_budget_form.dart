@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/shared/input_label_widget.dart';
@@ -39,6 +40,9 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
     if (widget.budgetId != null) {
       loadBudgetInfo();
     }
+    else {
+      loadDefaultCurrency();
+    }
   }
 
   void loadBudgetInfo() async {
@@ -52,6 +56,13 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
     });
     _nameController.text = budget.name!;
     _amountController.text = CurrencyUtil.formatNumber(budget.amount.toString());
+  }
+
+  void loadDefaultCurrency() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      selectedCurrency = prefs.getString('BASED_CURRENCY').toString();
+    });
   }
 
   void saveBudget() {
@@ -219,6 +230,8 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
                     },
                   ),
                   const SizedBox(height: 24),
+                  currencyPicker(),
+                  const SizedBox(height: 24),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -226,8 +239,6 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
                       datePicker('end', () { selectDate(endDate, 'end'); }),
                     ],
                   ),
-                  const SizedBox(height: 24),
-                  currencyPicker(),
                 ],
               ),
             ),

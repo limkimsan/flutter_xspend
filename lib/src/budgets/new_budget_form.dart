@@ -99,25 +99,15 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
       );
 
       if (pickedDate != null && !DateTimeUtil.isSameDate(pickedDate, selectedDate)) {
-        final now = DateTime.now();
-        final selectedDateTime = DateTime(
-          pickedDate.year,
-          pickedDate.month,
-          pickedDate.day,
-          now.hour,
-          now.minute,
-          now.second,
-          now.millisecond,
-          now.microsecond
-        );
         setState(() {
           if (type == 'start') {
-            startDate = selectedDateTime;
-            isValid = BudgetController.isValidForm(name, amount, selectedDateTime, endDate);
+            startDate = pickedDate;
+            isValid = BudgetController.isValidForm(name, amount, pickedDate, endDate);
           }
           else {
-            endDate = selectedDateTime;
-            isValid = BudgetController.isValidForm(name, amount, startDate, selectedDateTime);
+            final newEndDate = DateTime(pickedDate.year, pickedDate.month, pickedDate.day, 23, 59, 59, 999);
+            endDate = newEndDate;
+            isValid = BudgetController.isValidForm(name, amount, startDate, newEndDate);
           }
         });
       }

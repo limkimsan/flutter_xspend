@@ -115,6 +115,8 @@ class Transaction {
       DateTime startOfNextYear = DateTime(now.year + 1, 1, 1);
       endDate = startOfNextYear.subtract(const Duration(days: 1));
     }
+    // set the time of the day to 23:59 in order to be able to query the transactions on the endDate
+    endDate = DateTime(endDate.year, endDate.month, endDate.day, 23, 59, 59, 999);
 
     final user = await User.currentLoggedIn();
     final isar = await IsarService().getDB();

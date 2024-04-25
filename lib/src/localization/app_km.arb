@@ -99,6 +99,6 @@
   "deleteBudget": "លុបកញ្ចប់ថវិកា",
   "areYouSureToDeleteThisBudget": "តើអ្នកពិតជាចង់លុបកញ្ចប់ថវិកានេះ?",
   "editBudget": "កែប្រែកញ្ចប់ថវិកា",
-  "spendingOverBudget": "ចំណាយលើសថវិកា",
+  "spendingOverBudget": "ចំណាយលើសថវិកា ",
   "amountSpent": "(បានចាយ {amount} / ថវិកា {budget})"
 }

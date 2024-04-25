@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_xspend/src/bloc/exchange_rate/exchange_rate_bloc.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
+import 'package:flutter_xspend/src/constants/spacing_constant.dart';
 import 'package:flutter_xspend/src/bloc/budget/budget_bloc.dart';
 import 'budget_calculation_service.dart';
 import 'budget_empty_message.dart';
@@ -56,6 +57,7 @@ class _BudgetListState extends State<BudgetList> {
     }
 
     return ListView.builder(
+      padding: const EdgeInsets.only(bottom: listPaddingBottom),
       itemCount: budgetState.budgets.length,
       itemBuilder: (context, index) {
         return listItem(index);

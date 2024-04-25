@@ -12,6 +12,7 @@ import 'package:flutter_xspend/src/bloc/exchange_rate/exchange_rate_bloc.dart';
 import 'package:flutter_xspend/src/bloc/base_currency/base_currency_bloc.dart';
 import 'package:flutter_xspend/src/utils/initial_util.dart';
 import 'package:flutter_xspend/src/constants/font_size.dart';
+import 'package:flutter_xspend/src/constants/spacing_constant.dart';
 
 class TransactionList extends StatefulWidget {
   const TransactionList({super.key, required this.hasLineChart, required this.isSlideable});
@@ -98,7 +99,7 @@ class _TransactionListState extends State<TransactionList> {
             ),
           )
         ],
-        const SliverPadding(padding: EdgeInsets.only(bottom: 62)),
+        const SliverPadding(padding: EdgeInsets.only(bottom: listPaddingBottom)),
       ],
     );
   }

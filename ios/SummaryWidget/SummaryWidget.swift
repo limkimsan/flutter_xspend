@@ -10,11 +10,15 @@ import SwiftUI
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), emoji: "😀")
+        if context.family == .systemMedium {
+            SimpleEntry(date: Date(),income: "62,000,000.00", expense: "-10,000.00", total: "61,990,000.00")
+        } else {
+            SimpleEntry(date: Date(),income: "62M", expense: "-100K", total: "61,990,000.00")
+        }
     }
 
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), emoji: "😀")
+        let entry = SimpleEntry(date: Date(), income: "12M", expense: "-100K", total: "19,990,000.00")
         completion(entry)
     }
 
@@ -24,8 +28,9 @@ struct Provider: TimelineProvider {
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, emoji: "😀")
+              let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
+//            let entry = SimpleEntry(date: entryDate, emoji: "😀")
+            let entry = SimpleEntry(date: entryDate, income: "12M", expense: "-10K", total: "19,990,000.00")
             entries.append(entry)
         }
 
@@ -36,40 +41,45 @@ struct Provider: TimelineProvider {
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
-    let emoji: String
+    let income: String
+    let expense: String
+    let total: String
 }
 
 struct SummaryWidgetEntryView : View {
+    @Environment(\.widgetFamily) var widgetFamily
+    
     var entry: Provider.Entry
 
     var body: some View {
         ZStack {
             VStack(alignment: .leading) {
-                Text("សាច់ប្រាក់ខែមករា")
-                    .font(.system(size: 14, weight: .bold))
+                // Text("សាច់ប្រាក់ខែមករា")
+                Text("សាច់ប្រាក់ខែ\(entry.date.formatted(Date.FormatStyle().month(.wide)))")
+                    .font(.system(size: widgetFamily == .systemMedium ? 16 : 14, weight: .bold))
                     .foregroundColor(Color.white)
                     .padding(.bottom, 6)
                 
                 HStack {
                     VStack(alignment: .leading) {
                         Text("ចំណូល:")
-                            .font(.system(size: 11))
+                            .font(.system(size: widgetFamily == .systemMedium ? 14 : 11))
                             .foregroundColor(.gray)
                             .multilineTextAlignment(.leading)
 
                         Text("ចំណាយ:")
-                            .font(.system(size: 11))
+                            .font(.system(size: widgetFamily == .systemMedium ? 14 : 11))
                             .foregroundColor(.gray)
                             .multilineTextAlignment(.leading)
                             .padding(.top, 6)
                     }
                     Spacer()
                     VStack(alignment: .trailing) {
-                        Text("៛ 12M")
-                            .font(.system(size: 12, weight: .semibold))
+                        Text("៛ \(entry.income)")
+                            .font(.system(size: widgetFamily == .systemMedium ? 14 : 12, weight: .semibold))
                             .foregroundColor(Color.green)
-                        Text("៛ -100K")
-                            .font(.system(size: 12, weight: .semibold))
+                        Text("៛ \(entry.expense)")
+                            .font(.system(size: widgetFamily == .systemMedium ? 14 : 12, weight: .semibold))
                             .foregroundColor(.red)
                             .padding(.top, 6)
                     }
@@ -79,13 +89,28 @@ struct SummaryWidgetEntryView : View {
                     .foregroundColor(.gray)
                     .padding(.top, 6)
                     .padding(.bottom, 6)
-                Text("សរុប")
-                    .font(.system(size: 12, weight: .semibold))
-                    .foregroundColor(.white)
-                Text("៛ 1356,990,000.00")
-                    .font(.system(size: 13, weight: .semibold))
-                    .foregroundColor(.green)
-                    .padding(.top, 2)
+                
+                if widgetFamily == .systemMedium {
+                    HStack {
+                        Text("សរុប")
+                            .font(.system(size: 15, weight: .semibold))
+                            .foregroundColor(.white)
+                        Spacer()
+                        Text("៛ \(entry.total)")
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundColor(.green)
+                            .padding(.top, 2)
+                    }
+                }
+                else {
+                    Text("សរុប")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundColor(.white)
+                    Text("៛ \(entry.total)")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundColor(.green)
+                        .padding(.top, 2)
+                }
             }
             .padding(.top, -4)
         } .padding(-2)
@@ -101,8 +126,6 @@ struct SummaryWidget: Widget {
                 let customColor = Color("WidgetBackground")
                 SummaryWidgetEntryView(entry: entry)
                     .containerBackground(customColor, for: .widget)
-//                    .padding(0)
-                    
             } else {
                 SummaryWidgetEntryView(entry: entry)
                     .padding()
@@ -114,9 +137,14 @@ struct SummaryWidget: Widget {
     }
 }
 
-#Preview(as: .systemSmall) {
+//#Preview(as: .systemSmall) {
+//    SummaryWidget()
+//} timeline: {
+//    SimpleEntry(date: .now, income: "12M", expense: "-100K", total: "19990000.00")
+//}
+
+#Preview(as: .systemMedium) {
     SummaryWidget()
 } timeline: {
-    SimpleEntry(date: .now, emoji: "😀")
-//    SimpleEntry(date: .now, emoji: "🤩")
+    SimpleEntry(date: .now, income: "12,000,000.00", expense: "-10,000.00", total: "19990000.00")
 }

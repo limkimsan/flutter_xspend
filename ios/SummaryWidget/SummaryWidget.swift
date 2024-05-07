@@ -54,21 +54,21 @@ struct SummaryWidgetEntryView : View {
     var body: some View {
         ZStack {
             VStack(alignment: .leading) {
-                // Text("សាច់ប្រាក់ខែមករា")
                 Text("សាច់ប្រាក់ខែ\(entry.date.formatted(Date.FormatStyle().month(.wide)))")
-                    .font(.system(size: widgetFamily == .systemMedium ? 16 : 14, weight: .bold))
+                    .font(.custom("KantumruyPro-SemiBold", size: widgetFamily == .systemMedium ? 18 : 15))
                     .foregroundColor(Color.white)
                     .padding(.bottom, 6)
+                    .padding(.top, widgetFamily == .systemMedium ? 0 : 4)
                 
                 HStack {
                     VStack(alignment: .leading) {
                         Text("ចំណូល:")
-                            .font(.system(size: widgetFamily == .systemMedium ? 14 : 11))
+                            .font(.custom("KantumruyPro-Regular", size: widgetFamily == .systemMedium ? 15 : 13))
                             .foregroundColor(.gray)
                             .multilineTextAlignment(.leading)
 
                         Text("ចំណាយ:")
-                            .font(.system(size: widgetFamily == .systemMedium ? 14 : 11))
+                            .font(.custom("KantumruyPro-Regular", size: widgetFamily == .systemMedium ? 15 : 13))
                             .foregroundColor(.gray)
                             .multilineTextAlignment(.leading)
                             .padding(.top, 6)
@@ -76,10 +76,10 @@ struct SummaryWidgetEntryView : View {
                     Spacer()
                     VStack(alignment: .trailing) {
                         Text("៛ \(entry.income)")
-                            .font(.system(size: widgetFamily == .systemMedium ? 14 : 12, weight: .semibold))
+                            .font(.custom("KantumruyPro-Regular", size: widgetFamily == .systemMedium ? 15 : 13))
                             .foregroundColor(Color.green)
                         Text("៛ \(entry.expense)")
-                            .font(.system(size: widgetFamily == .systemMedium ? 14 : 12, weight: .semibold))
+                            .font(.custom("KantumruyPro-Regular", size: widgetFamily == .systemMedium ? 15 : 13))
                             .foregroundColor(.red)
                             .padding(.top, 6)
                     }
@@ -93,23 +93,23 @@ struct SummaryWidgetEntryView : View {
                 if widgetFamily == .systemMedium {
                     HStack {
                         Text("សរុប")
-                            .font(.system(size: 15, weight: .semibold))
+                            .font(.custom("KantumruyPro-SemiBold", size: 16))
                             .foregroundColor(.white)
                         Spacer()
                         Text("៛ \(entry.total)")
-                            .font(.system(size: 16, weight: .semibold))
+                            .font(.custom("KantumruyPro-SemiBold", size: 16))
                             .foregroundColor(.green)
                             .padding(.top, 2)
                     }
                 }
                 else {
                     Text("សរុប")
-                        .font(.system(size: 12, weight: .semibold))
+                        .font(.custom("KantumruyPro-SemiBold", size: 14))
                         .foregroundColor(.white)
                     Text("៛ \(entry.total)")
-                        .font(.system(size: 13, weight: .semibold))
+                        .font(.custom("KantumruyPro-SemiBold", size: 14))
                         .foregroundColor(.green)
-                        .padding(.top, 2)
+                        .padding(.top, 0.5)
                 }
             }
             .padding(.top, -4)
@@ -137,11 +137,11 @@ struct SummaryWidget: Widget {
     }
 }
 
-//#Preview(as: .systemSmall) {
-//    SummaryWidget()
-//} timeline: {
-//    SimpleEntry(date: .now, income: "12M", expense: "-100K", total: "19990000.00")
-//}
+#Preview(as: .systemSmall) {
+    SummaryWidget()
+} timeline: {
+    SimpleEntry(date: .now, income: "12M", expense: "-100K", total: "19,990,000.00")
+}
 
 #Preview(as: .systemMedium) {
     SummaryWidget()

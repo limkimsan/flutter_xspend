@@ -16,6 +16,8 @@
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
+		A67511AD2BEA202B00FF0CE1 /* KantumruyPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A67511AB2BEA202B00FF0CE1 /* KantumruyPro-Regular.ttf */; };
+		A67511AE2BEA202B00FF0CE1 /* KantumruyPro-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A67511AC2BEA202B00FF0CE1 /* KantumruyPro-SemiBold.ttf */; };
 		A6DA15B32BE695DE00E0EEF2 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6B15B482BE4DF7700B1F8D0 /* WidgetKit.framework */; };
 		A6DA15B42BE695DE00E0EEF2 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6B15B4A2BE4DF7700B1F8D0 /* SwiftUI.framework */; };
 		A6DA15B72BE695DE00E0EEF2 /* SummaryWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6DA15B62BE695DE00E0EEF2 /* SummaryWidgetBundle.swift */; };
@@ -85,6 +87,9 @@
 		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A67511A82BEA1E6300FF0CE1 /* KantumruyPro-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "KantumruyPro-SemiBold.ttf"; sourceTree = "<group>"; };
+		A67511AB2BEA202B00FF0CE1 /* KantumruyPro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "KantumruyPro-Regular.ttf"; path = "../../../../../../../Downloads/Kantumruy_Pro/static/KantumruyPro-Regular.ttf"; sourceTree = "<group>"; };
+		A67511AC2BEA202B00FF0CE1 /* KantumruyPro-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "KantumruyPro-SemiBold.ttf"; path = "../../../../../../../Downloads/Kantumruy_Pro/static/KantumruyPro-SemiBold.ttf"; sourceTree = "<group>"; };
 		A6B15B482BE4DF7700B1F8D0 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		A6B15B4A2BE4DF7700B1F8D0 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		A6DA15B22BE695DE00E0EEF2 /* SummaryWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SummaryWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -197,9 +202,20 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		A67511A62BEA1E4600FF0CE1 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				A67511AB2BEA202B00FF0CE1 /* KantumruyPro-Regular.ttf */,
+				A67511AC2BEA202B00FF0CE1 /* KantumruyPro-SemiBold.ttf */,
+				A67511A82BEA1E6300FF0CE1 /* KantumruyPro-SemiBold.ttf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
 		A6DA15B52BE695DE00E0EEF2 /* SummaryWidget */ = {
 			isa = PBXGroup;
 			children = (
+				A67511A62BEA1E4600FF0CE1 /* Font */,
 				A6DA15B62BE695DE00E0EEF2 /* SummaryWidgetBundle.swift */,
 				A6DA15B82BE695DE00E0EEF2 /* SummaryWidget.swift */,
 				A6DA15BA2BE695DE00E0EEF2 /* Assets.xcassets */,
@@ -349,7 +365,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A67511AD2BEA202B00FF0CE1 /* KantumruyPro-Regular.ttf in Resources */,
 				A6DA15BB2BE695DE00E0EEF2 /* Assets.xcassets in Resources */,
+				A67511AE2BEA202B00FF0CE1 /* KantumruyPro-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

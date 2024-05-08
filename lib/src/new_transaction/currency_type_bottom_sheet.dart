@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:home_widget/home_widget.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/shared/bottom_sheet/bottom_sheet_body.dart';
@@ -33,6 +34,10 @@ class _CurrencyTypeBottomSheetState extends State<CurrencyTypeBottomSheet> {
               InkWell(
                 onTap: () {
                   widget.updateSelectedCurrency(currencyTypes[i]['value'].toString());
+                  HomeWidget.saveWidgetData<String>('currency', currencyTypes[i]['value'].toString());
+                  HomeWidget.updateWidget(
+                    iOSName: 'SummaryWidget'
+                  );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,

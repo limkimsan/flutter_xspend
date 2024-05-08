@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:home_widget/home_widget.dart';
 // import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
@@ -11,7 +10,7 @@ import 'package:flutter_xspend/src/helpers/transaction_helper.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_state.dart';
 import 'package:flutter_xspend/src/models/transaction.dart';
-import 'package:flutter_xspend/src/utils/currency_util.dart';
+import 'package:flutter_xspend/src/services/home_widget_service.dart';
 // import 'package:flutter_xspend/src/localization/localization_service.dart';
 // import 'package:flutter_xspend/src/localization/main_localization.dart';
 
@@ -51,18 +50,13 @@ class _HomeHeaderState extends State<HomeHeader> {
         if (prefs.getString('BASED_CURRENCY') == 'usd') {
           mainTitle = TransactionHelper.getCalculatedAmountForDisplay('usd', result['income']['usd'], result['expense']['usd']);
           subtitle = TransactionHelper.getCalculatedAmountForDisplay('khr', result['income']['khr'], result['expense']['khr']);
-          HomeWidget.saveWidgetData<String>('income', CurrencyUtil.getCurrencyFormat(result['income']['usd'], 'usd'));
-          HomeWidget.saveWidgetData<String>('total', TransactionHelper.getCalculatedAmountForDisplay('usd', result['income']['usd'], result['expense']['usd']));
         }
         else {
           mainTitle = TransactionHelper.getCalculatedAmountForDisplay('khr', result['income']['khr'], result['expense']['khr']);
           subtitle = TransactionHelper.getCalculatedAmountForDisplay('usd', result['income']['usd'], result['expense']['usd']);
-          HomeWidget.saveWidgetData<String>('income', CurrencyUtil.getCurrencyFormat(result['income']['khr'], 'khr'));
-          HomeWidget.saveWidgetData<String>('total', TransactionHelper.getCalculatedAmountForDisplay('khr', result['income']['khr'], result['expense']['khr']));
         }
-        HomeWidget.updateWidget(
-          iOSName: 'SummaryWidget'
-        );
+        // Update the info in the Summary Widget
+        HomeWidgetService.updateInfo();
       });
     });
   }

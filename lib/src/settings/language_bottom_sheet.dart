@@ -7,6 +7,7 @@ import 'package:flutter_xspend/src/app.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/shared/bottom_sheet/bottom_sheet_body.dart';
 import 'package:flutter_xspend/src/localization/localization_service.dart';
+import 'package:flutter_xspend/src/services/home_widget_service.dart';
 
 class LanguageBottomSheet extends StatefulWidget {
   const LanguageBottomSheet({super.key});
@@ -47,6 +48,7 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
                   onTap: () {
                     onSelectLanguage(locales[i]['code']);
                     HomeWidget.saveWidgetData<String>('locale', locales[i]['code']);
+                    HomeWidgetService.updateInfo();
                     HomeWidget.updateWidget(
                       iOSName: 'SummaryWidget'
                     );

@@ -8,24 +8,20 @@
 import WidgetKit
 import SwiftUI
 
-// private let widgetGroupId = "group.SummaryWidget"
-
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        if context.family == .systemMedium {
-            SimpleEntry(date: Date(),income: "62,000,000.00", expense: "-10,000.00", total: "61,990,000.00")
-        } else {
-            SimpleEntry(date: Date(),income: "62M", expense: "-100K", total: "61,990,000.00")
-        }
+        SimpleEntry(date: Date(), income: "៛12,000,000.00", kFormatIncome: "៛12M", expense: "-៛10,000.00", kFormatExpense: "-៛10K", total: "៛13,990,000.00")
     }
 
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
         let data = UserDefaults.init(suiteName: "group.SummaryWidget")
         let entry = SimpleEntry(
             date: Date(),
-            income: data?.string(forKey: "income") ?? "0",
-            expense: data?.string(forKey: "expense") ?? "0",
-            total: data?.string(forKey: "total") ?? "0"
+            income: data?.string(forKey: "income") ?? "\(data?.string(forKey: "currency") == "km" ? "៛" : "$")0",
+            kFormatIncome: data?.string(forKey: "kFormatIncome") ?? "\(data?.string(forKey: "currency") == "km" ? "៛" : "$")0",
+            expense: data?.string(forKey: "expense") ?? "\(data?.string(forKey: "currency") == "km" ? "៛" : "$")0",
+            kFormatExpense: data?.string(forKey: "kFormatExpense") ?? "\(data?.string(forKey: "currency") == "km" ? "៛" : "$")0",
+            total: data?.string(forKey: "total") ?? "\(data?.string(forKey: "currency") == "km" ? "៛" : "$")0"
         )
         completion(entry)
     }
@@ -41,13 +37,15 @@ struct Provider: TimelineProvider {
 struct SimpleEntry: TimelineEntry {
     let date: Date
     let income: String
+    let kFormatIncome: String
     let expense: String
+    let kFormatExpense: String
     let total: String
 }
 
 struct SummaryWidgetEntryView : View {
     @Environment(\.widgetFamily) var widgetFamily
-    let data = UserDefaults.init(suiteName: "group.SummaryWidget")    
+    let data = UserDefaults.init(suiteName: "group.SummaryWidget")
     var entry: Provider.Entry
 
     var body: some View {
@@ -74,10 +72,10 @@ struct SummaryWidgetEntryView : View {
                     }
                     Spacer()
                     VStack(alignment: .trailing) {
-                        Text(entry.income)
+                        Text("\(widgetFamily == .systemMedium ? entry.income : entry.kFormatIncome)")
                             .font(.custom("KantumruyPro-Regular", size: widgetFamily == .systemMedium ? 15 : 13))
                             .foregroundColor(Color.green)
-                        Text(entry.expense)
+                        Text("\(widgetFamily == .systemMedium ? entry.expense : entry.kFormatExpense)")
                             .font(.custom("KantumruyPro-Regular", size: widgetFamily == .systemMedium ? 15 : 13))
                             .foregroundColor(.red)
                             .padding(.top, 6)
@@ -139,11 +137,11 @@ struct SummaryWidget: Widget {
 #Preview(as: .systemSmall) {
     SummaryWidget()
 } timeline: {
-    SimpleEntry(date: .now, income: "12M", expense: "-100K", total: "19,990,000.00")
+    SimpleEntry(date: Date(), income: "៛12,000,000.00", kFormatIncome: "៛12M", expense: "-៛10,000.00", kFormatExpense: "-៛10K", total: "៛13,990,000.00")
 }
 
 #Preview(as: .systemMedium) {
     SummaryWidget()
 } timeline: {
-    SimpleEntry(date: .now, income: "12,000,000.00", expense: "-10,000.00", total: "19990000.00")
+    SimpleEntry(date: Date(), income: "៛12,000,000.00", kFormatIncome: "៛12M", expense: "-៛10,000.00", kFormatExpense: "-៛10K", total: "៛13,990,000.00")
 }

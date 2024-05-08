@@ -46,12 +46,10 @@ class _TransactionListTotalExpenseState extends State<TransactionListTotalExpens
         if (prefs.getString('BASED_CURRENCY') == 'usd') {
           mainTitle = TransactionHelper.getCalculatedAmountForDisplay('usd', result['expense']['usd'], 0);
           subtitle = TransactionHelper.getCalculatedAmountForDisplay('khr', result['expense']['khr'], 0);
-          HomeWidget.saveWidgetData<String>('expense', TransactionHelper.getCalculatedAmountForDisplay('usd', result['expense']['usd'], 0));
         }
         else {
           mainTitle = TransactionHelper.getCalculatedAmountForDisplay('khr', result['expense']['khr'], 0);
           subtitle = TransactionHelper.getCalculatedAmountForDisplay('usd', result['expense']['usd'], 0);
-          HomeWidget.saveWidgetData<String>('expense', TransactionHelper.getCalculatedAmountForDisplay('khr', result['expense']['khr'], 0));
         }
         basedCurrency = prefs.getString('BASED_CURRENCY') ?? 'khr';
         HomeWidget.updateWidget(

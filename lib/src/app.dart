@@ -42,18 +42,6 @@ class _MyAppState extends State<MyApp> {
         setLocale(locale);
         HomeWidget.saveWidgetData<String>('locale', locale as String?);
       });
-
-    loadWidgetData();
-  }
-
-  void loadWidgetData() {
-    debugPrint('Load widet data =========');
-    HomeWidget.saveWidgetData<String>('income', '៛ 50M');
-    HomeWidget.saveWidgetData<String>('expense', '៛ 10,000.00');
-    HomeWidget.saveWidgetData<String>('total', '៛ 49,990,000.00');
-    HomeWidget.updateWidget(
-      iOSName: 'SummaryWidget'
-    );
   }
 
   // didChangeDependenices is called whenever a dependency of the state object changes

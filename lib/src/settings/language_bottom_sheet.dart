@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:home_widget/home_widget.dart';
 
 import 'package:flutter_xspend/src/app.dart';
 import 'package:flutter_xspend/src/constants/colors.dart';
@@ -45,6 +46,10 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
                 InkWell(
                   onTap: () {
                     onSelectLanguage(locales[i]['code']);
+                    HomeWidget.saveWidgetData<String>('locale', locales[i]['code']);
+                    HomeWidget.updateWidget(
+                      iOSName: 'SummaryWidget'
+                    );
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,

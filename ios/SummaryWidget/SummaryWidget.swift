@@ -8,6 +8,8 @@
 import WidgetKit
 import SwiftUI
 
+// private let widgetGroupId = "group.SummaryWidget"
+
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
         if context.family == .systemMedium {
@@ -18,24 +20,21 @@ struct Provider: TimelineProvider {
     }
 
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), income: "12M", expense: "-100K", total: "19,990,000.00")
+        let data = UserDefaults.init(suiteName: "group.SummaryWidget")
+        let entry = SimpleEntry(
+            date: Date(),
+            income: data?.string(forKey: "income") ?? "0",
+            expense: data?.string(forKey: "expense") ?? "0",
+            total: data?.string(forKey: "total") ?? "0"
+        )
         completion(entry)
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        var entries: [SimpleEntry] = []
-
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-              let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-//            let entry = SimpleEntry(date: entryDate, emoji: "😀")
-            let entry = SimpleEntry(date: entryDate, income: "12M", expense: "-10K", total: "19,990,000.00")
-            entries.append(entry)
+        getSnapshot(in: context) { (entry) in
+            let timeline = Timeline(entries: [entry], policy: .atEnd)
+            completion(timeline)
         }
-
-        let timeline = Timeline(entries: entries, policy: .atEnd)
-        completion(timeline)
     }
 }
 
@@ -48,7 +47,7 @@ struct SimpleEntry: TimelineEntry {
 
 struct SummaryWidgetEntryView : View {
     @Environment(\.widgetFamily) var widgetFamily
-    
+    let data = UserDefaults.init(suiteName: "group.SummaryWidget")    
     var entry: Provider.Entry
 
     var body: some View {
@@ -62,12 +61,12 @@ struct SummaryWidgetEntryView : View {
                 
                 HStack {
                     VStack(alignment: .leading) {
-                        Text("ចំណូល:")
+                        Text(data?.string(forKey: "locale") == "km" ? "ចំណូល:" : "Income:")
                             .font(.custom("KantumruyPro-Regular", size: widgetFamily == .systemMedium ? 15 : 13))
                             .foregroundColor(.gray)
                             .multilineTextAlignment(.leading)
 
-                        Text("ចំណាយ:")
+                        Text(data?.string(forKey: "locale") == "km" ? "ចំណាយ:" : "Expense:")
                             .font(.custom("KantumruyPro-Regular", size: widgetFamily == .systemMedium ? 15 : 13))
                             .foregroundColor(.gray)
                             .multilineTextAlignment(.leading)
@@ -75,10 +74,10 @@ struct SummaryWidgetEntryView : View {
                     }
                     Spacer()
                     VStack(alignment: .trailing) {
-                        Text("៛ \(entry.income)")
+                        Text(entry.income)
                             .font(.custom("KantumruyPro-Regular", size: widgetFamily == .systemMedium ? 15 : 13))
                             .foregroundColor(Color.green)
-                        Text("៛ \(entry.expense)")
+                        Text(entry.expense)
                             .font(.custom("KantumruyPro-Regular", size: widgetFamily == .systemMedium ? 15 : 13))
                             .foregroundColor(.red)
                             .padding(.top, 6)
@@ -92,21 +91,21 @@ struct SummaryWidgetEntryView : View {
                 
                 if widgetFamily == .systemMedium {
                     HStack {
-                        Text("សរុប")
+                        Text(data?.string(forKey: "locale") == "km" ? "សរុប" : "Total")
                             .font(.custom("KantumruyPro-SemiBold", size: 16))
                             .foregroundColor(.white)
                         Spacer()
-                        Text("៛ \(entry.total)")
+                        Text(entry.total)
                             .font(.custom("KantumruyPro-SemiBold", size: 16))
                             .foregroundColor(.green)
                             .padding(.top, 2)
                     }
                 }
                 else {
-                    Text("សរុប")
+                    Text(data?.string(forKey: "locale") == "km" ? "សរុប" : "Total")
                         .font(.custom("KantumruyPro-SemiBold", size: 14))
                         .foregroundColor(.white)
-                    Text("៛ \(entry.total)")
+                    Text(entry.total)
                         .font(.custom("KantumruyPro-SemiBold", size: 14))
                         .foregroundColor(.green)
                         .padding(.top, 0.5)
@@ -132,8 +131,8 @@ struct SummaryWidget: Widget {
                     .background()
             }
         }
-        .configurationDisplayName("My Widget")
-        .description("This is an example widget.")
+        .configurationDisplayName("Cash flow summary Widget")
+        .description("This is the widget of the cash flow summary of the current month")
     }
 }
 

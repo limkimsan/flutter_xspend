@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:home_widget/home_widget.dart';
 
 import 'routes/app_route.dart';
 import 'constants/colors.dart';
@@ -39,7 +40,20 @@ class _MyAppState extends State<MyApp> {
     LocalizationService.getLocale()
       .then((locale) {
         setLocale(locale);
+        HomeWidget.saveWidgetData<String>('locale', locale as String?);
       });
+
+    loadWidgetData();
+  }
+
+  void loadWidgetData() {
+    debugPrint('Load widet data =========');
+    HomeWidget.saveWidgetData<String>('income', '៛ 50M');
+    HomeWidget.saveWidgetData<String>('expense', '៛ 10,000.00');
+    HomeWidget.saveWidgetData<String>('total', '៛ 49,990,000.00');
+    HomeWidget.updateWidget(
+      iOSName: 'SummaryWidget'
+    );
   }
 
   // didChangeDependenices is called whenever a dependency of the state object changes

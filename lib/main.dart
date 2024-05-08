@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:home_widget/home_widget.dart';
 
 import 'src/app.dart';
 import 'src/constants/colors.dart';
@@ -18,6 +19,7 @@ void main() async {
   Category.seedData();
   final appRoute = AppRoute();
   final initialRoute = await appRoute.getInitialRoute();
+  await HomeWidget.setAppGroupId("group.SummaryWidget");
 
   ExchangeRateBloc exchangeRateBloc = ExchangeRateBloc();
   BaseCurrencyBloc baseCurrencyBloc = BaseCurrencyBloc();

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:home_widget/home_widget.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/shared/bottom_sheet/bottom_sheet_body.dart';
 import 'package:flutter_xspend/src/constants/transaction_constant.dart';
-import 'package:flutter_xspend/src/services/home_widget_service.dart';
 
 class CurrencyTypeBottomSheet extends StatefulWidget {
   const CurrencyTypeBottomSheet(this.selectedCurrency, this.updateSelectedCurrency, {super.key});
@@ -35,8 +33,6 @@ class _CurrencyTypeBottomSheetState extends State<CurrencyTypeBottomSheet> {
               InkWell(
                 onTap: () {
                   widget.updateSelectedCurrency(currencyTypes[i]['value'].toString());
-                  HomeWidgetService.updateCurrencyType(currencyTypes[i]['value'].toString());
-                  HomeWidgetService.updateInfo();
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,

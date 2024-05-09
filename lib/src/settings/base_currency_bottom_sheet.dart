@@ -7,6 +7,7 @@ import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/shared/bottom_sheet/bottom_sheet_body.dart';
 import 'package:flutter_xspend/src/constants/transaction_constant.dart';
 import 'package:flutter_xspend/src/bloc/base_currency/base_currency_bloc.dart';
+import 'package:flutter_xspend/src/services/home_widget_service.dart';
 
 class BaseCurrencyBottomSheet extends StatefulWidget {
   const BaseCurrencyBottomSheet({super.key});
@@ -42,6 +43,8 @@ class _BaseCurrencyBottomSheetState extends State<BaseCurrencyBottomSheet> {
                   final SharedPreferences prefs = await SharedPreferences.getInstance();
                   await prefs.setString('BASED_CURRENCY', currencyTypes[i]['value'].toString());
                   updateBaseCurrencyBloc(currencyTypes[i]['value']);
+                  HomeWidgetService.updateCurrencyType(currencyTypes[i]['value'].toString());
+                  HomeWidgetService.updateInfo();
                   Navigator.of(ctx).pop();
                 },
                 child: Row(

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), income: "៛12,000,000.00", kFormatIncome: "៛12M", expense: "-៛10,000.00", kFormatExpense: "-៛10K", total: "៛13,990,000.00")
+        SimpleEntry(date: Date(), income: "៛12,000,000.00", kFormatIncome: "៛12M", expense: "៛10,000.00", kFormatExpense: "៛10K", total: "៛13,990,000.00")
     }
 
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
@@ -68,7 +68,7 @@ struct SummaryWidgetEntryView : View {
                         Spacer()
                         Text(entry.total)
                             .font(.custom("KantumruyPro-SemiBold", size: 16))
-                            .foregroundColor(.green)
+                            .foregroundColor(entry.total.hasPrefix("-") ? .red : .green)
                             .padding(.top, 2)
                     }
                 }
@@ -78,7 +78,7 @@ struct SummaryWidgetEntryView : View {
                         .foregroundColor(.white)
                     Text(entry.total)
                         .font(.custom("KantumruyPro-SemiBold", size: 14))
-                        .foregroundColor(.green)
+                        .foregroundColor(entry.total.hasPrefix("-") ? .red : .green)
                         .padding(.top, 0.5)
                 }
             }
@@ -120,7 +120,7 @@ struct SummaryWidgetEntryView : View {
             Spacer()
             VStack(alignment: .trailing) {
                 amountLabel(label: "\(widgetFamily == .systemMedium ? entry.income : entry.kFormatIncome)", color: .green, paddingTop: 2)
-                amountLabel(label: "\(widgetFamily == .systemMedium ? entry.expense : entry.kFormatExpense)", color: .red, paddingTop: 6)
+                amountLabel(label: "-\(widgetFamily == .systemMedium ? entry.expense : entry.kFormatExpense)", color: .red, paddingTop: 6)
             }
         }
     }
@@ -157,11 +157,11 @@ struct SummaryWidget: Widget {
 #Preview(as: .systemSmall) {
     SummaryWidget()
 } timeline: {
-    SimpleEntry(date: Date(), income: "៛12,000,000.00", kFormatIncome: "៛12M", expense: "-៛10,000.00", kFormatExpense: "-៛10K", total: "៛13,990,000.00")
+    SimpleEntry(date: Date(), income: "៛12,000,000.00", kFormatIncome: "៛12M", expense: "៛10,000.00", kFormatExpense: "៛10K", total: "៛13,990,000.00")
 }
 
 #Preview(as: .systemMedium) {
     SummaryWidget()
 } timeline: {
-    SimpleEntry(date: Date(), income: "៛12,000,000.00", kFormatIncome: "៛12M", expense: "-៛10,000.00", kFormatExpense: "-៛10K", total: "៛13,990,000.00")
+    SimpleEntry(date: Date(), income: "៛12,000,000.00", kFormatIncome: "៛12M", expense: "៛10,000.00", kFormatExpense: "៛10K", total: "៛13,990,000.00")
 }

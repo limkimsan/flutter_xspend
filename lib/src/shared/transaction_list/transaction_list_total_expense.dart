@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:home_widget/home_widget.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'package:flutter_xspend/src/helpers/transaction_helper.dart';
@@ -51,6 +52,9 @@ class _TransactionListTotalExpenseState extends State<TransactionListTotalExpens
           subtitle = TransactionHelper.getCalculatedAmountForDisplay('usd', result['expense']['usd'], 0);
         }
         basedCurrency = prefs.getString('BASED_CURRENCY') ?? 'khr';
+        HomeWidget.updateWidget(
+          iOSName: 'SummaryWidget'
+        );
       });
     });
   }

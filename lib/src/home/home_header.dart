@@ -10,6 +10,7 @@ import 'package:flutter_xspend/src/helpers/transaction_helper.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_bloc.dart';
 import 'package:flutter_xspend/src/bloc/transaction/transaction_state.dart';
 import 'package:flutter_xspend/src/models/transaction.dart';
+import 'package:flutter_xspend/src/services/home_widget_service.dart';
 // import 'package:flutter_xspend/src/localization/localization_service.dart';
 // import 'package:flutter_xspend/src/localization/main_localization.dart';
 
@@ -54,6 +55,8 @@ class _HomeHeaderState extends State<HomeHeader> {
           mainTitle = TransactionHelper.getCalculatedAmountForDisplay('khr', result['income']['khr'], result['expense']['khr']);
           subtitle = TransactionHelper.getCalculatedAmountForDisplay('usd', result['income']['usd'], result['expense']['usd']);
         }
+        // Update the info in the Summary Widget
+        HomeWidgetService.updateInfo();
       });
     });
   }

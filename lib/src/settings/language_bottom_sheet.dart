@@ -47,11 +47,8 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
                 InkWell(
                   onTap: () {
                     onSelectLanguage(locales[i]['code']);
-                    HomeWidget.saveWidgetData<String>('locale', locales[i]['code']);
+                    HomeWidgetService.updateLocale(locales[i]['code']);
                     HomeWidgetService.updateInfo();
-                    HomeWidget.updateWidget(
-                      iOSName: 'SummaryWidget'
-                    );
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,

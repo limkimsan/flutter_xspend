@@ -148,7 +148,7 @@ struct SummaryWidget: Widget {
                     .background()
             }
         }
-        .supportedFamilies([.systemSmall, .systemMedium])
+        .supportedFamilies([.systemSmall, .systemMedium])     // Allow the widget to be available in small and medium sizes
         .configurationDisplayName("Cash flow summary Widget")
         .description("This is the widget of the cash flow summary of the current month")
     }

@@ -33,4 +33,12 @@ class HomeWidgetService {
       );
     });
   }
+
+  static updateLocale(locale) {
+    HomeWidget.saveWidgetData<String>('locale', locale);
+  }
+
+  static updateCurrencyType(currencyType) {
+    HomeWidget.saveWidgetData<String>('currency', currencyType);
+  }
 }

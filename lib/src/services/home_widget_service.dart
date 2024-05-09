@@ -33,15 +33,4 @@ class HomeWidgetService {
       );
     });
   }
-  // static updateInfo(income, expense, currencyType) {
-  //   HomeWidget.saveWidgetData<String>('income', CurrencyUtil.getCurrencyFormat(income, currencyType));
-  //   HomeWidget.saveWidgetData<String>('kFormatIncome', getKFormat(income));
-  //   HomeWidget.saveWidgetData<String>('expense', CurrencyUtil.getCurrencyFormat(expense, currencyType));
-  //   HomeWidget.saveWidgetData<String>('kFormatExpense', getKFormat(expense));
-  //   HomeWidget.saveWidgetData<String>('total', TransactionHelper.getCalculatedAmountForDisplay(currencyType, income, expense));
-  //   HomeWidget.saveWidgetData<String>('currency', currencyType);
-  //   HomeWidget.updateWidget(
-  //     iOSName: 'SummaryWidget'
-  //   );
-  // }
 }

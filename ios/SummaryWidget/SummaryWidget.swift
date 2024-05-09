@@ -51,42 +51,15 @@ struct SummaryWidgetEntryView : View {
     var body: some View {
         ZStack {
             VStack(alignment: .leading) {
-                Text("សាច់ប្រាក់ខែ\(entry.date.formatted(Date.FormatStyle().month(.wide)))")
-                    .font(.custom("KantumruyPro-SemiBold", size: widgetFamily == .systemMedium ? 18 : 15))
-                    .foregroundColor(Color.white)
-                    .padding(.bottom, 6)
-                    .padding(.top, widgetFamily == .systemMedium ? 0 : 4)
+                dateText()
+                incomeExpenseSection
                 
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text(data?.string(forKey: "locale") == "km" ? "ចំណូល:" : "Income:")
-                            .font(.custom("KantumruyPro-Regular", size: widgetFamily == .systemMedium ? 15 : 13))
-                            .foregroundColor(.gray)
-                            .multilineTextAlignment(.leading)
-
-                        Text(data?.string(forKey: "locale") == "km" ? "ចំណាយ:" : "Expense:")
-                            .font(.custom("KantumruyPro-Regular", size: widgetFamily == .systemMedium ? 15 : 13))
-                            .foregroundColor(.gray)
-                            .multilineTextAlignment(.leading)
-                            .padding(.top, 6)
-                    }
-                    Spacer()
-                    VStack(alignment: .trailing) {
-                        Text("\(widgetFamily == .systemMedium ? entry.income : entry.kFormatIncome)")
-                            .font(.custom("KantumruyPro-Regular", size: widgetFamily == .systemMedium ? 15 : 13))
-                            .foregroundColor(Color.green)
-                        Text("\(widgetFamily == .systemMedium ? entry.expense : entry.kFormatExpense)")
-                            .font(.custom("KantumruyPro-Regular", size: widgetFamily == .systemMedium ? 15 : 13))
-                            .foregroundColor(.red)
-                            .padding(.top, 6)
-                    }
-                }
                 Rectangle()
                     .frame(height: 0.5)
                     .foregroundColor(.gray)
                     .padding(.top, 6)
                     .padding(.bottom, 6)
-                
+
                 if widgetFamily == .systemMedium {
                     HStack {
                         Text(data?.string(forKey: "locale") == "km" ? "សរុប" : "Total")
@@ -112,6 +85,52 @@ struct SummaryWidgetEntryView : View {
             .padding(.top, -4)
         } .padding(-2)
     }
+
+    private func dateText() -> some View {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: data?.string(forKey: "locale") == "km" ? "km_KH" : "en_US")
+        dateFormatter.dateFormat = "MMM" // "MMM" gives the 3 first characters of the month name
+        let month = dateFormatter.string(from: entry.date)
+
+        return Text("\(data?.string(forKey: "locale") == "km" ? "សាច់ប្រាក់ខែ" : "Cash flow of ")\(month)")
+            .font(.custom("KantumruyPro-SemiBold", size: widgetFamily == .systemMedium ? 18 : 15))
+            .foregroundColor(Color.white)
+            .padding(.bottom, 6)
+            .padding(.top, widgetFamily == .systemMedium ? 0 : 4)
+    }
+
+    private func localeAwareText(khmer: String, english: String) -> Text {
+        Text(data?.string(forKey: "locale") == "km" ? khmer : english)
+    }
+
+    private func itemLabel(kmLabel: String, enLabel: String, paddingTop: CGFloat?) -> some View {
+        localeAwareText(khmer: kmLabel, english: enLabel)
+            .font(.custom("KantumruyPro-Regular", size: widgetFamily == .systemMedium ? 15 : 13))
+            .foregroundColor(.gray)
+            .multilineTextAlignment(.leading)
+            .padding(.top, paddingTop)
+    }
+
+    private var incomeExpenseSection: some View {
+        HStack {
+            VStack(alignment: .leading) {
+                itemLabel(kmLabel: "ចំណូល:", enLabel: "Income:", paddingTop: 0)
+                itemLabel(kmLabel: "ចំណាយ:", enLabel: "Expense:", paddingTop: 6)
+            }
+            Spacer()
+            VStack(alignment: .trailing) {
+                amountLabel(label: "\(widgetFamily == .systemMedium ? entry.income : entry.kFormatIncome)", color: .green, paddingTop: 2)
+                amountLabel(label: "\(widgetFamily == .systemMedium ? entry.expense : entry.kFormatExpense)", color: .red, paddingTop: 6)
+            }
+        }
+    }
+
+    private func amountLabel(label: String, color: Color, paddingTop: CGFloat?) -> some View {
+        Text(label)
+            .font(.custom("KantumruyPro-Regular", size: widgetFamily == .systemMedium ? 15 : 13))
+            .foregroundColor(color)
+            .padding(.top, paddingTop)
+    }
 }
 
 struct SummaryWidget: Widget {
@@ -129,6 +148,7 @@ struct SummaryWidget: Widget {
                     .background()
             }
         }
+        .supportedFamilies([.systemSmall, .systemMedium])
         .configurationDisplayName("Cash flow summary Widget")
         .description("This is the widget of the cash flow summary of the current month")
     }

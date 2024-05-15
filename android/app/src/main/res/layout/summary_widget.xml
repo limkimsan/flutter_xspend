@@ -117,7 +117,7 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="-10dp"
@@ -136,30 +136,81 @@
                 android:background="@color/gray_color"
                 android:text="" />
 
-            <TextView
-                style="@style/Widget.Android.AppWidget.InnerView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:background="@color/background_color"
-                android:padding="0sp"
-                android:textColor="@color/white"
-                android:text="Total"
-                android:textSize="16sp" />
-
-            <TextView
-                style="@style/Widget.Android.AppWidget.InnerView"
+            <LinearLayout
+                android:id="@+id/summarywidget_total_vertical_container"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="6dp"
-                android:background="@color/background_color"
-                android:gravity="left"
-                android:padding="0sp"
-                android:textColor="@color/primary_color"
-                android:text="10000000.00"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                android:layout_weight="0"
+            >
+                <TextView
+                    android:id="@+id/summarywidget_total_label"
+                    style="@style/Widget.Android.AppWidget.InnerView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:background="@color/background_color"
+                    android:padding="0sp"
+                    android:textColor="@color/white"
+                    android:text="Total"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/summarywidget_total_amount"
+                    style="@style/Widget.Android.AppWidget.InnerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="6dp"
+                    android:background="@color/background_color"
+                    android:gravity="left"
+                    android:padding="0sp"
+                    android:textColor="@color/primary_color"
+                    android:text="10000000.00"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/summarywidget_total_horizontal_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="0dp"
+                android:paddingRight="0dp"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                android:layout_weight="0"
+            >
+                <TextView
+                    style="@style/Widget.Android.AppWidget.InnerView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:background="@color/background_color"
+                    android:padding="0sp"
+                    android:textColor="@color/white"
+                    android:text="Total"
+                    android:textSize="16sp" />
+
+                <TextView
+                    style="@style/Widget.Android.AppWidget.InnerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="0dp"
+                    android:background="@color/background_color"
+                    android:gravity="right"
+                    android:padding="0sp"
+                    android:textColor="@color/primary_color"
+                    android:text="10000000.00"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

@@ -32,10 +32,25 @@ public class SummaryWidget extends AppWidgetProvider {
         String income = prefs.getString("income", "0.00");
         String expense = prefs.getString("expense", "0.00");
         String total = prefs.getString("total", "0.00");
+        String locale = String.valueOf(prefs.getString("locale", "km"));
+
         views.setTextViewText(R.id.income_text, income);
         views.setTextViewText(R.id.expense_text, expense);
         views.setTextViewText(R.id.summarywidget_total_amount_vertical, total);
         views.setTextViewText(R.id.summarywidget_total_amount_horizontal, total);
+
+        if (locale.equals("en")) {
+            views.setTextViewText(R.id.summarywidget_title, "Cash flow of");
+            views.setTextViewText(R.id.income_title, "Income");
+            views.setTextViewText(R.id.expense_title, "Expense");
+            views.setTextViewText(R.id.summarywidget_total_title, "Total");
+        }
+        else {
+            views.setTextViewText(R.id.summarywidget_title, "សាច់ប្រាក់ខែ");
+            views.setTextViewText(R.id.income_title, "ចំណូល");
+            views.setTextViewText(R.id.expense_title, "ចំណាយ");
+            views.setTextViewText(R.id.summarywidget_total_title, "សរុប");
+        }
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 

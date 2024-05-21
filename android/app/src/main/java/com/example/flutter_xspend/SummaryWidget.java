@@ -11,6 +11,9 @@ import android.os.Bundle;
 import es.antonborri.home_widget.HomeWidgetPlugin;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 /**
  * Implementation of App Widget functionality.
@@ -33,6 +36,9 @@ public class SummaryWidget extends AppWidgetProvider {
         String expense = prefs.getString("expense", "0.00");
         String total = prefs.getString("total", "0.00");
         String locale = String.valueOf(prefs.getString("locale", "km"));
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("MMMM", new Locale(locale));
+        String currentMonth = monthFormatter.format(today);
 
         views.setTextViewText(R.id.income_text, income);
         views.setTextViewText(R.id.expense_text, expense);
@@ -40,13 +46,13 @@ public class SummaryWidget extends AppWidgetProvider {
         views.setTextViewText(R.id.summarywidget_total_amount_horizontal, total);
 
         if (locale.equals("en")) {
-            views.setTextViewText(R.id.summarywidget_title, "Cash flow of");
+            views.setTextViewText(R.id.summarywidget_title, "Cash flow of " + currentMonth);
             views.setTextViewText(R.id.income_title, "Income");
             views.setTextViewText(R.id.expense_title, "Expense");
             views.setTextViewText(R.id.summarywidget_total_title, "Total");
         }
         else {
-            views.setTextViewText(R.id.summarywidget_title, "សាច់ប្រាក់ខែ");
+            views.setTextViewText(R.id.summarywidget_title, "សាច់ប្រាក់ខែ" + currentMonth);
             views.setTextViewText(R.id.income_title, "ចំណូល");
             views.setTextViewText(R.id.expense_title, "ចំណាយ");
             views.setTextViewText(R.id.summarywidget_total_title, "សរុប");

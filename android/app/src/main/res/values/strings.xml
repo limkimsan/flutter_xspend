@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="appwidget_text">EXAMPLE</string>
+    <string name="appwidget_text">XSPEND CLASH FLOW</string>
     <string name="add_widget">Cash flow widget</string>
     <string name="app_widget_description">This is a monthly cash flow widget</string>
 </resources>

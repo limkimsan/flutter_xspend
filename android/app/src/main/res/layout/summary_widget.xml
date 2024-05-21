@@ -14,20 +14,6 @@
         android:layout_marginTop="-10dp"
         android:orientation="vertical"
     >
-
-        <!-- <TextView
-            android:id="@+id/appwidget_text"
-            style="@style/Widget.Android.AppWidget.InnerView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="false"
-            android:layout_centerVertical="false"
-            android:layout_margin="8dp"
-            android:contentDescription="@string/appwidget_text"
-            android:text="@string/appwidget_text"
-            android:textSize="24sp"
-            android:textStyle="bold|italic" /> -->
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -69,6 +55,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/income_text"
                 style="@style/Widget.Android.AppWidget.InnerView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -76,7 +63,6 @@
                 android:background="@color/background_color"
                 android:gravity="right"
                 android:padding="0sp"
-                android:text="10000000"
                 android:textColor="@color/primary_color"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -105,6 +91,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/expense_text"
                 style="@style/Widget.Android.AppWidget.InnerView"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
@@ -113,7 +100,6 @@
                 android:gravity="right"
                 android:padding="0sp"
                 android:textColor="@color/red_color"
-                android:text="20000"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -161,7 +147,7 @@
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/summarywidget_total_amount"
+                    android:id="@+id/summarywidget_total_amount_vertical"
                     style="@style/Widget.Android.AppWidget.InnerView"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -170,7 +156,6 @@
                     android:gravity="left"
                     android:padding="0sp"
                     android:textColor="@color/primary_color"
-                    android:text="10000000.00"
                     android:textSize="18sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -199,6 +184,7 @@
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/summarywidget_total_amount_horizontal"
                     style="@style/Widget.Android.AppWidget.InnerView"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -207,7 +193,6 @@
                     android:gravity="right"
                     android:padding="0sp"
                     android:textColor="@color/primary_color"
-                    android:text="10000000.00"
                     android:textSize="18sp"
                     android:textStyle="bold" />
             </LinearLayout>

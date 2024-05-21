@@ -22,7 +22,8 @@ class HomeWidgetService {
       HomeWidget.saveWidgetData<String>('total', TransactionHelper.getCalculatedAmountForDisplay(currencyType, income, expense));
       HomeWidget.saveWidgetData<String>('currency', currencyType);
       HomeWidget.updateWidget(
-        iOSName: 'SummaryWidget'
+        iOSName: 'SummaryWidget',
+        androidName: 'SummaryWidget',
       );
     });
   }

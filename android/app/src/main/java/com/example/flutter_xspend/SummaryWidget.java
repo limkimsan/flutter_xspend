@@ -3,10 +3,14 @@ package com.example.flutter_xspend;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.widget.RemoteViews;
 import android.widget.LinearLayout;
 import android.view.View;
 import android.os.Bundle;
+import es.antonborri.home_widget.HomeWidgetPlugin;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Implementation of App Widget functionality.
@@ -15,7 +19,7 @@ public class SummaryWidget extends AppWidgetProvider {
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
+        // CharSequence widgetText = context.getString(R.string.appwidget_text);
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.summary_widget);
         // views.setTextViewText(R.id.appwidget_text, widgetText);
@@ -26,9 +30,22 @@ public class SummaryWidget extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.summary_widget);
         for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId);
+            updateWidgetData(context, appWidgetManager, appWidgetId, views);
         }
+    }
+
+    static void updateWidgetData(Context context, AppWidgetManager appWidgetManager, int appWidgetId, RemoteViews views) {
+        SharedPreferences prefs = context.getSharedPreferences("HomeWidgetPreferences", Context.MODE_PRIVATE);
+        String income = prefs.getString("income", "0.00");
+        String expense = prefs.getString("expense", "0.00");
+        String total = prefs.getString("total", "0.00");
+        views.setTextViewText(R.id.income_text, income);
+        views.setTextViewText(R.id.expense_text, expense);
+        views.setTextViewText(R.id.summarywidget_total_amount_vertical, total);
+        views.setTextViewText(R.id.summarywidget_total_amount_horizontal, total);
+        appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
     // @Override
@@ -50,24 +67,16 @@ public class SummaryWidget extends AppWidgetProvider {
     @Override
     public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
         super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
-
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.summary_widget);
 
         if (newOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH) > 272) {
             views.setViewVisibility(R.id.summarywidget_total_vertical_container, View.GONE);
             views.setViewVisibility(R.id.summarywidget_total_horizontal_container, View.VISIBLE);
-            appWidgetManager.updateAppWidget(appWidgetId, views);
-
-
-            // AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-            // appWidgetManager.updateAppWidget(appWidgetId, views);
-            // views.setString(R.id.summarywidget_total_amount, "android:layout_marginTop", "0dp");
-            // views.setString(R.id.summaryWidget_total_amount, "android:gravity", "right");
         }
         else {
             views.setViewVisibility(R.id.summarywidget_total_horizontal_container, View.GONE);
             views.setViewVisibility(R.id.summarywidget_total_vertical_container, View.VISIBLE);
-            appWidgetManager.updateAppWidget(appWidgetId, views);
         }
+        updateWidgetData(context, appWidgetManager, appWidgetId, views);
     }
 }

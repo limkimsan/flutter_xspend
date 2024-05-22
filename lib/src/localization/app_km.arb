@@ -8,6 +8,7 @@
     "description": "The conventional newborn programmer greeting"
   },
   "hello": "សួស្ដី {userName}",
+  "today": "ថ្ងៃនេះ",
   "week": "សប្ដាហ៍",
   "month": "ខែ",
   "year": "ឆ្នាំ",

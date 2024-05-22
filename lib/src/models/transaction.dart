@@ -110,6 +110,10 @@ class Transaction {
       startDate = DateTime.parse(customStartDate as String);
       endDate = DateTime.parse(customEndDate as String);
     }
+    else if (type == 'today') {
+      startDate = DateTime(now.year, now.month, now.day);
+      endDate = now;
+    }
     else if (type == 'week') {
       startDate = now.subtract(Duration(days: now.weekday - DateTime.monday));
       endDate = now.add(Duration(days: DateTime.sunday - now.weekday));

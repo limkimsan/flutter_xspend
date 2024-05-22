@@ -52,6 +52,7 @@ class _TransactionDurationPickerState extends State<TransactionDurationPicker> {
 
   String getTranslatedLabel() {
     Map<String, dynamic> labels = {
+      'today': AppLocalizations.of(context)!.today,
       'week':  AppLocalizations.of(context)!.week,
       'month': AppLocalizations.of(context)!.month,
       'year': AppLocalizations.of(context)!.year,

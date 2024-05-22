@@ -4,6 +4,7 @@ import 'package:isar/isar.dart';
 import 'category.dart';
 import 'user.dart';
 import 'package:flutter_xspend/src/utils/fast_hash_util.dart';
+import 'package:flutter_xspend/src/services/home_widget_service.dart';
 
 part 'transaction.g.dart';
 
@@ -87,6 +88,9 @@ class Transaction {
       for (var transaction in transactions) {
         deleteById(transaction.id);
       }
+      Future.delayed(const Duration(milliseconds: 1000), () {
+        HomeWidgetService.updateInfo();
+      });
     }
   }
 

@@ -93,6 +93,7 @@ class _TransactionDurationBottomSheetState extends State<TransactionDurationBott
 
   Widget durationPicker() {
     List durationTypes = [
+      {'label': AppLocalizations.of(context)!.today, 'value': 'today'},
       {'label': AppLocalizations.of(context)!.week, 'value': 'week'},
       {'label': AppLocalizations.of(context)!.month, 'value': 'month'},
       {'label': AppLocalizations.of(context)!.year, 'value': 'year'},

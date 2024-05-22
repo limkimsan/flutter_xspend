@@ -8,6 +8,7 @@
     "description": "The conventional newborn programmer greeting"
   },
   "hello": "Hello {userName}",
+  "today": "Today",
   "week": "Week",
   "month": "Month",
   "year": "Year",

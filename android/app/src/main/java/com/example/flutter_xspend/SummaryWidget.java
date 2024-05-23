@@ -32,16 +32,25 @@ public class SummaryWidget extends AppWidgetProvider {
 
     static void updateWidgetData(Context context, AppWidgetManager appWidgetManager, int appWidgetId, RemoteViews views) {
         SharedPreferences prefs = context.getSharedPreferences("HomeWidgetPreferences", Context.MODE_PRIVATE);
-        String income = prefs.getString("income", "0.00");
-        String expense = prefs.getString("expense", "0.00");
-        String total = prefs.getString("total", "0.00");
+        String income = prefs.getString("income", "៛0.00");
+        String expense = prefs.getString("expense", "-៛0.00");
+        String total = prefs.getString("total", "៛0.00");
         String locale = String.valueOf(prefs.getString("locale", "km"));
         LocalDate today = LocalDate.now();
         DateTimeFormatter monthFormatter = DateTimeFormatter.ofPattern("MMMM", new Locale(locale));
         String currentMonth = monthFormatter.format(today);
 
+        if (total.contains("-")) {
+            views.setTextColor(R.id.summarywidget_total_amount_vertical, context.getResources().getColor(R.color.red_color));
+            views.setTextColor(R.id.summarywidget_total_amount_horizontal, context.getResources().getColor(R.color.red_color));
+        }
+        else {
+            views.setTextColor(R.id.summarywidget_total_amount_vertical, context.getResources().getColor(R.color.primary_color));
+            views.setTextColor(R.id.summarywidget_total_amount_horizontal, context.getResources().getColor(R.color.primary_color));
+        }
+
         views.setTextViewText(R.id.income_text, income);
-        views.setTextViewText(R.id.expense_text, expense);
+        views.setTextViewText(R.id.expense_text, "-" + expense);
         views.setTextViewText(R.id.summarywidget_total_amount_vertical, total);
         views.setTextViewText(R.id.summarywidget_total_amount_horizontal, total);
 

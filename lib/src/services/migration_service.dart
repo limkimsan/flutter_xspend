@@ -1,6 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter_xspend/src/migrate/category_migration.dart';
+import 'package:flutter_xspend/src/migrate/transaction_migration.dart';
 
 class MigrationService {
   static performMigration() async {
@@ -10,6 +11,7 @@ class MigrationService {
     switch (migrationVersion) {
       case 1 || null:
         CategoryMigration.migrateDefaultNameKm();
+        TransactionMigration.migrateTransactionDate();
         await prefs.setInt('MIGRATION_VERSION', 2);
         break;
       default:

@@ -26,8 +26,6 @@ class TransactionList extends StatefulWidget {
 }
 
 class _TransactionListState extends State<TransactionList> {
-  final transactions = [];
-
   @override
   void initState() {
     super.initState();

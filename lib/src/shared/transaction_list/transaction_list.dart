@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:flutter_xspend/src/constants/colors.dart';
 import 'transaction_list_section_header.dart';
@@ -26,6 +27,8 @@ class TransactionList extends StatefulWidget {
 }
 
 class _TransactionListState extends State<TransactionList> {
+  bool chartIsVisible = false;
+
   @override
   void initState() {
     super.initState();
@@ -70,13 +73,35 @@ class _TransactionListState extends State<TransactionList> {
       );
     }
 
+    Widget chartVisibilityButton() {
+      return FilledButton.icon(
+        onPressed: () {
+          setState(() {
+            chartIsVisible = !chartIsVisible;
+          });
+        },
+        icon: const Icon(Icons.insert_chart_outlined_sharp),
+        label: Text(chartIsVisible ? AppLocalizations.of(context)!.hideChart : AppLocalizations.of(context)!.showChart),
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(chartIsVisible ? red : primary),
+          minimumSize: const MaterialStatePropertyAll(Size(double.minPositive, 30)),
+        ),
+      );
+    }
+
     return CustomScrollView(
       slivers: [
         if (widget.hasLineChart)
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: TransactionLineChart(transactions: state.transactions)
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+              child: Column(
+                children: [
+                  chartVisibilityButton(),
+                  if (chartIsVisible)
+                    TransactionLineChart(transactions: state.transactions)
+                ],
+              ),
             ),
           ),
 

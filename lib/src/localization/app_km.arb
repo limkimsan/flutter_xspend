@@ -101,5 +101,7 @@
   "areYouSureToDeleteThisBudget": "តើអ្នកពិតជាចង់លុបកញ្ចប់ថវិកានេះ?",
   "editBudget": "កែប្រែកញ្ចប់ថវិកា",
   "spendingOverBudget": "ចំណាយលើសថវិកា ",
-  "amountSpent": "(បានចាយ {amount} / ថវិកា {budget})"
+  "amountSpent": "(បានចាយ {amount} / ថវិកា {budget})",
+  "showChart": "បង្ហាញក្រាហ្វិក",
+  "hideChart": "បិទក្រាហ្វិក"
 }

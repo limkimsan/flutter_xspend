@@ -101,5 +101,7 @@
   "areYouSureToDeleteThisBudget": "Are you sure to delete this budget?",
   "editBudget": "Edit Budget",
   "spendingOverBudget": "Spending over budget ",
-  "amountSpent": "(spent {amount} / budget {budget})"
+  "amountSpent": "(spent {amount} / budget {budget})",
+  "showChart": "Show chart",
+  "hideChart": "Hide chart"
 }

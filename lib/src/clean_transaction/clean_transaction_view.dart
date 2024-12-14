@@ -94,7 +94,7 @@ class _CleanTransactionViewState extends State<CleanTransactionView> {
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: startDate != null ? primary : pewter,
+                    backgroundColor: startDate != null ? primary : pewter,
                   ),
                   onPressed: () {
                     startDate != null ? cleanTransaction() : null;

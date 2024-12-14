@@ -196,7 +196,7 @@ class _NewTransactionViewState extends State<NewTransactionView> {
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: isValid ? primary : pewter,
+                    backgroundColor: isValid ? primary : pewter
                   ),
                   onPressed: () { isValid == true ? saveTransaction() : null; },
                   child: Text(

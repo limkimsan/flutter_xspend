@@ -243,7 +243,7 @@ class _NewBudgetFormState extends State<NewBudgetForm> {
               ),
             ),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(primary: isValid ? primary : pewter),
+              style: ElevatedButton.styleFrom(backgroundColor: isValid ? primary : pewter),
               onPressed: () { saveBudget(); },
               child: Text(
                 widget.budgetId == null ? AppLocalizations.of(context)!.create : AppLocalizations.of(context)!.update,
